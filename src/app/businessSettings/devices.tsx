@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { LockClosedIcon, LockOpenIcon, Battery100Icon, Battery50Icon, CheckCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
 import DeviceDetails from "./deviceDetails";
 import CommonPopup from "@/components/commonPopup";
+import handleApiCallFetch from "@/components/handleApiCallFetch";
 
 const Devices = () => {
 
@@ -54,17 +55,6 @@ const Devices = () => {
         } catch (error) {
             console.log('Error in api call schlage :', error);
         }
-    }
-
-    const handleApiCallFetch = (url: any, params: any) => {
-        return new Promise(async (resolve, reject) => {
-            const response = await fetch(url, params).then((Response) => {
-                if (Response) {
-                    return Response.json()
-                }
-            })
-            return resolve(response);
-        });
     }
 
     const formattResponse = (data: any) => {

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import handleApiCallFetch from "@/components/handleApiCallFetch";
 
 const AddDevices = () => {
     const routre = useRouter();
@@ -29,7 +30,7 @@ const AddDevices = () => {
                 },
             }
             try {
-                const newData: any = await handleApiCall(url, params);
+                const newData: any = await handleApiCallFetch(url, params);
                 console.log("response", newData);
                 if (newData && newData.url) {
                     routre.push(newData?.url);
@@ -40,16 +41,6 @@ const AddDevices = () => {
         }
     };
 
-    const handleApiCall = (url: any, params: any) => {
-        return new Promise(async (resolve, reject) => {
-            const response = await fetch(url, params).then((Response) => {
-                if (Response) {
-                    return Response.json()
-                }
-            })
-            return resolve(response);
-        });
-    }
 
     return (
         <div className="flex flex-col py-4 px-24 h-[100%] rounded-md bg-gray-300">
