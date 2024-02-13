@@ -36,7 +36,7 @@ const MessageLayout = () => {
                 </div>
                    {/* Column 3 - page components */}
                    <div className="w-full border-l border-gray-300">
-                    <UserInfo selectedData={selectedData}/>
+                  {selectedData &&  <UserInfo selectedData={selectedData}/>}
                 </div>
             </div>
         </div>

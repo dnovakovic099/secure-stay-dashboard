@@ -9,7 +9,11 @@ import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import CommonDropdown from "@/components/commonDropdown";
 import CommonTabs from "@/components/commonTabs";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import {
+  CheckIcon,
+  ChevronUpDownIcon,
+  PencilIcon,
+} from "@heroicons/react/20/solid";
 import Image from "next/image";
 
 function classNames(...classes: any) {
@@ -22,6 +26,12 @@ const menuItems = [
   { id: 4, item: "nuetral" },
   { id: 5, item: "statisfied" },
   { id: 6, item: "Highly statisfied" },
+];
+const languages = [
+  { id: 1, item: "English" },
+  { id: 2, item: "Spanish" },
+  { id: 3, item: "Chinese" },
+  { id: 4, item: "Hindi" },
 ];
 
 const tabs: any[] = [
@@ -74,6 +84,10 @@ const bookingInfo = [
 const UserInfo = ({ selectedData }: any) => {
   const [initialTabValue, setInitialTabValue] = useState(tabs[0]);
   const [isTag, setIsTag] = useState(false);
+  const [isNotes, setIsNotes] = useState(false);
+  const [userNotes, setUserNotes] = useState("");
+  const [isEmail, setIsEmail] = useState(false);
+  const [isPhone, setIsPhone] = useState(false);
 
   useEffect(() => {
     console.log(selectedData, "selectedData");
@@ -247,7 +261,7 @@ const UserInfo = ({ selectedData }: any) => {
 
   function AddNewTag() {
     return (
-      <div className="relative m-2">
+      <div className="relative ml-2">
         <input
           type="tag"
           name="tag"
@@ -278,6 +292,93 @@ const UserInfo = ({ selectedData }: any) => {
     );
   }
 
+  function inputFieldsUi() {
+    return (
+      <div className=" w-full grid grid-cols-6 gap-4 mt-2">
+        <div className="col-span-3 ml-1 ">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Email
+          </label>
+          {!isEmail ? (
+            <div
+              className="cursor-pointer flex"
+              onClick={() => setIsEmail(true)}
+            >
+              <div> no email</div>
+              <PencilIcon className="h-4 w-4 mx-2 mt-1" aria-hidden="true" />
+            </div>
+          ) : (
+            <div>
+              <div className="mt-2">
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  className="block w-full pl-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="you@example.com"
+                />
+              </div>
+
+              <button
+                onClick={() => setIsEmail(false)}
+                className="m-2 py-1 px-4 bg-indigo-600 text-white rounded-full shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                Save
+              </button>
+              <button   onClick={() => setIsEmail(false)} className="ml-2 py-1 px-4 bg-gray-200 text-gray-900 rounded-full shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                Cancel
+              </button>
+            </div>
+          )}
+        </div>
+        <div className="col-span-3 ">
+          <label
+            htmlFor="phone"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            phone number
+          </label>
+          {!isPhone ? (
+            <div
+              className="cursor-pointer flex"
+              onClick={() => setIsPhone(true)}
+            >
+              <div> no phone</div>
+              <PencilIcon className="h-4 w-4 mx-2 mt-1" aria-hidden="true" />
+            </div>
+          ) : (
+            <div>
+              <div className="mt-2">
+                <input
+                  type="phone"
+                  name="phone"
+                  id="phone"
+                  className="block w-full pl-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="123456789"
+                />
+              </div>
+
+              <button
+                onClick={() => setIsPhone(false)}
+                className="m-2 py-1 px-4 bg-indigo-600 text-white rounded-full shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                Save
+              </button>
+              <button
+                onClick={() => setIsPhone(false)}
+                className="ml-2 py-1 px-4 bg-gray-200 text-gray-900 rounded-full shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
   function emptyPlateTagUi() {
     return (
       <div className="flex items-center">
@@ -294,22 +395,64 @@ const UserInfo = ({ selectedData }: any) => {
     );
   }
 
+  function AddNotes() {
+    return (
+      <div>
+        <div className="mt-2 text-sm font-medium leading-6 text-gray-900">
+          <p>Average Response time</p>
+          <p>0 Min</p>
+        </div>
+
+        <div className="mt-2">
+          <textarea
+            rows={3}
+            name="comment"
+            id="comment"
+            className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            defaultValue={""}
+            placeholder="Enter your notes here..."
+            onChange={(e) => setUserNotes(e.target.value)}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="p-2">
+    <div className="p-2 h-[640px] overflow-y-auto">
       <p className=" flex font-semibold text-xl text-left text-gray-900">
-        {selectedData == undefined ? "Test" : selectedData.name}
+        {selectedData.name ? selectedData.name : ""}
       </p>
       <div className="flex items-center">
         <CommonDropdown menuItems={menuItems} onClick={handleItemClick} />
         <div className="border-l border-gray-300 h-7 ml-2"></div>
         {isTag ? AddNewTag() : emptyPlateTagUi()}
       </div>
-  
-      {AssignedToFunction()}
+      <div className="flex items-center w-full">
+        {inputFieldsUi()}
+        {/* {isNotes && (
+          <div className="mt-10 mx-2">
+            <CommonDropdown menuItems={languages} onClick={handleItemClick} />
+          </div>
+        )} */}
+      </div>
 
+      <div className="flex items-center">
+        <div>{AssignedToFunction()}</div>
+        {isNotes && (
+          <div className="mt-10 mx-2">
+            <CommonDropdown menuItems={languages} onClick={handleItemClick} />
+          </div>
+        )}
+      </div>
+
+      {isNotes && AddNotes()}
       <div className=" mt-2">
-        <button className="w-full  bg-indigo-100 text-indigo-600 hover:text-indigo-500 cursor-pointer font-semibold py-2 rounded-b-md    focus:outline-none focus:ring-2 focus:ring-gray-500">
-          See Response Time & Language & Notes Fields
+        <button
+          onClick={() => setIsNotes(!isNotes)}
+          className="w-full  bg-indigo-100 text-indigo-600 hover:text-indigo-500 cursor-pointer font-semibold py-2 rounded-b-md    focus:outline-none focus:ring-2 focus:ring-gray-500"
+        >
+          {isNotes ? "See Less" : "See Response Time & Language & Notes Fields"}
         </button>
       </div>
       <CommonTabs tab={tabs} onClick={handleTabClick} />
@@ -320,8 +463,8 @@ const UserInfo = ({ selectedData }: any) => {
               className="aspect-[3/2]  h-52  w-full rounded-md object-cover"
               src={initialTabValue.imageUrl}
               alt="hotel"
-              width={50}
-              height={50}
+              width={500}
+              height={500}
             />
 
             <div className="absolute top-0 left-0 right-0 bottom-0 flex  justify-center">
@@ -346,9 +489,9 @@ const UserInfo = ({ selectedData }: any) => {
           <p className="ml-2"> Booking Information</p>
         </div>
         <div className="flex items-center mt-4">
-          {selectedData == undefined ? "" : selectedData.checkInDate}
+          {selectedData.checkInDate ? selectedData.checkInDate : ""}
           <ArrowRightIcon className="h-4 w-4 mx-2 mt-1" aria-hidden="true" />
-          {selectedData == undefined ? "" : selectedData.checkOutDate}
+          {selectedData.checkOutDate ? selectedData.checkOutDate : ""}
         </div>
       </div>
     </div>
