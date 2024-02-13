@@ -3,7 +3,7 @@ import { ChevronRightIcon } from '@heroicons/react/20/solid'
 
 export default function UserList({ setSelectedData, userList }: any) {
   return (
-    <ul role="list" className="divide-y divide-gray-100 w-60 ">
+    <ul role="list" className="divide-y divide-gray-100 w-60 h-[480px] overflow-y-auto ">
       {userList?.map((person: any) => (
         <li
           key={person.email}
