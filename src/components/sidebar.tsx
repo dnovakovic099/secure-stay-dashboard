@@ -19,7 +19,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({ children }) => {
     const navigation = [
         { href: '/dashboard', icon: HomeIcon, current: false },
         { href: '', icon: BuildingOffice2Icon, current: false },
-        { href: '', icon: ChatBubbleLeftRightIcon, current: false, },
+        { href: '/messages', icon: ChatBubbleLeftRightIcon, current: false, },
         { href: '', icon: UserGroupIcon, current: false },
         { href: '/businessSettings', icon: BriefcaseIcon, current: false, },
     ]
