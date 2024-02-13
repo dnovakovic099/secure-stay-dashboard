@@ -210,12 +210,12 @@ const Login = () => {
                                                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                                 ></path>
                                             </svg>
-                                            Logging in..
+                                            Logging in...
                                         </button>
                                     ) : (
                                         <button
                                             type="submit"
-                                            className="flex w-full justify-center rounded-md border border-transparent bg-blue-800 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                            className="flex w-full justify-center rounded-md border border-transparent bg-blue-800 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-900 focus:outline-none"
                                         >
                                             Login
                                         </button>
@@ -226,10 +226,10 @@ const Login = () => {
                         <div className="mt-5 flex justify-center items-center">
                             <p className="text-sm"> Don&apos;t have an account ? </p>
                             <Link
-                                href="/#"
+                                href="/signup"
                                 className="underline-offset-4 decoration-2 underline font-medium text-blue-800 hover:text-blue-900 ml-2"
                             >
-                                Signup
+                                Sign Up
                             </Link>
                         </div>
                     </div>
