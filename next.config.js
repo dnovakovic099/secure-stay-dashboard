@@ -8,7 +8,7 @@ const redirects = {
         return [
             {
                 source: "/",
-                destination: "/businessSettings",
+                destination: "/login",
                 permanent: false
             }
         ];
