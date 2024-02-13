@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
+import { envConfig } from "@/utility/environment";
 
 const AddDevices = () => {
     const routre = useRouter();
-
+    const envconfig = envConfig;
     const devices = [
         { id: 1, deviceName: 'Salto', imageSrc: 'https://www.shutterstock.com/shutterstock/photos/2079026965/display_1500/stock-photo-close-up-of-woman-using-intercom-at-building-entrance-2079026965.jpg', description: 'Connet lock via your Salto account' },
         { id: 2, deviceName: 'Yale', imageSrc: 'https://www.shutterstock.com/shutterstock/photos/2388454481/display_1500/stock-photo-door-lock-embodying-security-and-access-control-the-polished-metal-and-intricate-design-convey-a-2388454481.jpg', description: 'Connet lock via your Yale account' },
@@ -22,7 +23,7 @@ const AddDevices = () => {
     const handleItemClick = async (device: { id?: number; deviceName: any; imageSrc?: string; description?: string; }) => {
         // Handle the click event for the specific grid item (Schlage in this example)
         if (device && device.deviceName && device.deviceName == "Schlage") {
-            const url = "http://localhost:5173/device/connectWebview";
+            const url = `${envconfig.backendUrl}/device/connectWebview`;
             const params = {
                 method: "GET",
                 headers: {

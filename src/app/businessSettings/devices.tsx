@@ -6,9 +6,10 @@ import { LockClosedIcon, LockOpenIcon, Battery100Icon, Battery50Icon, CheckCircl
 import DeviceDetails from "./deviceDetails";
 import CommonPopup from "@/components/commonPopup";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
+import { envConfig } from '../../utility/environment';
 
 const Devices = () => {
-
+    const envconfig = envConfig;
     const router = useRouter();
     // Dummy data for illustration
     const deviceData = [
@@ -39,7 +40,7 @@ const Devices = () => {
 
     //get All connected Devices List
     const getAllDevicesList = async () => {
-        const url = "http://localhost:5173/device/deviceList";
+        const url = `${envconfig.backendUrl}/device/deviceList`;
         const params = {
             method: "GET",
             headers: {

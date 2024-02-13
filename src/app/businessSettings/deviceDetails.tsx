@@ -4,9 +4,11 @@ import handleApiCallFetch from "@/components/handleApiCallFetch";
 import { LockClosedIcon, LockOpenIcon, Battery100Icon, Battery50Icon, CheckCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import toast, { Toaster } from 'react-hot-toast';
+import { envConfig } from "@/utility/environment";
 
 const DeviceDetails = (props: any) => {
 
+    const envconfig = envConfig;
     // State to track the expansion of different sections
     const [showBookingAccessCodes, setShowBookingAccessCodes] = useState(true);
     const [showBackupAccessCodes, setShowBackupAccessCodes] = useState(true);
@@ -36,7 +38,7 @@ const DeviceDetails = (props: any) => {
     //get Device details
     const getDeviceDetails = async (deviceId: string) => {
         console.log("deviceId", deviceId)
-        const apiUrl = "http://localhost:5173/device/deviceDetail";
+        const apiUrl = `${envconfig.backendUrl}/device/deviceDetail`;
 
         let requestBody = {
             device_id: deviceId,
@@ -106,9 +108,9 @@ const DeviceDetails = (props: any) => {
 
         let apiUrl = "";
         if (data && data.lockedValue) {
-            apiUrl = "http://localhost:5173/device/unlock_door";
+            apiUrl = `${envconfig.backendUrl}/device/unlock_door`;
         } else {
-            apiUrl = "http://localhost:5173/device/lock_door";
+            apiUrl = `${envconfig.backendUrl}/device/lock_door`;
         }
 
         let requestBody = {
