@@ -17,6 +17,7 @@ const redirects = {
 
 const imagesConfig = {
     images: {
+        domains: ['images.unsplash.com'],
         remotePatterns: [
             {
                 protocol: 'https',
