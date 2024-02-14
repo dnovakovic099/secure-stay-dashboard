@@ -59,7 +59,12 @@ const Login = () => {
             localStorage.setItem('email', email);
             
             toast.success("Signed in successfully");
-            router.push("/dashboard")
+            const pm = false;
+            if(pm){
+                router.push("/messages");
+            }else{
+                router.push("/connectPM");
+            }
         }
         else if (error) {
             toast.error("Please check your email and password!");
