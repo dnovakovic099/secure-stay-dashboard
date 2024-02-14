@@ -90,7 +90,6 @@ const UserInfo = ({ selectedData }: any) => {
   const [isPhone, setIsPhone] = useState(false);
 
   useEffect(() => {
-    console.log(selectedData, "selectedData");
   }, [initialTabValue]);
 
   const handleItemClick = (item: any) => {
