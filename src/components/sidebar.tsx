@@ -4,6 +4,8 @@ import React, { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 //Headless UI
 import { HomeIcon, BuildingOffice2Icon, ChatBubbleLeftRightIcon, UserGroupIcon, BriefcaseIcon } from "@heroicons/react/20/solid";
+// Toaster
+import { Toaster } from 'react-hot-toast';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -31,6 +33,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({ children }) => {
     return (
         <>
             <div>
+                <Toaster />
                 {/* Static sidebar for desktop - */}
                 <div className='flex flex-row h-screen p-4 bg-gray-300'>
                     <div className="sticky lg:w-12 lg:flex-col">
