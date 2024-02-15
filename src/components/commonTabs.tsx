@@ -22,7 +22,7 @@ export default function CommonTabs({ tab, onClick }: any) {
   };
   return (
     <div>
-      <div className="hidden sm:block">
+      <div className="hidden sm:block cursor-pointer">
         <div className="border-b border-gray-200">
           <nav className="-mb-px flex space-x-8" aria-label="Tabs">
             {tab?.map((tab: any, index: any) => (
