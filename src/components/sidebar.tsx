@@ -22,6 +22,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({ children }) => {
         { href: '/messages', icon: ChatBubbleLeftRightIcon, current: false, },
         { href: '', icon: UserGroupIcon, current: false },
         { href: '/businessSettings', icon: BriefcaseIcon, current: false, },
+        { href: '/locks', icon: BriefcaseIcon, current: false, },
     ]
 
     var nav = navigation.forEach((item) => {

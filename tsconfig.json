@@ -34,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "src/libs/hooks/use-seam-client-session-token.js"  ],
   "exclude": [
     "node_modules"
   ]
