@@ -19,6 +19,14 @@ const ChatLayout = ({ selectedData }: any) => {
       },
       timestamp: new Date(), // Example timestamp for the first message
     },
+    {
+      text: "Hi",
+      user: {
+        id: "ba",
+        name: "barani",
+      },
+      timestamp: new Date(),
+    },
   ]);
 
   // Function to handle sending a new message
@@ -55,32 +63,11 @@ const ChatLayout = ({ selectedData }: any) => {
   return (
     <div className="flex flex-col ">
       <div className="flex-1">
-        <MessageHeader showBack>
-          <div className="message-header">
-            <div className="username">{selectedData?.name}</div>
-            {selectedData?.lastSeen ? (
-              <p className="mt-1 text-xs leading-5 text-gray-500">
-                
-                <time dateTime={selectedData?.lastSeenDateTime}>
-                  {selectedData?.lastSeen}
-                </time>
-              </p>
-            ) : (
-            //   <div className="mt-1 flex items-center gap-x-1.5">
-            //     <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-            //       <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            //     </div>
-            //     <p className="text-xs leading-5 text-gray-500">Online</p>
-            //   </div>
-            <p className="text-xs leading-5 text-gray-500">Online</p>
-            )}
-          </div>
-        </MessageHeader>
         <MinChatUiProvider theme="#6ea9d7" colorSet={customColorSet}>
           <MainContainer>
             <div className="h-[520px] w-full">
               <MessageList
-                showTypingIndicator={isTyping}
+                // showTypingIndicator={isTyping}
                 mobileView={false}
                 currentUserId={"ba"}
                 messages={messages}
@@ -90,11 +77,11 @@ const ChatLayout = ({ selectedData }: any) => {
         </MinChatUiProvider>
       </div>
 
-      <MessageInput
+      {/* <MessageInput
         showSendButton={true}
         placeholder="Type message here"
         onSendMessage={handleSendMessage}
-      />
+      /> */}
     </div>
   );
 };

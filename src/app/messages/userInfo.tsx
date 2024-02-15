@@ -21,11 +21,11 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 const menuItems = [
-  { id: 1, item: "unKnown" },
-  { id: 2, item: "unStatisfied" },
+  { id: 1, item: "Unknown" },
+  { id: 2, item: "Unstatisfied" },
   { id: 3, item: "Somewhat statisfied" },
-  { id: 4, item: "nuetral" },
-  { id: 5, item: "statisfied" },
+  { id: 4, item: "Nuetral" },
+  { id: 5, item: "Statisfied" },
   { id: 6, item: "Highly statisfied" },
 ];
 const languages = [
@@ -111,17 +111,19 @@ const paymentMethods = [
 ];
 const UserInfo = ({ selectedData }: any) => {
   const [initialTabValue, setInitialTabValue] = useState(tabs[0]);
+  const [menuItemsArray, setMenuItemsArray] = useState(menuItems);
   const [isTag, setIsTag] = useState(false);
   const [isNotes, setIsNotes] = useState(false);
-  const [userNotes, setUserNotes] = useState("");
   const [isEmail, setIsEmail] = useState(false);
   const [isPhone, setIsPhone] = useState(false);
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [isEmailHovered, setIsEmailHovered] = useState(false);
   const [isPhoneHovered, setIsPhoneHovered] = useState(false);
+  const [userNotes, setUserNotes] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [addtag, setAddtag] = useState("");
 
-  useEffect(() => {}, [initialTabValue]);
+  useEffect(() => {}, [initialTabValue, menuItemsArray]);
 
   const handleItemClick = (item: any) => {
     console.log("Selected item:", item);
@@ -293,6 +295,12 @@ const UserInfo = ({ selectedData }: any) => {
     );
   }
 
+  const handleAddTagFunction = (value: any) => {
+    setAddtag(value);
+
+    setMenuItemsArray([...menuItemsArray, { id: 10, item: value.split() }]);
+  };
+
   function AddNewTag() {
     return (
       <div className="relative ml-2">
@@ -300,11 +308,15 @@ const UserInfo = ({ selectedData }: any) => {
           type="tag"
           name="tag"
           id="tag"
-          className="block w-full rounded-full border-0 py-1.5 pr-8 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          className="block w-full rounded-full px-2 border-0 py-1.5 pr-8 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           placeholder=""
+          value={addtag}
+          onChange={(e) => handleAddTagFunction(e.target.value)}
         />
         <button
-          onClick={() => setIsTag(!isTag)}
+          onClick={() => {
+            setIsTag(!isTag), setAddtag(""), setMenuItemsArray(menuItems);
+          }}
           className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-transparent border-none cursor-pointer focus:outline-none"
         >
           <svg
@@ -400,7 +412,7 @@ const UserInfo = ({ selectedData }: any) => {
             htmlFor="phone"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            phone number
+            Phone number
           </label>
           {!isPhone ? (
             <div
@@ -430,10 +442,7 @@ const UserInfo = ({ selectedData }: any) => {
                   value={phone}
                   onChange={(e) => {
                     const inputValue = e.target.value;
-                    const numericValue = inputValue.replace(
-                      /[^0-9]/g,
-                      ""
-                    );
+                    const numericValue = inputValue.replace(/[^0-9]/g, "");
                     setPhone(numericValue);
                   }}
                   // onChange={(e) => setPhone(e.target.value)}
@@ -492,7 +501,7 @@ const UserInfo = ({ selectedData }: any) => {
             name="comment"
             id="comment"
             className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            defaultValue={""}
+            value={userNotes}
             placeholder="Enter your notes here..."
             onChange={(e) => setUserNotes(e.target.value)}
           />
@@ -567,10 +576,11 @@ const UserInfo = ({ selectedData }: any) => {
                       Your Text Here
                     </h2>
                     <h2 className="text-lg font-semibold text-white">
-                      Your Text Here20
+                      Your Text Here
                     </h2>
                   </div>
                 </div>
+
                 <div className="absolute bottom-0 left-0 right-0 ">
                   <button className="w-full  bg-gray-700 text-white font-semibold py-2 rounded-b-md   hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">
                     {item.type?.toUpperCase()}
@@ -637,7 +647,7 @@ const UserInfo = ({ selectedData }: any) => {
                   </h3>
                   <Disclosure.Panel
                     as="div"
-                    className="prose prose-sm  w-full bg-gray-200 py-2 px-2"
+                    className="prose prose-sm  w-full bg-gray-200 rounded-md py-2 px-2"
                   >
                     <dl className="mt-2 space-y-6 text-sm font-medium text-gray-500">
                       <div className="flex justify-between">
@@ -698,7 +708,7 @@ const UserInfo = ({ selectedData }: any) => {
                 </h3>
                 <Disclosure.Panel
                   as="div"
-                  className="prose prose-sm  w-full bg-gray-200 py-2 px-2"
+                  className="prose prose-sm  w-full bg-gray-200 rounded-md py-2 px-2"
                 >
                   <fieldset className="mt-4">
                     <div className="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
@@ -772,7 +782,7 @@ const UserInfo = ({ selectedData }: any) => {
         {selectedData.name ? selectedData.name : ""}
       </p>
       <div className="flex items-center">
-        <CommonDropdown menuItems={menuItems} onClick={handleItemClick} />
+        <CommonDropdown menuItems={menuItemsArray} onClick={handleItemClick} />
         <div className="border-l border-gray-300 h-7 ml-2"></div>
         {isTag ? AddNewTag() : emptyPlateTagUi()}
       </div>
