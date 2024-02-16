@@ -34,7 +34,7 @@ export default function CommonTabs({ tab, onClick, iconClick }: any) {
           <div>
             <nav className="-mb-px flex space-x-8 " aria-label="Tabs">
               {tab?.map((tab: any, index: any) => (
-                <div key={index}>
+             
                   <div
                     key={index}
                     onClick={() => onChangeTab(tab.id, index)}
@@ -48,7 +48,7 @@ export default function CommonTabs({ tab, onClick, iconClick }: any) {
                   >
                     {tab.name.toUpperCase()}
                   </div>
-                </div>
+              
               ))}
             </nav>
           </div>

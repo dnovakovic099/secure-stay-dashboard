@@ -35,8 +35,9 @@ function HotelListing({ projects ,setSelectedItem}:any) {
         role="list"
         className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4"
       >
-        {visibleProjects.map((project:any) => (
-          <li key={project.name} className="col-span-1 flex rounded-md shadow-sm h-32">
+        {visibleProjects?.map((project:any,index:any) => (
+       
+        <li key={project.id} className="col-span-1 flex rounded-md shadow-sm h-32">
             <div onClick={()=>setSelectedItem(project)} className="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-gray-200 bg-white">
              
                 <Image
@@ -53,6 +54,7 @@ function HotelListing({ projects ,setSelectedItem}:any) {
               </div>
             </div>
           </li>
+      
         ))}
       </ul>
      

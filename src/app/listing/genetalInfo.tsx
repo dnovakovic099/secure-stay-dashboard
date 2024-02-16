@@ -4,12 +4,12 @@ const GenetalInfo = ({selectedItem}:any) => {
 
     const hotelInfo = [
         { fieldName: "Nick Name", fieldValue: "Triple S Retreat", id: 1 },
-        { fieldName: "Name", fieldValue: "sunset Splender", id: 1 },
+        { fieldName: "Name", fieldValue: "sunset Splender", id: 2 },
       
-        { fieldName: "Property Type", fieldValue: "Appartment", id: 1 },
-        { fieldName: "Currency", fieldValue: "USD", id: 1 },
-        { fieldName: "wifi", fieldValue: "USD", id: 1 },
-        { fieldName: "occupancy", fieldValue: "USD", id: 1 },
+        { fieldName: "Property Type", fieldValue: "Appartment", id: 3 },
+        { fieldName: "Currency", fieldValue: "USD", id: 4 },
+        { fieldName: "wifi", fieldValue: "USD", id: 6 },
+        { fieldName: "occupancy", fieldValue: "USD", id: 7 },
       ];
   return (
     <div className='mt-2'>
@@ -18,7 +18,7 @@ const GenetalInfo = ({selectedItem}:any) => {
         className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-2"
       >
         {hotelInfo?.map((person) => (
-          <div key={person.id}>
+        
             <li key={person.id} className=" ">
               <div className="flex w-full items-center justify-between space-x-4 py-2">
                 <div className="flex-1 truncate">
@@ -52,7 +52,7 @@ const GenetalInfo = ({selectedItem}:any) => {
                 </div>
               </div>
             </li>
-          </div>
+        
         ))}
       </ul>
     </div>
