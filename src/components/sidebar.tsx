@@ -34,10 +34,10 @@ const SideBarMain: React.FC<SideBarMainProps> = ({ children }) => {
                 {/* Static sidebar for desktop - */}
                 <div className='flex flex-row h-screen p-4 bg-gray-300'>
                     <div className="sticky lg:w-12 lg:flex-col">
-                        <div className="flex flex-col ">
+                        <div className="flex flex-col">
                             {/* Nav button */}
                             <nav className="flex flex-1 flex-col px-2">
-                                <ul role="list" className="-mx-2 space-y-4">
+                                <ul role="list" className="-mx-2 my-4 space-y-8">
                                     {navigation.map((item, index) => (
                                         <li key={index}>
                                             <a
