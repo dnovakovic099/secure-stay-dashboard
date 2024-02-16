@@ -7,9 +7,12 @@ import { CloudIcon, EnvelopeIcon, UserIcon } from "@heroicons/react/20/solid";
 import { supabase } from '../../utility/supabase';
 //useRouter
 import { useRouter } from "next/navigation";
+import { envConfig } from "@/utility/environment";
+import handleApiCallFetch from "@/components/handleApiCallFetch";
 
 const Signup = () => {
 
+    const envconfig = envConfig;
     const router = useRouter();
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -50,9 +53,34 @@ const Signup = () => {
                 toast.error("Failed to sign up");
                 setIsloading(false);
             } else {
-                toast.success("Signed up successfully");
-                router.push("/login");
-                setIsloading(false);
+                if (data && data.user && data.user.id) {
+                    toast.success("Signed up successfully");
+                    router.push("/login");
+                    setIsloading(false);
+            
+                    const apiUrl = `${envconfig.backendUrl}/users/create`;
+                    let requestBody = {
+                        uid: data && data.user && data.user.id ? parseInt(data.user.id) : null,
+                        firstName: firstName ? firstName : "",
+                        lastName: lastName ? lastName : "",
+                        email: email ? email : "",
+                        companyName: companyName ? companyName : "",
+                        numberofProperties: numberofProperties ? parseInt(numberofProperties) : null,
+                        message: message ? message : "",
+                    };
+                    const headers = {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    };
+                    var params = { method: 'POST', headers: headers, body: JSON.stringify(requestBody) }
+                    try {
+                        const response: any = await handleApiCallFetch(apiUrl, params);
+                        console.log("user response", response);
+
+                    } catch (error) {
+                        console.log('Error in api call:', error);
+                    }
+                }
             }
         } catch (error) {
             console.error('Error signing up:', error);
@@ -72,7 +100,7 @@ const Signup = () => {
     return (
         <>
             <div className="h-screen bg-gray-100 w-full">
-               <Toaster />
+                <Toaster />
                 <div className="flex flex-col justify-start items-center py-4 sm:px-6 lg:px-8 w-full h-[100%]">
                     <div className="flex justify-center mt-4 sm:mx-auto sm:w-full sm:max-w-md h-16 ">
                         {/* <Image
@@ -342,7 +370,7 @@ const Signup = () => {
                                                 id="numberofProperties"
                                                 name="numberofProperties"
                                                 autoComplete="numberofProperties"
-                                                type="text"
+                                                type="number"
                                                 value={numberofProperties}
                                                 onChange={(event) => setNumberofProperties(event.target.value)}
                                                 // required
