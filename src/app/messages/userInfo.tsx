@@ -510,50 +510,7 @@ const UserInfo = ({ selectedData }: any) => {
     );
   }
 
-  function inquieryDetails() {
-    return (
-      <>
-        <div className="relative mt-3">
-          {initialTabValue && (
-            <div className="relative">
-              <Image
-                className="aspect-[3/2]  h-52  w-full rounded-md object-cover"
-                src={initialTabValue.imageUrl}
-                alt="hotel"
-                width={500}
-                height={500}
-              />
-
-              <div className="absolute top-0 left-0 right-0 bottom-0 flex  justify-center">
-                <div className="w-full flex items-start justify-between mx-2 mt-10">
-                  <h2 className="text-lg font-semibold text-white">
-                    Your Text Here
-                  </h2>
-                  <h2 className="text-lg font-semibold text-white">
-                    Your Text Here
-                  </h2>
-                </div>
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 ">
-                <button className="w-full  bg-gray-700 text-white font-semibold py-2 rounded-b-md   hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">
-                  INQUIRY
-                </button>
-              </div>
-            </div>
-          )}
-          <div className="flex items-center mt-4">
-            <CalendarIcon className="h-5 w-5 " aria-hidden="true" />
-            <p className="ml-2"> Booking Information</p>
-          </div>
-          <div className="flex items-center mt-4">
-            {selectedData.checkInDate ? selectedData.checkInDate : ""}
-            <ArrowRightIcon className="h-4 w-4 mx-2 mt-1" aria-hidden="true" />
-            {selectedData.checkOutDate ? selectedData.checkOutDate : ""}
-          </div>
-        </div>
-      </>
-    );
-  }
+ 
 
   function comfirmedDetails() {
     return (
