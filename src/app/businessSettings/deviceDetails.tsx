@@ -3,7 +3,7 @@ import { KeyIcon, ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/20/sol
 import handleApiCallFetch from "@/components/handleApiCallFetch";
 import { LockClosedIcon, LockOpenIcon, Battery100Icon, Battery50Icon, CheckCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { envConfig } from "@/utility/environment";
 
 const DeviceDetails = (props: any) => {
@@ -139,7 +139,6 @@ const DeviceDetails = (props: any) => {
 
     return (
         <div className="flex-1">
-            <Toaster />
             <form onSubmit={handleSubmit}>
                 <div className="flex justify-between px-2 pb-4 border-b border-gray-300">
                     <h2 className="text-lg font-medium text-blue-900">Device details</h2>
