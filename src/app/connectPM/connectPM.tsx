@@ -1,9 +1,18 @@
+import CommonPopup from '@/components/commonPopup';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useState } from 'react'
+import AccountSettings from './accountSettings';
+// Carousel
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 const ConnectPM = () => {
 
     const router = useRouter();
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [popupTitle, setPopupTitle] = useState('');
+    const [selectedData, setSelectedData] = useState();
+
     const accounts = [
         { id: 1, accountName: 'WhatsApp', description: 'Heads up! Connecting your WhatsApp Business Account requires a Facebook Business Manager platform and a meeting with our CS team. Please reach out to your Onboarding Manager if you would like to schedule a WhatsApp session.' },
         { id: 2, accountName: 'airbnb', description: 'Connect your Airbnb Account' },
@@ -14,8 +23,22 @@ const ConnectPM = () => {
 
     const handleItemClick = (data: any) => {
         console.log("Accountdata:", data);
-        router.push('/messages');
+        // router.push('/messages');
+        setSelectedData(data);
+        setIsPopupOpen(true);
     }
+
+    const handleClose = () => {
+        setIsPopupOpen(false)
+    }
+
+    const responsive = {
+        desktop: {
+            breakpoint: { max: 2000, min: 1000 },
+            items: 1, // Show 2 text items at a time
+            slidesToSlide: 1,
+        },
+    };
 
     return (
         <div className="flex flex-col py-12 px-24 h-screen bg-gray-300">
@@ -46,6 +69,15 @@ const ConnectPM = () => {
                     </div>
                 </div>
             </div>
+            <CommonPopup
+                isOpen={isPopupOpen}
+                onClose={handleClose}
+                heightwidth={"w-3/6 h-96"}
+                title={popupTitle}
+                subtitle={undefined}
+                disableCloseIcon={undefined} >
+                <AccountSettings data={selectedData} popupTitle={popupTitle} setPopupTitle={setPopupTitle} />
+            </CommonPopup>
         </div>
     )
 }
