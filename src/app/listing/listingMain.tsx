@@ -9,6 +9,9 @@ import React, { Fragment, useState } from "react";
 import Image from "next/image";
 import HotelListing from "./hotelList";
 import HotelDetail from "./hotelDetails";
+import axios, { AxiosResponse } from 'axios'
+import toast from "react-hot-toast";
+import { envConfig } from "@/utility/environment";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -98,6 +101,22 @@ const projects = [
 
 const ListingMain = () => {
   const [selectedItem, setSelectedItem] = useState();
+
+  const syncHostawayListings = async () => {
+    try {
+      const apiUrl = `${envConfig.backendUrl}/listing/synchostawaylistings`
+      const axiosPromise: Promise<AxiosResponse<any>> = axios.get(apiUrl);
+      const responsePromise: Promise<any> = axiosPromise.then(response => response.data);
+      toast.promise(responsePromise, {
+        loading: 'Syncing listings with hostaway listing Please wait!',
+        success: 'Listing synced successfully!',
+        error: 'Something went wrong!',
+      });
+      return
+    } catch (error) {
+      console.log(error)
+    }
+  }
   function userSearchUi() {
     return (
       <div className=" border-gray-600 sm:flex">
@@ -188,7 +207,7 @@ const ListingMain = () => {
                 id="desktop-search-candidate"
                 className="w-full rounded-md border-0 py-1.5 pl-10 pr-10 text-sm leading-6 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:text-indigo-600"
                 placeholder="Search..."
-                // onChange={(e) => handleSearch(e.target.value)}
+              // onChange={(e) => handleSearch(e.target.value)}
               />
             </div>
           </div>
@@ -216,14 +235,28 @@ const ListingMain = () => {
             </div>
           </div>
 
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => syncHostawayListings()}
+              className={classNames(
+                "flex flex-row whitespace-nowrap",
+                "bg-indigo-600 pr-4 text-sm text-white",
+                "font-semibold py-1.5 px-2.5 border border-indigo-600 rounded items-center"
+              )}
+            >
+              <PlusIcon
+                className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                aria-hidden="true"
+              />
+              Fetch Listings
+            </button>
             <button
               className={classNames(
                 "flex flex-row whitespace-nowrap",
                 "bg-indigo-600 pr-4 text-sm text-white",
                 "font-semibold py-1.5 px-2.5 border border-indigo-600 rounded items-center"
               )}
-              // onClick={() => handleButtonClick("create")}
+            // onClick={() => handleButtonClick("create")}
             >
               <PlusIcon
                 className="text-white mr-4 flex-shrink-0 h-6 w-6"
