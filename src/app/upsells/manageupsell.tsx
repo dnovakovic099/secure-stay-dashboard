@@ -1,7 +1,7 @@
 "use client";
 
 import { Switch } from "@headlessui/react";
-import { FaEdit } from "react-icons/fa";
+import { PencilSquareIcon } from "@heroicons/react/20/solid";
 
 interface Upsell {
   title: string;
@@ -150,7 +150,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                               handleEditUpsell(index);
                             }}
                           >
-                            <FaEdit />
+                            <PencilSquareIcon className="w-5 h-5 text-blue-500" />
                           </button>
                         </td>
                       </tr>
@@ -172,7 +172,10 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                                     handleEditUpsell(index);
                                   }}
                                 >
-                                  <FaEdit />
+                                  <PencilSquareIcon
+                                    className="w-4 h-4 text-white"
+                                    style={{ color: "white" }}
+                                  />
                                 </button>
                               </div>
                               <div className="px-6 py-2 md:px-20">
