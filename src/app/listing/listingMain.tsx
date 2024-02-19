@@ -5,13 +5,14 @@ import {
   MagnifyingGlassIcon,
   PlusIcon,
 } from "@heroicons/react/20/solid";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import HotelListing from "./hotelList";
 import HotelDetail from "./hotelDetails";
 import axios, { AxiosResponse } from 'axios'
 import toast from "react-hot-toast";
 import { envConfig } from "@/utility/environment";
+import handleApiCallFetch from "@/components/handleApiCallFetch";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -101,6 +102,42 @@ const projects = [
 
 const ListingMain = () => {
   const [selectedItem, setSelectedItem] = useState();
+  const [listdata, setListdata] = useState<any[]>([]);
+  useEffect(() => {
+    getHostawayListFromDb();
+  }, [])
+
+  const getHostawayListFromDb = async () => {
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    var params = { method: 'GET', headers: headers }
+    try {
+      const apiUrl = `${envConfig.backendUrl}/listing/getlistings`;
+      const response: any = await handleApiCallFetch(apiUrl, params);
+      console.log("response", response);
+      if (response && response.success) {
+        console.log("response getlistings:", response.listings);
+        formattResponse(response.listings);
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const formattResponse = (AllData: any) => {
+    const formattedData = AllData.map((data: any) => ({
+      id: data && data.id ? data.id : "",
+      name: data.name ? data.name : '',
+      address: data && data.address ? data.address : '',
+      nickName: data.name ? data.name : '',
+      bgColor: "bg-pink-600",
+      imageUrl: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      // imageUrl: data && data.images && data.images[0] && data.images[0].url ? data.images[0].url : '',
+
+    }));
+    setListdata(formattedData);
+  };
 
   const syncHostawayListings = async () => {
     try {
@@ -269,7 +306,7 @@ const ListingMain = () => {
       </div>
 
       {projects && (
-        <HotelListing projects={projects} setSelectedItem={setSelectedItem} />
+        <HotelListing projects={listdata} setSelectedItem={setSelectedItem} />
       )}
       {selectedItem && <HotelDetail selectedItem={selectedItem} />}
     </div>

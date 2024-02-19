@@ -60,7 +60,7 @@ const Signup = () => {
             
                     const apiUrl = `${envconfig.backendUrl}/users/create`;
                     let requestBody = {
-                        uid: data && data.user && data.user.id ? parseInt(data.user.id) : null,
+                        uid: data && data.user && data.user.id ? data.user.id : null,
                         firstName: firstName ? firstName : "",
                         lastName: lastName ? lastName : "",
                         email: email ? email : "",
