@@ -4,6 +4,7 @@ import React, { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 //Headless UI
 import { HomeIcon, BuildingOffice2Icon, ChatBubbleLeftRightIcon, UserGroupIcon, BriefcaseIcon,ShoppingCartIcon } from "@heroicons/react/20/solid";
+import { Toaster } from 'react-hot-toast';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -18,7 +19,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({ children }) => {
     const currentPage = usePathname();
     const navigation = [
         { href: '/dashboard', icon: HomeIcon, current: false },
-        { href: '', icon: BuildingOffice2Icon, current: false },
+        { href: '/listing', icon: BuildingOffice2Icon, current: false },
         { href: '/messages', icon: ChatBubbleLeftRightIcon, current: false, },
         { href: '', icon: UserGroupIcon, current: false },
         { href: '/businessSettings', icon: BriefcaseIcon, current: false, },
@@ -33,13 +34,14 @@ const SideBarMain: React.FC<SideBarMainProps> = ({ children }) => {
     return (
         <>
             <div>
+                <Toaster />
                 {/* Static sidebar for desktop - */}
                 <div className='flex flex-row h-screen p-4 bg-gray-300'>
                     <div className="sticky lg:w-12 lg:flex-col">
-                        <div className="flex flex-col ">
+                        <div className="flex flex-col">
                             {/* Nav button */}
                             <nav className="flex flex-1 flex-col px-2">
-                                <ul role="list" className="-mx-2 space-y-4">
+                                <ul role="list" className="-mx-2 my-4 space-y-8">
                                     {navigation.map((item, index) => (
                                         <li key={index}>
                                             <a
