@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 //Next Import
 import { usePathname } from 'next/navigation';
 //Headless UI
-import { HomeIcon, BuildingOffice2Icon, ChatBubbleLeftRightIcon, UserGroupIcon, BriefcaseIcon } from "@heroicons/react/20/solid";
+import { HomeIcon, BuildingOffice2Icon, ChatBubbleLeftRightIcon, UserGroupIcon, BriefcaseIcon,ShoppingCartIcon } from "@heroicons/react/20/solid";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -22,6 +22,8 @@ const SideBarMain: React.FC<SideBarMainProps> = ({ children }) => {
         { href: '/messages', icon: ChatBubbleLeftRightIcon, current: false, },
         { href: '', icon: UserGroupIcon, current: false },
         { href: '/businessSettings', icon: BriefcaseIcon, current: false, },
+        { href: '/upsells', icon: ShoppingCartIcon, current: false, },
+
     ]
 
     var nav = navigation.forEach((item) => {
