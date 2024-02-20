@@ -34,35 +34,35 @@ const BusinessSettings = ({ children }: any) => {
   };
 
   return (
-    <div className="flex flex-col justify-center p-4 h-[100%] rounded-md">
-      <div className="flex flex-row gap-2 h-[100%] w-full">
+    // <div className="flex flex-col justify-center p-4 h-[100%] rounded-md">
+      <div className="flex flex-row gap-0 h-[100%] w-full bg-gray-300">
         {/* Column 1 - Setting nav */}
-        <div className="w-[25%]">
-          <h2 className="text-xl font-bold text-blue-900">Business Settings</h2>
+        <div className="w-[20%] p-4 rounded-md bg-gray-100">
+          <h2 className="text-xl font-bold text-indigo-700">Business Settings</h2>
           <ul className="flex flex-col gap-1 py-8 cursor-pointer">
-            <li className="hover:bg-slate-200 p-3 rounded-md">Branding </li>
-            <li className="hover:bg-slate-200 p-3 rounded-md">
+            <li className="hover:bg-indigo-100 p-3 rounded-md">Branding </li>
+            <li className="hover:bg-indigo-100 p-3 rounded-md">
               Connected Accounts{" "}
             </li>
-            <li className="hover:bg-slate-200 p-3 rounded-md">Messaging </li>
-            <li className="hover:bg-slate-200 p-3 rounded-md">Users </li>
-            <li className="hover:bg-slate-200 p-3 rounded-md">Billing </li>
+            <li className="hover:bg-indigo-100 p-3 rounded-md">Messaging </li>
+            <li className="hover:bg-indigo-100 p-3 rounded-md">Users </li>
+            <li className="hover:bg-indigo-100 p-3 rounded-md">Billing </li>
             <li
               className={`${
                 selectedMenu == "devices" ? "bg-slate-200" : ""
-              } hover:bg-slate-200 p-3 rounded-md`}
+              } hover:bg-indigo-100 p-3 rounded-md`}
               onClick={() => handleMenuClick("devices")}
             >
               Devices
             </li>
-            <li className="hover:bg-slate-200 p-3 rounded-md">Reports </li>
+            <li className="hover:bg-indigo-100 p-3 rounded-md">Reports </li>
           </ul>
         </div>
 
         {/* Column 2 - page components */}
         <div className="w-full border-l border-gray-300">{children}</div>
       </div>
-    </div>
+    // </div>
   );
 };
 export default BusinessSettings;

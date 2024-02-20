@@ -43,7 +43,7 @@ const SifelyDeviceInfo = ({ device_id }: any) => {
 
     return (
         <>
-            <div className='flex items-center gap-4 mt-10 px-4 mb-4'>
+            <div className='flex items-center gap-4 mt-10 px-8 mb-4'>
                 <div className='mt-6 w-2/12'>
                     <img
                         src='https://www.schlage.com/content/dam/sch-us/homepage-refresh/smart-lock.png'
@@ -70,7 +70,7 @@ const SifelyDeviceInfo = ({ device_id }: any) => {
                     </div>
                 </div>
             </div>
-            <div className='border border-collapse  w-full rounded-md mt-3 mb-3'>
+            <div className='border border-collapse ml-5 w-[92%] rounded-md mt-3 mb-3'>
                 {/* <div className='p-4 flex '>
                     <div className='flex items-center'>
                         <div className=' mr-[19rem] items-baseline flex justify-between text-slate-500'>
