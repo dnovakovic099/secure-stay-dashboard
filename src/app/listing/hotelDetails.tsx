@@ -50,7 +50,7 @@ export default function HotelDetail({ selectedItem }: any) {
                 {initialTabValue.name}
               </h1>
               <p className="text-sm font-medium text-gray-500">
-                {initialTabValue.id == 5 ? '' : ' Description,wifi &more'}
+                {initialTabValue.id == 1 ? 'Description,wifi &more' : ''}
               </p>
             </div>
           </div>
@@ -86,15 +86,23 @@ export default function HotelDetail({ selectedItem }: any) {
   };
 
   const renderNextTabs = (item: any) => {
-    const nextIndex = lastRenderedIndex + 5;
-    const nextRenderTabs = tabs.slice(item, nextIndex + 1);
-    setRenderTabs(nextRenderTabs);
-    setLastRenderedIndex(nextIndex);
+    if (lastRenderedIndex < tabs.length) {
+      const nextIndex = lastRenderedIndex + 5;
+      const nextRenderTabs = tabs.slice(item, nextIndex + 1);
+      setRenderTabs(nextRenderTabs);
+      setLastRenderedIndex(nextIndex);
+      setIconPosition("left");
+    } else {
+      const nextRenderTabs = tabs.slice(0, 5)
+      setRenderTabs(nextRenderTabs);
+      setLastRenderedIndex(4);
+      setIconPosition("right");
+    }
   };
 
   function toggleSwitch() {
     return (
-      <div className="flex justify-between  w-[350px] h-auto ring-1 ring-inset ring-gray-300 rounded-md  ">
+      <div className="flex justify-between w-[350px] h-auto ring-1 ring-inset ring-gray-300 rounded-md  ">
         <button
           type="button"
           onClick={() => setEnabled(!enabled)}
@@ -200,7 +208,7 @@ export default function HotelDetail({ selectedItem }: any) {
                   {" "}
                   preview Boarding Pass
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center mt-1">
                   <p className="text-white mr-2 hover:text-gray-50 cursor-pointer">
                     {" "}
                     Click the plus to add a tag.
@@ -210,7 +218,7 @@ export default function HotelDetail({ selectedItem }: any) {
                     aria-hidden="true"
                   />
                 </div>
-                <div className="flex items-center mt-2">
+                <div className="flex items-center mt-1">
                   <UserIcon
                     className="block h-5 w-5 text-white"
                     aria-hidden="true"
@@ -228,7 +236,7 @@ export default function HotelDetail({ selectedItem }: any) {
           {boardPassToggle()}
         </div>
 
-        <div className="col-span-8 ">
+        <div className="col-span-8 overflow-hidden">
           <div className="p-4">
             {toggleSwitch()}
             {enabled ? (
@@ -237,12 +245,12 @@ export default function HotelDetail({ selectedItem }: any) {
                 <CommonTabs
                   tab={renderTabs}
                   onClick={handleTabClick}
-                  // iconClick={renderNextTabs}
-                  // iconPosition={iconPosition}
+                  iconClick={renderNextTabs}
+                  iconPosition={iconPosition}
                 />
                 {DynamicContentUi()}
                 {initialTabValue.id === 2 ? (
-                  <Address />
+                  <Address selectedItem={selectedItem} />
                 ) : initialTabValue.id === 3 ? (
                   <CheckInandOut />
                 ) : initialTabValue.id === 4 ? (
@@ -250,7 +258,7 @@ export default function HotelDetail({ selectedItem }: any) {
                 ) : initialTabValue.id === 5 ? (
                   <Policies />
                 ) : initialTabValue.id === 6 ? (
-                  <Picture />
+                  <Picture selectedItem={selectedItem} />
                 ) : initialTabValue.id === 7 ? (
                   <Device />
                 ) : (
@@ -258,7 +266,7 @@ export default function HotelDetail({ selectedItem }: any) {
                 )}
               </div>
             ) : (
-              <p className="flex items-center w-full h-96">
+              <p className="flex justify-center items-center w-full h-80">
                 No automatted message...
               </p>
             )}
