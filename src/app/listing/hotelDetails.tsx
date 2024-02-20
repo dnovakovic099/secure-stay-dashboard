@@ -4,8 +4,13 @@ import { Switch } from "@headlessui/react";
 
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import Policies from "./policies";
-import GenetalInfo from "./genetalInfo";
+import Policies from "./tabs/policies";
+import GenetalInfo from "./tabs/genetalInfo";
+import Address from "./tabs/address";
+import CheckInandOut from "./tabs/check-in-out";
+import Device from "./tabs/device";
+import GuideBook from "./tabs/guideBook";
+import Picture from "./tabs/picture";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -28,10 +33,13 @@ export default function HotelDetail({ selectedItem }: any) {
   const [renderTabs, setRenderTabs] = useState(tabs.slice(0, 5));
   const [lastRenderedIndex, setLastRenderedIndex] = useState(4);
   const [isToggle, setIsToggle] = useState(false);
+  const [iconPosition, setIconPosition] = useState("right");
 
   useEffect(() => {
-    console.log(renderTabs, "renderTabs");
-  }, [initialTabValue, renderTabs]);
+  
+  }, [ renderTabs]);
+  useEffect(() => {
+  }, [ initialTabValue]);
 
   function DynamicContentUi() {
     return (
@@ -79,13 +87,10 @@ export default function HotelDetail({ selectedItem }: any) {
   };
 
   const renderNextTabs = (item: any) => {
-    console.log("Selected renderNextTabs:", item);
     const nextIndex = lastRenderedIndex + 5;
-    const lastIndex = tabs.length - 1;
     const nextRenderTabs = tabs.slice(item, nextIndex + 1);
     setRenderTabs(nextRenderTabs);
     setLastRenderedIndex(nextIndex);
-    // Handle the selected item here in the parent component
   };
 
   function toggleSwitch() {
@@ -175,7 +180,7 @@ export default function HotelDetail({ selectedItem }: any) {
                 <h3 className="font-semibold text-white">
                   <a href="#">
                     <span className="absolute inset-0" />
-                 {selectedItem?.name}
+                    {selectedItem?.name}
                   </a>
                 </h3>
                 <div className="flex items-center">
@@ -187,7 +192,7 @@ export default function HotelDetail({ selectedItem }: any) {
                     aria-hidden="true"
                     className="mt-1 text-sm pl-2 text-white"
                   >
-                   {selectedItem?.address}
+                    {selectedItem?.address}
                   </p>
                 </div>
                 <div className="mt-2 text-sm pl-2 text-white underline">
@@ -222,9 +227,24 @@ export default function HotelDetail({ selectedItem }: any) {
                   tab={renderTabs}
                   onClick={handleTabClick}
                   iconClick={renderNextTabs}
+                  iconPosition={iconPosition}
                 />
                 {DynamicContentUi()}
-                {initialTabValue.id === 5 ? <Policies /> : <GenetalInfo selectedItem={selectedItem}/>}
+                {initialTabValue.id === 2 ? (
+                  <Address />
+                ) : initialTabValue.id === 3 ? (
+                  <CheckInandOut />
+                ) : initialTabValue.id === 4 ? (
+                  <GuideBook />
+                ) : initialTabValue.id === 5 ? (
+                  <Policies />
+                ) : initialTabValue.id === 6 ? (
+                  <Picture />
+                ) : initialTabValue.id === 7 ? (
+                  <Device />
+                ) : (
+                  <GenetalInfo selectedItem={selectedItem} />
+                )}
               </div>
             ) : (
               <p className="flex items-center w-full h-96">
