@@ -17,7 +17,7 @@ const redirects = {
 
 const imagesConfig = {
     images: {
-        domains: ['images.unsplash.com'],
+        domains: ['images.unsplash.com',"hostaway-platform.s3.us-west-2.amazonaws.com"],
         remotePatterns: [
             {
                 protocol: 'https',
