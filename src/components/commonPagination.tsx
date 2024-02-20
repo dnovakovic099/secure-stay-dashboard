@@ -1,4 +1,4 @@
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
 interface PaginationProps {
   currentPage: number;
@@ -7,19 +7,37 @@ interface PaginationProps {
   maxVisiblePages?: number; // Specify the maximum number of visible pages
 }
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange, maxVisiblePages = 5 }) => {
-  const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  maxVisiblePages = 5,
+}) => {
+  const pageNumbers = Array.from(
+    { length: totalPages },
+    (_, index) => index + 1
+  );
 
   const visiblePageNumbers = (() => {
     if (totalPages <= maxVisiblePages) {
       return pageNumbers;
     }
 
-    const firstVisiblePage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-    const lastVisiblePage = Math.min(currentPage + Math.ceil(maxVisiblePages / 2) - 1, totalPages);
+    const firstVisiblePage = Math.max(
+      1,
+      currentPage - Math.floor(maxVisiblePages / 2)
+    );
+    const lastVisiblePage = Math.min(
+      currentPage + Math.ceil(maxVisiblePages / 2) - 1,
+      totalPages
+    );
 
     if (firstVisiblePage > 1) {
-      return [1, null, ...pageNumbers.slice(firstVisiblePage, lastVisiblePage + 1)];
+      return [
+        1,
+        null,
+        ...pageNumbers.slice(firstVisiblePage, lastVisiblePage + 1),
+      ];
     } else {
       return pageNumbers.slice(firstVisiblePage - 1, lastVisiblePage + 1);
     }
@@ -40,17 +58,21 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
       >
         <ChevronLeftIcon className="w-5 h-5" />
       </button>
-      
+
       {visiblePageNumbers.map((pageNumber, index) => (
         <button
           key={index}
           onClick={() => handlePageChange(pageNumber)}
-          className={`flex items-center justify-center w-10 h-10 bg-white border border-gray-300 rounded-md shadow-md cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring focus:border-blue-300 ${currentPage === pageNumber ? 'bg-blue-500 text-white' : 'text-gray-700'}`}
+          className={`flex items-center justify-center w-10 h-10 bg-white border border-gray-300 rounded-md shadow-md cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring focus:border-blue-300 ${
+            currentPage === pageNumber
+              ? "bg-blue-500 text-black"
+              : "text-gray-400"
+          }`}
         >
-          {pageNumber === null ? '...' : pageNumber}
+          {pageNumber === null ? "..." : pageNumber}
         </button>
       ))}
-      
+
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}

@@ -8,120 +8,154 @@ import {
   MagnifyingGlassIcon,
   Bars4Icon,
   ArrowRightIcon,
+  ChevronDownIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/20/solid";
-
+import axios from "axios";
 import ManageUpsell from "./manageupsell";
 import UpsellOrder from "./upsellorder";
 import Pagination from "@/components/commonPagination";
-import { Toaster, toast } from "react-hot-toast";
+import { CheckmarkIcon, Toaster, toast } from "react-hot-toast";
 import CommonPopup from "@/components/commonPopup";
 import { envConfig } from "@/utility/environment";
+import { title } from "process";
 
-interface Upsell {
+export interface Upsell {
+  checkIn: string;
+  checkOut: string;
+  description: string;
+  guestName: string;
+  image: string | null;
+  isApprovalRequired: number;
+  isUpSellMandatory: number;
+  price: string;
+  pricingModel: string;
+  purchaseDate: string;
+  status: number;
+  timePeriod: string;
   title: string;
-  price: number;
-  period: string;
-  availability: string;
-  activeProperties: string;
-  status: string;
+  upSellId: number;
 }
 
 const UpsellDashboard: React.FC = () => {
-  const currentPage = 1;
-  const totalPages = 10;
+  const [totalData, setTotalData] = useState(100);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [totalPages, setTotalPages] = useState(totalData / limit);
 
   const [selectAll, setSelectAll] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+  const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  const [upsells, setUpsells] = useState<Upsell[]>([]);
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(currentPage, limit, title);
+    // setTotalPages(currentPage / limit);
+  }, [currentPage, limit]);
 
-  const fetchData = async () => {
+  useEffect(() => {
+    let timeoutId: any;
+
+    const debounceApiCall = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        fetchData(currentPage, limit, title);
+      }, 500); // Adjust the debounce duration as needed
+    };
+
+    debounceApiCall();
+
+    // Cleanup the timeout on component unmount
+    return () => clearTimeout(timeoutId);
+  }, [title]);
+
+  useEffect(() => {
+    if (totalData > 10) {
+      setTotalPages(totalData / limit);
+    }
+  }, [totalData]);
+
+  const fetchData = async (
+    currentPage: number,
+    limit: number,
+    title: string
+  ) => {
     try {
-      const apiUrl = `your-api-url`; // Replace with your API endpoint
+      const apiUrl = `${envConfig.backendUrl}/upsell/upsellList?page=${currentPage}&limit=${limit}&title=${title}`; // Replace with your API endpoint
       const params = {
-        // Define your fetch parameters (method, headers, etc.)
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       };
 
-      const result = await handleApiCallFetch(apiUrl, params);
-      toast.success("meesage is succesfull");
+      const result: any = await handleApiCallFetch(apiUrl, params);
       // Handle successful data fetch
-      // setUpsellsData(resuls);
+
+      setUpsells(result[0]);
+      setTotalData(result[1]);
     } catch (error) {
       toast.error("Error occured");
       // Handle error
-      // setUpsellsData(error);
     }
   };
 
   const handlePageChange = (page: number) => {
-    // Add logic to handle page change
-    console.log(`Page changed to ${page}`);
-    // Update state or trigger data fetching based on the selected page
+    setCurrentPage(page);
   };
 
   const handleCreateUpsell = () => {
-    // Navigate to the desired screen in a new tab
+    // Navigate to create screen in a new tab
     window.open("/upsells/createupsells", "_blank", "noopener,noreferrer");
   };
 
-  const handlePostRequest = async (uri: String, postData: any) => {
-    console.log(postData);
-
+  const handleRequest = async (method: string, uri: string, data?: any) => {
     try {
       const apiUrl = `${envConfig.backendUrl}/${uri}`;
-      const response = await fetch(apiUrl, {
-        method: "POST",
+      const response = await axios({
+        method,
+        url: apiUrl,
+        data,
         headers: {
           "Content-Type": "application/json",
-          // Add any additional headers if needed
         },
-        body: JSON.stringify(postData),
       });
 
-      if (!response.ok) {
-        toast.error("Network response was not ok");
-        throw new Error("Network response was not ok");
-      }
-
       // Handle the successful response here
-      const responseData = await response.json();
-      toast.success("This is a success message!");
+      toast.success(response.data.message);
+      const responseData = response.data;
       console.log("Response data:", responseData);
     } catch (error: any) {
-      toast.error("Error making POST request:", error.message);
+      toast.error(error.message);
       // Handle errors here
-      console.error("Error making POST request:", error.message);
+      console.error("Error making request:", error.message);
     }
   };
 
   const handleDelete = () => {
-    if (selectedRows.size === 0 || selectedRows === null) {
+    if (selectedRows.length === 0 || selectedRows === null) {
       toast.error("Please selcect data first");
       return;
     }
-    handlePostRequest("delete api", { id: selectedRows });
-    console.log("Delete is clicked");
+    handleRequest("DELETE", `upsell/delete?upSellId=${selectedRows}`, {});
   };
 
   const handleActivate = () => {
-    if (selectedRows.size === 0 || selectedRows === null) {
-      toast.error("Please selcect data first");
+    if (selectedRows.length === 0 || selectedRows === null) {
+      toast.error("Please select data first");
       return;
     }
-    handlePostRequest("activated api", { id: selectedRows });
+    handleRequest("PUT", "activated api", { id: selectedRows });
     console.log("Delete is clicked");
   };
 
   const handleDeactivate = () => {
     <CommonPopup />;
-    if (selectedRows.size === 0 || selectedRows === null) {
+    if (selectedRows.length === 0 || selectedRows === null) {
       toast.error("Please selcect data first");
       return;
     }
-    handlePostRequest("deactivate api", { id: selectedRows });
+    handleRequest("PUT", "deactivate api", { id: selectedRows });
     console.log("Delete is clicked");
   };
 
@@ -148,109 +182,31 @@ const UpsellDashboard: React.FC = () => {
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
-  const [upsells, setUpsells] = useState<Upsell[]>([
-    {
-      title: "Pool Heating",
-      price: 100,
-      period: "Per Booking – Onetime",
-      availability: "Always",
-      activeProperties: "9/21",
-      status: "ON",
-    },
-    {
-      title: "Late Check-IN",
-      price: 100,
-      period: "Per Booking Onetime",
-      availability: "Always",
-      activeProperties: "9/21",
-      status: "ON",
-    },
-    {
-      title: "Early Check-in",
-      price: 150,
-      period: "Per Booking Onetime",
-      availability: "Always",
-      activeProperties: "16/21",
-      status: "OFF",
-    },
-    {
-      title: "Late Check-out",
-      price: 50,
-      period: "Per Booking Onetime",
-      availability: "Always",
-      activeProperties: "12/23",
-      status: "ON",
-    },
-    {
-      title: "Pool Heating",
-      price: 100,
-      period: "Per Booking Onetime",
-      availability: "Always",
-      activeProperties: "9/21",
-      status: "OFF",
-    },
-    {
-      title: "Pool Heating",
-      price: 100,
-      period: "Per Booking Onetime",
-      availability: "Always",
-      activeProperties: "9/21",
-      status: "OFF",
-    },
-    {
-      title: "Pool Heating",
-      price: 100,
-      period: "Per Booking Onetime",
-      availability: "Always",
-      activeProperties: "9/21",
-      status: "ON",
-    },
-    {
-      title: "Early Check-in",
-      price: 150,
-      period: "Per Booking Onetime",
-      availability: "Always",
-      activeProperties: "16/21",
-      status: "ON",
-    },
-    {
-      title: "Late Check-out",
-      price: 50,
-      period: "Per Booking Onetime",
-      availability: "Always",
-      activeProperties: "12/23",
-      status: "ON",
-    },
-    {
-      title: "Pool Heating",
-      price: 100,
-      period: "Per Booking Onetime",
-      availability: "Always",
-      activeProperties: "9/21",
-      status: "ON",
-    },
-  ]);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
-    const allRows = upsells.map((_, index) => index);
-    setSelectedRows(selectAll ? new Set() : new Set(allRows));
+    const allRows = upsells.map((upsell, index) => upsell.upSellId);
+    setSelectedRows(selectAll ? [] : allRows);
+    console.log(selectedRows);
   };
 
   const handleRowCheckboxChange = (index: number) => {
-    const newSelectedRows = new Set(selectedRows);
-    if (newSelectedRows.has(index)) {
-      newSelectedRows.delete(index);
+    const newSelectedRows = [...selectedRows]; // Copy the array
+    const selectedIndex = newSelectedRows.indexOf(index);
+
+    if (selectedIndex !== -1) {
+      newSelectedRows.splice(selectedIndex, 1); // Remove the index if it exists
     } else {
-      newSelectedRows.add(index);
+      newSelectedRows.push(index); // Add the index if it doesn't exist
     }
+
     setSelectedRows(newSelectedRows);
+    console.log(selectedRows);
   };
 
   const handleToggle = (index: number) => {
     const updatedUpsells = [...upsells];
-    updatedUpsells[index].status =
-      updatedUpsells[index].status === "ON" ? "OFF" : "ON";
+    updatedUpsells[index].status = updatedUpsells[index].status === 1 ? 0 : 1;
     setUpsells(updatedUpsells);
   };
 
@@ -330,6 +286,8 @@ const UpsellDashboard: React.FC = () => {
                 type="text"
                 className="w-full border-none focus:outline-none bg-white focus:border-blue-300 transition"
                 placeholder="Search by keywords"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
               <div className="ml-2 w-4 h-4 font-extrabold">
                 <MagnifyingGlassIcon className="text-blue-800" />
@@ -346,29 +304,21 @@ const UpsellDashboard: React.FC = () => {
                 </button>
               )}
               <div className="relative  sm:mt-0 sm:ml-4">
-                <select
-                  className="block appearance-none w-full sm:w-32  bg-white border-2 border-gray-500 text-gray-700 py-2 px-4 pr-8 rounded-3xl leading-tight focus:outline-none focus:border-blue-500"
-                  data-te-select-init
-                  data-te-select-clear-button="true"
-                >
-                  <option value="1">10</option>
-                  <option value="2">20</option>
-                  <option value="4">100</option>
-                  <option value="5">500</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-gray-700">
-                  <svg
-                    className="fill-current h-4 w-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
+                <label className="relative">
+                  <select
+                    className="block appearance-none w-full sm:w-32 bg-white border-2 border-gray-500 text-gray-700 py-2 px-4 pr-8 rounded-3xl leading-tight focus:outline-none focus:border-blue-500"
+                    data-te-select-init
+                    data-te-select-clear-button="true"
+                    value={limit}
+                    onChange={(e) => setLimit(parseInt(e.target.value, 10))}
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M5 7l5 5 5-5H5z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="100">100</option>
+                    <option value="500">500</option>
+                  </select>
+                  <ChevronDownIcon className="w-5 h-5 text-gray-500 absolute top-1/2 right-3 transform -translate-y-1/2" />
+                </label>
               </div>
             </div>
             <div>

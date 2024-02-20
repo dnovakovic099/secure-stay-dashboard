@@ -5,84 +5,57 @@ import CommonDropdown from "@/components/commonDropdown";
 import { Toaster, toast } from "react-hot-toast";
 import { CameraIcon } from "@heroicons/react/20/solid";
 import { envConfig } from "@/utility/environment";
+import axios from "axios";
 
 const CreateUpsell: React.FC = () => {
-  const myMenuItems = [
-    { id: 1, item: "Standard Pricing" },
-    { id: 2, item: "Based on number of nights" },
-    { id: 3, item: "Based on Booking open" },
-  ];
-
-  const myPerItems = [
-    { id: 1, item: "Guest" },
-    { id: 2, item: "item" },
-    { id: 3, item: "Adult" },
-  ];
-
-  const myPeriodItems = [
-    { id: 1, item: "One Time" },
-    { id: 2, item: "Daily" },
-  ];
   const [title, setTitle] = useState("");
   const [shortDescription, setShortDescription] = useState("");
-  const [pricingModel, setPricingModel] = useState<any>(null);
-  const [price, setPrice] = useState<any>(myMenuItems[0]);
-  const [per, setPer] = useState<any>(null);
-  const [period, setPeriod] = useState<any>(null);
+  const [price, setPrice] = useState("");
+  const [listingIds, setListingIds] = useState(["1", "2", "3"]);
+
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const handlePricingModel = (selectedItem: any) => {
-    setPricingModel(selectedItem.id);
-  };
-  const handlePrice = (selectedItem: any) => {
-    setPrice(selectedItem.id);
-  };
-  const handlePer = (selectedItem: any) => {
-    setPer(selectedItem.id);
-  };
-  const handlePeriod = (selectedItem: any) => {
-    setPeriod(selectedItem.id);
-  };
-
   const handlePostRequest = async (postData: any) => {
-    console.log(postData);
-
     try {
-      const apiUrl = `${envConfig.backendUrl}`;
+      const apiUrl = `${envConfig.backendUrl}/upsell/create`;
 
-      const response = await fetch(`${apiUrl}/saveupsell`, {
-        method: "POST",
+      const response = await axios.post(apiUrl, postData, {
         headers: {
-          "Content-Type": "application/json",
-          // Add any additional headers if needed
+          "Content-Type": "multipart/form-data",
         },
-        body: JSON.stringify(postData),
       });
 
-      if (!response.ok) {
-        toast.error("Network response was not ok");
-        throw new Error("Network response was not ok");
+      // Handle the response here
+      if (response.status === 200) {
+        toast.success(`${response.data.message}`);
+        return;
       }
-
-      // Handle the successful response here
-      const responseData = await response.json();
-      toast.success("This is a success message!");
-      console.log("Response data:", responseData);
+      toast.error(`${response.data.message}`);
+      return;
     } catch (error: any) {
-      toast.error("Error making POST request:", error.message);
-      // Handle errors here
-      console.error("Error making POST request:", error.message);
+      toast.error(`${error.message}`);
+      // Handle the error here
+      console.error(error);
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const formData = new FormData();
 
-    console.log(price, per, title, shortDescription, period);
-    console.log(selectedImage);
+    formData.append("title", title);
+    formData.append("description", shortDescription);
+    formData.append("price", price);
+    formData.append("purchaseDate", "2080-04-10");
+    formData.append("checkIn", "2080-04-10");
+    formData.append("checkOut", "2080-04-10");
+    formData.append("guestName", "2080-04-10");
+    formData.append("timePeriod", "Always");
 
-    handlePostRequest({ price: price, per: per });
-    // Add logic to handle form submission here
+    listingIds.forEach((listingId, index) => {
+      formData.append(`listingIds[${index}]`, listingId);
+    });
+    handlePostRequest(formData);
     console.log("Form Submitted");
   };
 
@@ -206,8 +179,22 @@ const CreateUpsell: React.FC = () => {
             required
           />
         </div>
+        <div className="mb-4 col-span-full">
+          <label htmlFor="title" className="block text-gray-700 mb-2">
+            Price<span className="text-red-700 px-1">*</span>
+          </label>
+          <input
+            type="number"
+            id="price"
+            className="border-2 border-gray rounded-md p-2 w-full focus:outline-none focus:ring focus:border-blue-300 transition duration-300"
+            placeholder="Price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            required
+          />
+        </div>
 
-        <div className="mb-2 col-span-full">
+        {/* <div className="mb-2 col-span-full">
           <label
             htmlFor="shortDescription"
             className="block text-gray-700 mb-2"
@@ -221,42 +208,7 @@ const CreateUpsell: React.FC = () => {
               className="w-full"
             />
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 mb-2 col-span-full gap-5 ">
-          <div className="mb-2">
-            <label
-              htmlFor="shortDescription"
-              className="block text-gray-700  mb-2"
-            >
-              Price<span className="text-red-700 px-2">*</span>
-            </label>
-            <CommonDropdown menuItems={myMenuItems} onClick={handlePrice} />
-          </div>
-          <div className="mb-2">
-            <label
-              htmlFor="shortDescription"
-              className="block text-gray-700  mb-2"
-            >
-              Per
-            </label>
-            <CommonDropdown menuItems={myPerItems} onClick={handlePer} />
-          </div>
-          <div className="mb-2">
-            <label
-              htmlFor="shortDescription"
-              className="block text-gray-700  mb-2"
-            >
-              Period
-            </label>
-            <CommonDropdown menuItems={myPeriodItems} onClick={handlePeriod} />
-          </div>
-        </div>
-        <div className="flex items-center mb-10 col-span-full">
-          <ChevronRightIcon className="w-6 h-6 text-blue-700" />
-          <h6 className="text-blue-700 ml-2">More Settings</h6>
-        </div>
-        {/* Other form fields and components go here */}
+        </div> */}
       </div>
 
       <div className="flex justify-end mt-4">

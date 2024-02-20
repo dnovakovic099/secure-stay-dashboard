@@ -2,15 +2,7 @@
 
 import { Switch } from "@headlessui/react";
 import { PencilSquareIcon } from "@heroicons/react/20/solid";
-
-interface Upsell {
-  title: string;
-  price: number;
-  period: string;
-  availability: string;
-  activeProperties: string;
-  status: string;
-}
+import { Upsell } from "./upselldashboard";
 
 interface ManageUpsellProps {
   upsells: Upsell[];
@@ -18,7 +10,7 @@ interface ManageUpsellProps {
   handleSelectAll: () => void;
   handleRowCheckboxChange: (index: number) => void;
   handleToggle: (index: number) => void;
-  selectedRows: Set<number>;
+  selectedRows: number[];
   // Add other necessary props
 }
 const ManageUpsell: React.FC<ManageUpsellProps> = ({
@@ -30,10 +22,11 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
   selectedRows,
   //   ...otherProps
 }) => {
+
   const handleEditUpsell = (data: any) => {
     // Navigate to the desired screen in a new tab
     window.open(
-      "/upsells/createupsells?upsell_id=100",
+      `/upsells/createupsells?upsell_id=${data}`,
       "_blank",
       "noopener,noreferrer"
     );
@@ -93,26 +86,28 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                           <input
                             type="checkbox"
                             className="form-checkbox h-4 w-4 text-blue-500"
-                            checked={selectedRows.has(index)}
-                            onChange={() => handleRowCheckboxChange(index)}
+                            checked={selectedRows.includes(upsell.upSellId)}
+                            onChange={() => handleRowCheckboxChange(upsell.upSellId)}
                           />
                         </td>
 
                         <td className="px-4 py-3 text-sm">{upsell.title}</td>
                         <td className="px-4 py-3 text-sm">{upsell.price}</td>
-                        <td className="px-4 py-3 text-sm">{upsell.period}</td>
                         <td className="px-4 py-3 text-sm">
-                          {upsell.availability}
+                          {upsell.timePeriod}
                         </td>
                         <td className="px-4 py-3 text-sm">
-                          {upsell.activeProperties}
+                          {upsell.guestName}
+                        </td>
+                        <td className="px-4 py-3 text-sm">
+                          {upsell.guestName}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap">
                           <Switch
-                            checked={upsell.status === "ON"}
+                            checked={upsell.status === 1}
                             onChange={() => handleToggle(index)}
                             className={`${
-                              upsell.status === "ON"
+                              upsell.status === 1
                                 ? "bg-green-500"
                                 : "bg-gray-400"
                             }
@@ -122,7 +117,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                             <span
                               aria-hidden="true"
                               className={`${
-                                upsell.status === "ON"
+                                upsell.status === 1
                                   ? "translate-x-6"
                                   : "translate-x-o"
                               }
@@ -130,14 +125,14 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                             />
                             <span
                               className={`absolute inset-0 flex items-center justify-between text-xs ${
-                                upsell.status === "OFF"
+                                upsell.status === 0
                                   ? "text-white"
                                   : "text-white"
                               }`}
                             >
                               ON
                               <span className="text-xs">
-                                {upsell.status === "ON" ? "" : "OFF"}
+                                {upsell.status === 1 ? "" : "OFF"}
                               </span>
                             </span>
                           </Switch>
@@ -147,7 +142,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                           <button
                             className="text-indigo-600 hover:text-indigo-800 focus:outline-none transition-all duration-300 text-lg"
                             onClick={() => {
-                              handleEditUpsell(index);
+                              handleEditUpsell(upsell.upSellId);
                             }}
                           >
                             <PencilSquareIcon className="w-5 h-5 text-blue-500" />
@@ -202,7 +197,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                                         Period
                                       </p>
                                       <p className="text-md font-bold text-black">
-                                        {upsell.period}
+                                        {upsell.timePeriod}
                                       </p>
                                     </div>
                                     <div className="mt-1">
@@ -210,7 +205,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                                         Active Properties
                                       </p>
                                       <p className="text-md font-bold text-black">
-                                        {upsell.activeProperties}
+                                        {upsell.guestName}
                                       </p>
                                     </div>
                                   </div>
@@ -228,7 +223,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                                         Availability
                                       </p>
                                       <p className="text-md font-bold text-black">
-                                        {upsell.availability}
+                                        {upsell.guestName}
                                       </p>
                                     </div>
                                     <div className="mt-1">
@@ -236,10 +231,10 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                                         Status
                                       </p>
                                       <Switch
-                                        checked={upsell.status === "ON"}
+                                        checked={upsell.status === 1}
                                         onChange={() => handleToggle(index)}
                                         className={`${
-                                          upsell.status === "ON"
+                                          upsell.status === 1
                                             ? "bg-green-500"
                                             : "bg-gray-400"
                                         } relative inline-flex h-6 w-12 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
@@ -250,23 +245,21 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                                         <span
                                           aria-hidden="true"
                                           className={`${
-                                            upsell.status === "ON"
+                                            upsell.status === 1
                                               ? "translate-x-6"
                                               : "translate-x-o"
                                           } pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
                                         />
                                         <span
                                           className={`absolute inset-0 flex items-center justify-between text-xs ${
-                                            upsell.status === "OFF"
+                                            upsell.status === 0
                                               ? "text-white"
                                               : "text-white"
                                           }`}
                                         >
                                           ON
                                           <span className="text-xs">
-                                            {upsell.status === "ON"
-                                              ? ""
-                                              : "OFF"}
+                                            {upsell.status === 1 ? "" : "OFF"}
                                           </span>
                                         </span>
                                       </Switch>

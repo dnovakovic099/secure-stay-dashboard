@@ -8,10 +8,11 @@ import { Toaster, toast } from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
 import { envConfig } from "@/utility/environment";
+import axios from "axios";
 
 const EditUpsell: React.FC = () => {
   const [upsellsData, setUpsellsData] = useState(null);
-  const [error, setError] = useState(null);
+  const [listingIds, setListingIds] = useState(["1", "2", "3"]);
 
   const [title, setTitle] = useState("");
   const [shortDescription, setShortDescription] = useState("");
@@ -27,15 +28,16 @@ const EditUpsell: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiUrl = `your-api-url/${upsell_id}`; // Replace with your API endpoint
+        const apiUrl = `${envConfig.backendUrl}/upsell/listing?upSellId=${upsell_id}`; // Replace with your API endpoint
         const params = {
-          // Define your fetch parameters (method, headers, etc.)
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         };
 
-        const result = await handleApiCallFetch(apiUrl, params);
-        toast.success("meesage is succesfull");
-        // Handle successful data fetch
-        // setUpsellsData(resuls);
+        const result: any = await handleApiCallFetch(apiUrl, params);
+        console.log(result);
       } catch (error) {
         toast.error("Error occured");
         // Handle error
@@ -61,43 +63,49 @@ const EditUpsell: React.FC = () => {
     setPeriod(selectedItem.id);
   };
 
-  const handlePutRequest = async (postData: any) => {
-    console.log(postData);
-
+  const handleUpdateRequest = async (postData: any) => {
     try {
-      const apiUrl = `${envConfig.backendUrl}`;
-      const response = await fetch(`${apiUrl}/editupsell`, {
-        method: "PUT",
+      const apiUrl = `${envConfig.backendUrl}/upsell/update`;
+
+      const response = await axios.put(apiUrl, postData, {
         headers: {
-          "Content-Type": "application/json",
-          // Add any additional headers if needed
+          "Content-Type": "multipart/form-data",
         },
-        body: JSON.stringify(postData),
       });
 
-      if (!response.ok) {
-        toast.error("Network response was not ok");
-        throw new Error("Network response was not ok");
+      // Handle the response here
+      if (response.status === 200) {
+        toast.success(`${response.data.message}`);
+        return;
       }
-
-      // Handle the successful response here
-      const responseData = await response.json();
-      toast.success("This is a success message!");
-      console.log("Response data:", responseData);
+      toast.error(`${response.data.message}`);
+      return;
     } catch (error: any) {
-      toast.error("Error making POST request:", error.message);
-      // Handle errors here
-      console.error("Error making POST request:", error.message);
+      toast.error(`${error.message}`);
+      // Handle the error here
+      console.error(error);
     }
   };
   const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("upSellId", "1");
+    formData.append("title", title);
+    formData.append("description", shortDescription);
+    formData.append("price", price);
+    formData.append("purchaseDate", "2080-04-10");
+    formData.append("checkIn", "2080-04-10");
+    formData.append("checkOut", "2080-04-10");
+    formData.append("guestName", "2080-04-10");
+    formData.append("timePeriod", "Always");
 
-    console.log(price, per, title, shortDescription, period);
-    console.log(selectedImage);
-    handlePutRequest({ price: price, per: per });
+    listingIds.forEach((listingId, index) => {
+      formData.append(`listingIds[${index}]`, listingId);
+    });
+
+    handleUpdateRequest(formData);
     // Add logic to handle form submission here
-    console.log("Form Submitted");
+    console.log("Form Updated");
   };
 
   const solutions = [
@@ -307,7 +315,7 @@ const EditUpsell: React.FC = () => {
             required
           />
         </div>
-        <div className="mb-2 col-span-full">
+        {/* <div className="mb-2 col-span-full">
           <label
             htmlFor="shortDescription"
             className="block text-gray-700  mb-2"
@@ -321,9 +329,22 @@ const EditUpsell: React.FC = () => {
               className="w-full"
             />
           </div>
+        </div> */}
+        <div className="mb-4 col-span-full">
+          <label htmlFor="title" className="block text-gray-700 mb-2">
+            Price<span className="text-red-700 px-1">*</span>
+          </label>
+          <input
+            type="number"
+            id="price"
+            className="border-2 border-gray rounded-md p-2 w-full focus:outline-none focus:ring focus:border-blue-300 transition duration-300"
+            placeholder="Price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            required
+          />
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 mb-2 col-span-full gap-5 ">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 mb-2 col-span-full gap-5 ">
           <div className="mb-2">
             <label
               htmlFor="shortDescription"
@@ -351,7 +372,7 @@ const EditUpsell: React.FC = () => {
             </label>
             <CommonDropdown menuItems={myPeriodItems} onClick={handlePeriod} />
           </div>
-        </div>
+        </div> */}
         <div className="flex items-center mb-10 col-span-full">
           <ChevronRightIcon className="w-6 h-6 text-blue-700" />
           <h6 className="text-blue-700 ml-2">More Settings</h6>
