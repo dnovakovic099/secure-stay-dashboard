@@ -1,5 +1,5 @@
 import CommonTabs from "@/components/commonTabs";
-import { MapPinIcon, UserIcon } from "@heroicons/react/20/solid";
+import { MapPinIcon, PlusIcon, UserIcon } from "@heroicons/react/20/solid";
 import { Switch } from "@headlessui/react";
 
 import Image from "next/image";
@@ -27,7 +27,6 @@ const tabs = [
 ];
 
 export default function HotelDetail({ selectedItem }: any) {
-  console.log(selectedItem, "selectedItem");
   const [enabled, setEnabled] = useState(true);
   const [initialTabValue, setInitialTabValue] = useState(tabs[0]);
   const [renderTabs, setRenderTabs] = useState(tabs.slice(0, 5));
@@ -36,22 +35,22 @@ export default function HotelDetail({ selectedItem }: any) {
   const [iconPosition, setIconPosition] = useState("right");
 
   useEffect(() => {
-  
-  }, [ renderTabs]);
+    console.log(selectedItem, "selectedItem");
+  }, [renderTabs]);
   useEffect(() => {
-  }, [ initialTabValue]);
+  }, [initialTabValue]);
 
   function DynamicContentUi() {
     return (
       <>
         <div className="md:flex md:items-center md:justify-between py-2">
           <div className="min-w-0 flex-1">
-            <div className="pt-1.5">
+            <div className="py-2">
               <h1 className="text-2xl font-bold text-gray-900">
                 {initialTabValue.name}
               </h1>
               <p className="text-sm font-medium text-gray-500">
-                Description,wifi &more
+                {initialTabValue.id == 5 ? '' : ' Description,wifi &more'}
               </p>
             </div>
           </div>
@@ -64,9 +63,9 @@ export default function HotelDetail({ selectedItem }: any) {
             </button>
             <button
               type="button"
-              className="ml-3 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900  shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 "
             >
-              Publish
+              English
             </button>
           </div>
         </div>
@@ -123,17 +122,18 @@ export default function HotelDetail({ selectedItem }: any) {
   const handleToggleChange = () => {
     setIsToggle(!isToggle); // Toggle the state
   };
+
   function boardPassToggle() {
     return (
-      <div className="flex my-2 mr-1">
+      <div className="flex mt-4 gap-2">
         <div className="text-xs text-red-500">
           This property is currently disabled & will not recive experiences &
-          guest boaring pass
+          guest boaring pass.
         </div>
         <Switch
           checked={isToggle}
           onChange={handleToggleChange}
-          className="group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+          className="group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none"
         >
           <span
             aria-hidden="true"
@@ -154,6 +154,7 @@ export default function HotelDetail({ selectedItem }: any) {
             )}
           />
         </Switch>
+
       </div>
     );
   }
@@ -166,7 +167,7 @@ export default function HotelDetail({ selectedItem }: any) {
             <Image
               src={selectedItem?.imageUrl}
               alt="Wooden shelf with gray and olive drab green baseball caps, next to wooden clothes hanger with sweaters."
-              className="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full"
+              className="object-cover object-center sm:absolute sm:inset-0 sm:h-full sm:w-full"
               width={500}
               height={500}
             />
@@ -176,8 +177,8 @@ export default function HotelDetail({ selectedItem }: any) {
               className="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"
             />
             <div className="flex items-end p-6 sm:absolute sm:inset-0">
-              <div>
-                <h3 className="font-semibold text-white">
+              <div className="flex flex-col gap-2">
+                <h3 className="font-semibold text-lg text-white">
                   <a href="#">
                     <span className="absolute inset-0" />
                     {selectedItem?.name}
@@ -185,30 +186,40 @@ export default function HotelDetail({ selectedItem }: any) {
                 </h3>
                 <div className="flex items-center">
                   <MapPinIcon
-                    className="block h-4 w-4 text-white hover:text-gray-500"
+                    className="block h-4 w-4 text-white"
                     aria-hidden="true"
                   />
                   <p
                     aria-hidden="true"
-                    className="mt-1 text-sm pl-2 text-white"
+                    className="mt-1 pl-2 text-white"
                   >
                     {selectedItem?.address}
                   </p>
                 </div>
-                <div className="mt-2 text-sm pl-2 text-white underline">
+                <div className="mt-1 underline text-orange-300">
                   {" "}
                   preview Boarding Pass
                 </div>
+                <div className="flex items-center">
+                  <p className="text-white mr-2 hover:text-gray-50 cursor-pointer">
+                    {" "}
+                    Click the plus to add a tag.
+                  </p>
+                  <PlusIcon
+                    className="h-5 w-5 text-white hover:text-gray-50 cursor-pointer"
+                    aria-hidden="true"
+                  />
+                </div>
                 <div className="flex items-center mt-2">
                   <UserIcon
-                    className="block h-5 w-5 text-white hover:text-gray-500"
+                    className="block h-5 w-5 text-white"
                     aria-hidden="true"
                   />
                   <p
                     aria-hidden="true"
-                    className="mt-1 text-sm pl-2 text-white"
+                    className="mt-1 pl-2 text-white"
                   >
-                    4
+                    {selectedItem?.guestsIncluded}
                   </p>
                 </div>
               </div>
@@ -226,8 +237,8 @@ export default function HotelDetail({ selectedItem }: any) {
                 <CommonTabs
                   tab={renderTabs}
                   onClick={handleTabClick}
-                  iconClick={renderNextTabs}
-                  iconPosition={iconPosition}
+                  // iconClick={renderNextTabs}
+                  // iconPosition={iconPosition}
                 />
                 {DynamicContentUi()}
                 {initialTabValue.id === 2 ? (

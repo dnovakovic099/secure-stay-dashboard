@@ -116,25 +116,33 @@ const ListingMain = () => {
     try {
       const apiUrl = `${envConfig.backendUrl}/listing/getlistings`;
       const response: any = await handleApiCallFetch(apiUrl, params);
-      console.log("response", response);
       if (response && response.success) {
-        console.log("response getlistings:", response.listings);
+        // console.log("response getlistings:", response.listings);
         formattResponse(response.listings);
+      }else{
+        console.log("error:",response);
       }
     } catch (error) {
       console.log(error)
     }
   }
+
   const formattResponse = (AllData: any) => {
     const formattedData = AllData.map((data: any) => ({
-      id: data && data.id ? data.id : "",
-      name: data.name ? data.name : '',
+      id: data && data.id ? data.id : '',
+      name: data && data.name ? data.name : '',
+      nickName: data && data.externalListingName ? data.externalListingName : '',
       address: data && data.address ? data.address : '',
-      nickName: data.name ? data.name : '',
-      bgColor: "bg-pink-600",
-      imageUrl: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      // imageUrl: data && data.images && data.images[0] && data.images[0].url ? data.images[0].url : '',
-
+      currencyCode: data && data.currencyCode ? data.currencyCode : '',
+      guestsIncluded: data && data.guestsIncluded ? data.guestsIncluded : '',
+      listingId: data && data.listingId ? data.listingId : '',
+      priceForExtraPerson: data && data.priceForExtraPerson ? data.priceForExtraPerson : '',
+      price: data && data.price ? data.price : '',
+      imageUrl: data && data.images && data.images[0] && data.images[0].url ? data.images[0].url : '',
+      images: data && data.images ? data.images : '',
+      propertyType:'Nil',
+      wifiName:"Nil",
+      wifiPassword:"Nil",
     }));
     setListdata(formattedData);
   };
@@ -248,7 +256,7 @@ const ListingMain = () => {
                 id="desktop-search-candidate"
                 className="w-full rounded-md border-0 py-1.5 pl-10 pr-10 text-sm leading-6 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:text-indigo-600"
                 placeholder="Search..."
-                // onChange={(e) => handleSearch(e.target.value)}
+              // onChange={(e) => handleSearch(e.target.value)}
               />
             </div>
           </div>
@@ -297,7 +305,7 @@ const ListingMain = () => {
                 "bg-indigo-600 pr-4 text-sm text-white",
                 "font-semibold py-1.5 px-2.5 border border-indigo-600 rounded items-center"
               )}
-              // onClick={() => handleButtonClick("create")}
+            // onClick={() => handleButtonClick("create")}
             >
               <PlusIcon
                 className="text-white mr-4 flex-shrink-0 h-6 w-6"
@@ -310,7 +318,7 @@ const ListingMain = () => {
       </div>
 
       {projects && (
-        <HotelListing projects={listdata} setSelectedItem={setSelectedItem} />
+        <HotelListing projects={listdata} setSelectedItem={setSelectedItem} selectedItem={selectedItem} />
       )}
       {selectedItem && <HotelDetail selectedItem={selectedItem} />}
     </div>
