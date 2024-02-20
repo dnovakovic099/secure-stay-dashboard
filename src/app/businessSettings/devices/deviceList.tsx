@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { envConfig } from '@/utility/environment'
 import Form from "./form";
 import CommonPopup from "@/components/commonPopup";
-import { Battery50Icon, Battery100Icon } from "@heroicons/react/20/solid";
+import { Battery50Icon, Battery100Icon, PlusIcon, LinkIcon } from "@heroicons/react/20/solid";
 
 const DeviceList = ({ children }: any) => {
 
@@ -47,7 +47,7 @@ const DeviceList = ({ children }: any) => {
   }, []);
 
   return (
-    <div className="h-[100%] w-[100%]">
+    <div className="h-[100%] w-[100%] bg-gray-300">
       <CommonPopup
         isOpen={showModal}
         onClose={() => setShowModal(false)}
@@ -57,27 +57,34 @@ const DeviceList = ({ children }: any) => {
         disableCloseIcon={false}
         heightwidth='100rem'
       />
-      <div className="flex flex-row gap-2 h-[100%] ">
+      <div className="flex flex-row gap-[0.05rem] h-[100%] ">
         {/* column 1 */}
-        <div className="flex-1 start-0 border-r border-gray-300 overflow-y-auto w-[1/2]">
+        <div className="flex-1 bg-gray-100 py-4 rounded-md w-[50%]">
           <div className="flex justify-between px-4">
-            <h2 className="text-xl font-bold text-blue-900">
+            <h2 className="text-xl font-bold text-indigo-700">
               Smart Home Devices
             </h2>
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={() => router.push('/businessSettings/addDevices')}
-                className="rounded-full bg-blue-900 px-2 py-1 text-xs  text-white shadow-sm hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-800"
+                className="rounded-full flex items-center bg-indigo-600 px-2 py-1 text-xs  text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-700"
               >
+                <PlusIcon
+                  className="text-white mr-[4px] flex-shrink-0 h-4 w-4"
+                  aria-hidden="true"
+                />
                 Add Devices
               </button>
               <button
                 type="button"
-                disabled={true}
-                className="rounded-full bg-blue-900 px-2 py-1 text-xs  text-white shadow-sm hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-800"
+                className="rounded-full flex items-center bg-indigo-600 px-2 py-1 text-xs  text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-700"
               >
-                Pair 5 Devices
+                <LinkIcon
+                  className="text-white mr-[4px] flex-shrink-0 h-4 w-4"
+                  aria-hidden="true"
+                />
+                Pair Devices
               </button>
             </div>
           </div>
@@ -89,6 +96,8 @@ const DeviceList = ({ children }: any) => {
                 onDeviceClick={(device_id) =>
                   router.push(`/businessSettings/devices/seam/${device_id}`)
                 }
+                className="w-[540px] h-auto"
+                disableSearch
               />
             </SeamProvider>
             <hr />
@@ -101,7 +110,7 @@ const DeviceList = ({ children }: any) => {
                     !isLoading ?
                       (
                         <>
-                          <span className="text-slate-400 mr-4">Sign to your sifely account</span>
+                          <span className="text-slate-400 mr-4">Sign in to your sifely account</span>
                           <span onClick={() => setShowModal(true)} className="text-blue-500 underline cursor-pointer">click here</span>
                         </>
                       ) : (
@@ -150,7 +159,7 @@ const DeviceList = ({ children }: any) => {
         </div>
 
         {/* column 2 - Device Details */}
-        <div className=" overflow-y-auto w-1/2">{children}</div>
+        <div className=" overflow-y-auto w-[50%]">{children}</div>
       </div>
     </div>
   );

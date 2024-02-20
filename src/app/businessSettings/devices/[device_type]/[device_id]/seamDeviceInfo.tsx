@@ -21,7 +21,7 @@ const SeamDeviceInfo = ({ device_id }: any) => {
     return (
         <div>
             <SeamProvider clientSessionToken={clientSessionToken}>
-                <DeviceDetails className="" disableResourceIds deviceId={device_id} />
+                <DeviceDetails className="w-auto h-auto" disableResourceIds deviceId={device_id}/>
             </SeamProvider>
         </div>
     )
