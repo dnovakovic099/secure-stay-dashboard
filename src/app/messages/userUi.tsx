@@ -29,9 +29,6 @@ const tabs: any[] = [
   { id: 2, name: "Priority", href: "#", count: "4", current: false },
 ];
 
-
-
-
 const people = [
   {
     name: "Leslie Alexander",
@@ -120,7 +117,7 @@ const UserUi = ({ setSelectedData }: any) => {
   function messageTabs() {
     return (
       <div>
-        <div className="hidden sm:block">
+        <div className="sm:w-full md:w-40  xl:w-56 lg:w-56 px-2">
           <div className="border-b border-gray-200">
             <nav className="-mb-px flex space-x-8" aria-label="Tabs">
               {usertab?.map((tab, index) => (
@@ -155,7 +152,7 @@ const UserUi = ({ setSelectedData }: any) => {
 
   function userSearchUi() {
     return (
-      <div className=" border-gray-600 sm:flex">
+      <div className="my-4 border-gray-600 sm:flex px-2">
         <div>
           <div className="flex rounded-md shadow-sm">
             <div className="relative flex-grow focus-within:z-10">
@@ -165,11 +162,11 @@ const UserUi = ({ setSelectedData }: any) => {
                   aria-hidden="true"
                 />
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-3 ">
+              <div className="absolute inset-y-0 right-0 flex items-center ">
                 <Menu as="div" className="relative flex-none">
                   <Menu.Button className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
                     <span className="sr-only">Open options</span>
-                    <BarsArrowDownIcon className="h-5 w-5" aria-hidden="true" />
+                    <BarsArrowDownIcon className="h-5 w-5 mr-2" aria-hidden="true" />
                   </Menu.Button>
                   <Transition
                     as={Fragment}
@@ -180,7 +177,7 @@ const UserUi = ({ setSelectedData }: any) => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className=" absolute w-52 right-0 z-10 mt-2 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                    <Menu.Items className=" absolute md:w-40 w-56 xl:w-56 lg:w-56 sm:w-36 px-2 right-0 z-10 mt-4 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
                           <a
@@ -216,8 +213,7 @@ const UserUi = ({ setSelectedData }: any) => {
                               "block px-3 py-1 text-sm leading-6 text-gray-900"
                             )}
                           >
-                                                        Cheking-Out-Today
-
+                            Cheking-Out-Today
                           </a>
                         )}
                       </Menu.Item>
@@ -242,7 +238,7 @@ const UserUi = ({ setSelectedData }: any) => {
                 type="text"
                 name="desktop-search-candidate"
                 id="desktop-search-candidate"
-                className="w-full rounded-md border-0 py-1.5 pl-10 pr-10 text-sm leading-6 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:text-indigo-600"
+                className="w-36 md:w-36 xl:w-56 lg:w-52  sm:w-80 rounded-md border-0 py-1.5 p-10  text-sm leading-6 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:text-indigo-600"
                 placeholder="Search..."
                 onChange={(e) => handleSearch(e.target.value)}
               />
@@ -256,11 +252,9 @@ const UserUi = ({ setSelectedData }: any) => {
   return (
     <>
       <div className="">
-        {/* <p className="flex font-semibold text-2xl text-left text-blue-500">
-          Messages
-        </p> */}
+       
         {messageTabs()}
-        <div className="my-4">{userSearchUi()}</div>
+        {userSearchUi()}
         {userList.length > 0 ? (
           <UserList setSelectedData={setSelectedData} userList={userList} />
         ) : (
