@@ -1,11 +1,12 @@
 "use client";
-import { DeviceDetails, SeamProvider } from "@seamapi/react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { envConfig } from "@/utility/environment";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";
+import SeamDeviceInfo from "./seamDeviceInfo";
+import SifelyDeviceInfo from "./sifelyDeviceInfo";
 
 interface listing {
   listingId: number,
@@ -29,21 +30,17 @@ interface image {
   sortOrder: number
 }
 
-const DeviceInfo = ({ device_id }: any) => {
-  const [clientSessionToken, setClientSessionToken] = useState("");
+interface DeviceInfo {
+  lockName: string,
+  modelNum: string
+}
+
+const DeviceInfo = ({ device_type, device_id }: any) => {
   const [listings, setListings] = useState([])
   const [showListings, setShowListings] = useState(false)
   const [selectedListing, setSelectedListing] = useState<listing | null>(null);
 
   const router = useRouter()
-
-  const getToken = async () => {
-    const apiUrl = `${envConfig.backendUrl}/device/getclientsessiontoken`
-    const res = await axios.get(apiUrl);
-    if (res.status == 200) {
-      setClientSessionToken(res.data.token);
-    }
-  };
 
   const getListings = async () => {
     const apiUrl = `${envConfig.backendUrl}/listing/getlistings`
@@ -68,7 +65,6 @@ const DeviceInfo = ({ device_id }: any) => {
   }
 
   useEffect(() => {
-    getToken();
     getListings();
   }, []);
 
@@ -96,9 +92,13 @@ const DeviceInfo = ({ device_id }: any) => {
       </div>
 
       <div>
-        <SeamProvider clientSessionToken={clientSessionToken}>
-          <DeviceDetails className="" disableResourceIds deviceId={device_id} />
-        </SeamProvider>
+        {
+          device_type == 'seam' && <SeamDeviceInfo device_id={device_id} />
+        }
+        {
+          device_type == 'sifely' && <SifelyDeviceInfo device_id={device_id} />
+        }
+
         <div onClick={() => setShowListings((prev) => !prev)} className="px-6 bg-slate-200 py-2 rounded-md cursor-pointer select-none flex justify-between">
           <p className="text-slate-500 font-medium text-sm">Listings</p>
           {showListings ?
