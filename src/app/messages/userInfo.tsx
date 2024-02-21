@@ -368,7 +368,7 @@ const UserInfo = ({ selectedData }: any) => {
                 onMouseEnter={() => setIsEmailHovered(true)}
                 onMouseLeave={() => setIsEmailHovered(false)}
               >
-                <div>no email</div>
+                <div className="text-sm">no email</div>
                 <div className={isEmailHovered ? "block" : "hidden"}>
                   <PencilIcon className="h-4 w-4 mx-2 " aria-hidden="true" />
                 </div>
@@ -424,7 +424,7 @@ const UserInfo = ({ selectedData }: any) => {
                 onMouseEnter={() => setIsPhoneHovered(true)}
                 onMouseLeave={() => setIsPhoneHovered(false)}
               >
-                <div>no phone</div>
+                <div className="text-sm">no phone</div>
                 <div className={isPhoneHovered ? "block" : "hidden"}>
                   <PencilIcon className="h-4 w-4 mx-2 " aria-hidden="true" />
                 </div>
@@ -516,9 +516,9 @@ const UserInfo = ({ selectedData }: any) => {
     return (
       <>
         <div className="relative mt-3  ">
-          {initialTabValue?.bookingType.map((item: any) => (
-            <>
-              <div key={item.id} className="relative mt-2">
+          {initialTabValue?.bookingType.map((item: any,index:any) => (
+            <div key={index}>
+              <div  className="relative mt-2">
                 <Image
                   className="aspect-[3/2]  h-52  w-full rounded-md object-cover"
                   src={item?.imageUrl}
@@ -562,7 +562,7 @@ const UserInfo = ({ selectedData }: any) => {
                   {boardingPass()}
                 </>
               )}
-            </>
+            </div>
           ))}
         </div>
       </>
@@ -574,7 +574,7 @@ const UserInfo = ({ selectedData }: any) => {
       <div>
         {product.details.map((detail, index) => (
           <div key={index}>
-            <Disclosure as="div" key={detail.name}>
+            <Disclosure as="div">
               {({ open }) => (
                 <>
                   <h3>
