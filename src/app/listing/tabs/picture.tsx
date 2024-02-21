@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 
 const Picture = ({ selectedItem }: any) => {
-  
+
   return (
     <div className='mt-4'>
       <div className="flex flex-col overflow-y-auto h-96">
@@ -10,7 +10,7 @@ const Picture = ({ selectedItem }: any) => {
         <div className="text-base font-semibold px-2">Main image</div>
         <div className="w-full p-2">
           <Image
-            src={selectedItem?.imageUrl}
+            src={selectedItem?.images[0]?.url}
             alt="Main images"
             className="object-cover object-center w-full h-64 rounded-md"
             width={400}

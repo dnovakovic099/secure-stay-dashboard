@@ -1,48 +1,48 @@
 import React from 'react'
 
 const Address = ({ selectedItem }: any) => {
-   const [streetAddress, city, state, zipCode] = selectedItem?.address.split(', ');
+
   return (
     <div className='flex mt-4 text-gray-900 w-full'>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 w-full">
         {/* Row 1 */}
         <div className="flex flex-col">
           <div className=" text-gray-600">Street</div>
-          <div className="text-gray-900">{streetAddress}</div>
+          <div className="text-gray-900">{selectedItem?.street}</div>
         </div>
         <div className="flex flex-col">
-          <div className=" text-gray-600">Apartment</div>
-          <div className="text-gray-900">Apt 4B</div>
+          <div className=" text-gray-600">City</div>
+          <div className="text-gray-900">{selectedItem?.city}</div>
         </div>
 
         {/* Row 2 */}
         <div className="flex flex-col">
-          <div className=" text-gray-600">City</div>
-          <div className="text-gray-900">{city}</div>
+          <div className=" text-gray-600">State</div>
+          <div className="text-gray-900">{selectedItem?.state}</div>
         </div>
         <div className="flex flex-col">
-          <div className=" text-gray-600">Region</div>
-          <div className="text-gray-900">Example Region</div>
+          <div className=" text-gray-600">Country</div>
+          <div className="text-gray-900">{selectedItem?.country}</div>
         </div>
 
         {/* Row 3 */}
         <div className="flex flex-col">
-          <div className=" text-gray-600">Country</div>
-          <div className="text-gray-900">Example Country</div>
+          <div className=" text-gray-600">CountryCode</div>
+          <div className="text-gray-900">{selectedItem?.countryCode}</div>
         </div>
         <div className="flex flex-col">
-          <div className=" text-gray-600">Zip</div>
-          <div className="text-gray-900">12345</div>
+          <div className=" text-gray-600">ZipCode</div>
+          <div className="text-gray-900">{selectedItem?.zipcode}</div>
         </div>
 
         {/* Row 4 */}
         <div className="flex flex-col">
           <div className=" text-gray-600">Latitude</div>
-          <div className="text-gray-900">40.7128° N</div>
+          <div className="text-gray-900">{selectedItem?.lat}</div>
         </div>
         <div className="flex flex-col">
           <div className=" text-gray-600">Longitude</div>
-          <div className="text-gray-900">74.0060° W</div>
+          <div className="text-gray-900">{selectedItem?.lng}</div>
         </div>
       </div>
     </div>
