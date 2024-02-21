@@ -44,18 +44,18 @@ function HotelListing({ projects, setSelectedItem, selectedItem }: any) {
             <div onClick={() => setSelectedItem(project)}
               className={classNames(
                 project.id == selectedItem?.id ? "border-blue-500 bg-slate-100" : "border-gray-200 bg-white",
-                "flex flex-1 items-start justify-between truncate rounded-md border-2"
+                "flex flex-1 items-start justify-between truncate rounded-md border-2 gap-3 px-3"
               )}>
 
               <Image
-                className="flex w-32 h-32 p-2 rounded-xl flex-shrink-0 items-center justify-center text-sm font-medium text-white object-cover"
-                src={project.imageUrl}
-                alt="hotel"
+                className="flex w-32 h-32 py-3 rounded-md flex-shrink-0 items-center justify-center text-sm font-medium text-white object-cover"
+                src={project?.images[0]?.url}
+                alt="images"
                 width={500}
                 height={500}
               />
 
-              <div className="flex-1 truncate px-2 py-4 text-sm">
+              <div className="flex-1 truncate py-4 text-sm">
                 <div className="font-medium text-gray-900 truncate pb-2 text-base">{project.name}</div>
                 <p className="text-gray-500 whitespace-normal text-sm">{project.address}</p>
               </div>

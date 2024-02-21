@@ -5,7 +5,7 @@ import { Switch } from "@headlessui/react";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import Policies from "./tabs/policies";
-import GenetalInfo from "./tabs/genetalInfo";
+import GeneralInfo from "./tabs/generalInfo";
 import Address from "./tabs/address";
 import CheckInandOut from "./tabs/check-in-out";
 import Device from "./tabs/device";
@@ -173,7 +173,7 @@ export default function HotelDetail({ selectedItem }: any) {
         <div className="col-span-4 mb-8">
           <div className="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg sm:aspect-none sm:relative sm:h-full">
             <Image
-              src={selectedItem?.imageUrl}
+              src={selectedItem?.images[0]?.url}
               alt="Wooden shelf with gray and olive drab green baseball caps, next to wooden clothes hanger with sweaters."
               className="object-cover object-center sm:absolute sm:inset-0 sm:h-full sm:w-full"
               width={500}
@@ -252,7 +252,7 @@ export default function HotelDetail({ selectedItem }: any) {
                 {initialTabValue.id === 2 ? (
                   <Address selectedItem={selectedItem} />
                 ) : initialTabValue.id === 3 ? (
-                  <CheckInandOut />
+                  <CheckInandOut selectedItem={selectedItem} />
                 ) : initialTabValue.id === 4 ? (
                   <GuideBook />
                 ) : initialTabValue.id === 5 ? (
@@ -262,12 +262,14 @@ export default function HotelDetail({ selectedItem }: any) {
                 ) : initialTabValue.id === 7 ? (
                   <Device />
                 ) : (
-                  <GenetalInfo selectedItem={selectedItem} />
+                  <GeneralInfo selectedItem={selectedItem} />
                 )}
               </div>
             ) : (
               <p className="flex justify-center items-center w-full h-80">
-                No automatted message...
+                <div className="flex w-full bg-gray-200 p-1 mt-2 text-gray-600 justify-center rounded-md">
+                  No automatted message...
+                </div>
               </p>
             )}
           </div>
