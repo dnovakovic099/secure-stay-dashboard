@@ -19,6 +19,7 @@ import {
   MDBIcon,
   MDBTextArea,
 } from "mdb-react-ui-kit";
+import Image from "next/image";
 
 const sampleJSON = {
   accountId: 10450,
@@ -103,7 +104,8 @@ const ChatLayout = ({ selectedData }: any) => {
     },
     {
       sender: "guest",
-      message: "Hi host! How can I help you?",
+      message:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates debitis inventore vero doloremque molestias quas, omnis fugit, sunt reiciendis explicabo ipsum officia odio nisi, rerum illo voluptatem! Possimus, ipsam officiis Quam voluptatum maxime, nisi, dolore enim quia debitis ut possimus maiores accusamus nobis. Pariatur est, distinctio minus nihil natus ipsam error fuga fugiat, facere quibusdam, officiis unde excepturi repudiandae facilis",
       timestamp: sampleJSON.date,
       type: "outgoing",
       profileUrl: sampleJSON.attachments[0].url,
@@ -142,30 +144,7 @@ const ChatLayout = ({ selectedData }: any) => {
   //   }, 1000); // Delay of 1 second for the response
   // };
 
-  const chatData = [
-    {
-      text: "Are you using sudo?",
-      position: "right",
-    },
-    {
-      text: "Run this command sudo chown -R `whoami` /.npm-global/ then install the package globally without using sudo",
-      position: "right",
-    },
-    {
-      text: "I get the same error on Arch Linux (also with sudo)",
-      position: "left",
-    },
-    {
-      text: "I also have this issue, Here is what I was doing until now: #1076",
-      position: "left",
-    },
-    {
-      text: "even i am facing",
-      position: "left",
-    },
-  ];
-
-  function formatTimeToAmPm(timestamp:any) {
+  function formatTimeToAmPm(timestamp: any) {
     const date = new Date(timestamp);
     const hours = date.getHours();
     const minutes = date.getMinutes();
@@ -200,6 +179,9 @@ const ChatLayout = ({ selectedData }: any) => {
                       id="messages"
                       className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
                     >
+                      <div className="flex items-center justify-center text-xs uppercase">
+                        Start the conversion at 12 am
+                      </div>
                       {chatMessages.map((chat, index) => (
                         <div
                           key={index}
@@ -234,14 +216,16 @@ const ChatLayout = ({ selectedData }: any) => {
                                 </div>
                               </div>
                             </div>
-                            <img
+                            <Image
                               src={
                                 chat.type === "outgoing"
                                   ? "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
                                   : "https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
                               }
                               alt="My profile"
-                              className="w-5 h-5  rounded-full"
+                              className="w-3 h-3  rounded-full"
+                              width={50}
+                              height={50}
                             />
                           </div>
                         </div>
