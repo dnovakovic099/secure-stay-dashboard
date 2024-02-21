@@ -118,34 +118,14 @@ const ListingMain = () => {
       const response: any = await handleApiCallFetch(apiUrl, params);
       if (response && response.success) {
         // console.log("response getlistings:", response.listings);
-        formattResponse(response.listings);
-      }else{
-        console.log("error:",response);
+        setListdata(response?.listings);
+      } else {
+        console.log("error:", response);
       }
     } catch (error) {
       console.log(error)
     }
   }
-
-  const formattResponse = (AllData: any) => {
-    const formattedData = AllData.map((data: any) => ({
-      id: data && data.id ? data.id : '',
-      name: data && data.name ? data.name : '',
-      nickName: data && data.externalListingName ? data.externalListingName : '',
-      address: data && data.address ? data.address : '',
-      currencyCode: data && data.currencyCode ? data.currencyCode : '',
-      guestsIncluded: data && data.guestsIncluded ? data.guestsIncluded : '',
-      listingId: data && data.listingId ? data.listingId : '',
-      priceForExtraPerson: data && data.priceForExtraPerson ? data.priceForExtraPerson : '',
-      price: data && data.price ? data.price : '',
-      imageUrl: data && data.images && data.images[0] && data.images[0].url ? data.images[0].url : '',
-      images: data && data.images ? data.images : '',
-      propertyType:'Nil',
-      wifiName:"Nil",
-      wifiPassword:"Nil",
-    }));
-    setListdata(formattedData);
-  };
 
   const syncHostawayListings = async () => {
     try {
