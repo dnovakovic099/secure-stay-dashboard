@@ -51,8 +51,6 @@ const DeviceList = ({ children }: any) => {
       <CommonPopup
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title="Login"
-        subtitle='sifely account'
         children={<Form closeModal={closeModal} />}
         disableCloseIcon={false}
         heightwidth='100rem'
