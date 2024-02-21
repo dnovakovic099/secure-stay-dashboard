@@ -211,12 +211,9 @@ const ChatLayout = ({ selectedData }: any) => {
                                 >
                                   {chat.message}
                                 </span>
-                                <div className="text-xs text-gray-400">
+                                <div className="text-xs text-gray-400 flex justify-between mt-1">
                                   {formatTimeToAmPm(chat.timestamp)}
-                                </div>
-                              </div>
-                            </div>
-                            <Image
+                                  <Image
                               src={
                                 chat.type === "outgoing"
                                   ? "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
@@ -227,6 +224,11 @@ const ChatLayout = ({ selectedData }: any) => {
                               width={50}
                               height={50}
                             />
+                                </div>
+                              </div>
+                           
+                            </div>
+                        
                           </div>
                         </div>
                       ))}

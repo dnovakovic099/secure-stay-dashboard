@@ -368,7 +368,7 @@ const UserInfo = ({ selectedData }: any) => {
                 onMouseEnter={() => setIsEmailHovered(true)}
                 onMouseLeave={() => setIsEmailHovered(false)}
               >
-                <div>no email</div>
+                <div className="text-sm">no email</div>
                 <div className={isEmailHovered ? "block" : "hidden"}>
                   <PencilIcon className="h-4 w-4 mx-2 " aria-hidden="true" />
                 </div>
@@ -424,7 +424,7 @@ const UserInfo = ({ selectedData }: any) => {
                 onMouseEnter={() => setIsPhoneHovered(true)}
                 onMouseLeave={() => setIsPhoneHovered(false)}
               >
-                <div>no phone</div>
+                <div className="text-sm">no phone</div>
                 <div className={isPhoneHovered ? "block" : "hidden"}>
                   <PencilIcon className="h-4 w-4 mx-2 " aria-hidden="true" />
                 </div>
