@@ -1,26 +1,23 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import CommonDropdown from "@/components/commonDropdown";
 import { Popover, Transition } from "@headlessui/react";
-import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import { TrashIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
 import { envConfig } from "@/utility/environment";
 import axios from "axios";
+import MoreSettings from "./moresettings";
+import { Property } from "./createUpsells";
 
 const EditUpsell: React.FC = () => {
-  const [upsellsData, setUpsellsData] = useState(null);
-  const [listingIds, setListingIds] = useState(["1", "2", "3"]);
-
+  const emptyProperties: Property[] = [];
   const [title, setTitle] = useState("");
   const [shortDescription, setShortDescription] = useState("");
-  const [pricingModel, setPricingModel] = useState<any>(null);
   const [price, setPrice] = useState<any>(null);
-  const [per, setPer] = useState<any>(null);
-  const [period, setPeriod] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [attachedProperties, setAttachedProperties] = useState(emptyProperties);
 
   const searchParams = useSearchParams();
   const upsell_id = searchParams.get("upsell_id");
@@ -28,7 +25,7 @@ const EditUpsell: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiUrl = `${envConfig.backendUrl}/upsell/listing?upSellId=${upsell_id}`; // Replace with your API endpoint
+        const apiUrl = `${envConfig.backendUrl}/upsell/:${upsell_id}`; // Replace with your API endpoint
         const params = {
           method: "GET",
           headers: {
@@ -37,30 +34,35 @@ const EditUpsell: React.FC = () => {
         };
 
         const result: any = await handleApiCallFetch(apiUrl, params);
-        console.log(result);
+
+        const responseData = result.data;
+
+        setTitle(responseData.title);
+        setShortDescription(responseData.description);
+        setPrice(responseData.price);
       } catch (error) {
         toast.error("Error occured");
         // Handle error
-        // setUpsellsData(error);
       }
     };
 
     if (upsell_id) {
       fetchData();
+      fetchAssociatedListing(upsell_id);
     }
   }, [upsell_id]);
 
-  const handlePricingModel = (selectedItem: any) => {
-    setPricingModel(selectedItem.id);
-  };
-  const handlePrice = (selectedItem: any) => {
-    setPrice(selectedItem.id);
-  };
-  const handlePer = (selectedItem: any) => {
-    setPer(selectedItem.id);
-  };
-  const handlePeriod = (selectedItem: any) => {
-    setPeriod(selectedItem.id);
+  const fetchAssociatedListing = async (id: string) => {
+    const apiUrl = `${envConfig.backendUrl}/upsell/listing?upSellId=${id}`;
+    const params = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const result: any = await handleApiCallFetch(apiUrl, params);
+    setAttachedProperties(result.data);
   };
 
   const handleUpdateRequest = async (postData: any) => {
@@ -76,6 +78,11 @@ const EditUpsell: React.FC = () => {
       // Handle the response here
       if (response.status === 200) {
         toast.success(`${response.data.message}`);
+        setTitle("");
+        setShortDescription("");
+        setPrice("");
+        setAttachedProperties(emptyProperties);
+        setSelectedImage(null);
         return;
       }
       toast.error(`${response.data.message}`);
@@ -89,18 +96,15 @@ const EditUpsell: React.FC = () => {
   const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("upSellId", "1");
+    formData.append("upSellId", upsell_id!);
     formData.append("title", title);
     formData.append("description", shortDescription);
     formData.append("price", price);
-    formData.append("purchaseDate", "2080-04-10");
-    formData.append("checkIn", "2080-04-10");
-    formData.append("checkOut", "2080-04-10");
-    formData.append("guestName", "2080-04-10");
-    formData.append("timePeriod", "Always");
 
-    listingIds.forEach((listingId, index) => {
-      formData.append(`listingIds[${index}]`, listingId);
+    attachedProperties.forEach((property, index) => {
+      if (property.status == 1) {
+        formData.append(`listingIds[${index}]`, property.listingId.toString());
+      }
     });
 
     handleUpdateRequest(formData);
@@ -108,28 +112,37 @@ const EditUpsell: React.FC = () => {
     console.log("Form Updated");
   };
 
+  const handleRequest = async (method: string, uri: string, data?: any) => {
+    try {
+      const apiUrl = `${envConfig.backendUrl}/${uri}`;
+      const response = await axios({
+        method,
+        url: apiUrl,
+        data,
+        headers: {
+          "Content-Type": "application/form-data",
+        },
+      });
+
+      // Handle the successful response here
+      toast.success(response.data.message);
+    } catch (error: any) {
+      toast.error(error.message);
+      // Handle errors here
+      console.error("Error making request:", error.message);
+    }
+  };
+  const handleDelete = () => {
+    handleRequest("DELETE", `upsell/delete?upSellId=${upsell_id}`, {});
+  };
   const solutions = [
     {
       name: "Delete",
-      icon: IconOne,
+      icon: TrashIcon,
+      onclick: handleDelete,
     },
   ];
-  const myMenuItems = [
-    { id: 1, item: "Standard Pricing" },
-    { id: 2, item: "Based on number of nights" },
-    { id: 3, item: "Based on Booking open" },
-  ];
 
-  const myPerItems = [
-    { id: 1, item: "Guest" },
-    { id: 2, item: "item" },
-    { id: 3, item: "Adult" },
-  ];
-
-  const myPeriodItems = [
-    { id: 1, item: "One Time" },
-    { id: 2, item: "Daily" },
-  ];
   const handleImageUpload = (e: any) => {
     const file = e.target.files[0];
     if (file && file.size <= 2048 * 1024) {
@@ -201,21 +214,24 @@ const EditUpsell: React.FC = () => {
                     <Popover.Panel className="absolute right-1 z-20 mt-2 w-screen max-w-sm translate-x-1 transform px-4 sm:px-0 lg:max-w-1sm">
                       <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
                         <div className="relative grid gap-1 bg-white p-2 lg:grid-cols-1">
-                          {solutions.map((item) => (
-                            <a
+                          {solutions?.map((item) => (
+                            <button
                               key={item.name}
-                              //   href={item.href}
+                              onClick={handleDelete}
                               className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
                             >
                               <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
-                                <item.icon aria-hidden="true" />
+                                <item.icon
+                                  aria-hidden="true"
+                                  className="w-8 h-8 text-red-700"
+                                />
                               </div>
                               <div className="ml-2">
                                 <p className="text-sm font-medium text-gray-900">
                                   {item.name}
                                 </p>
                               </div>
-                            </a>
+                            </button>
                           ))}
                         </div>
                       </div>
@@ -373,9 +389,11 @@ const EditUpsell: React.FC = () => {
             <CommonDropdown menuItems={myPeriodItems} onClick={handlePeriod} />
           </div>
         </div> */}
-        <div className="flex items-center mb-10 col-span-full">
-          <ChevronRightIcon className="w-6 h-6 text-blue-700" />
-          <h6 className="text-blue-700 ml-2">More Settings</h6>
+        <div className="container mx-auto p-4">
+          <MoreSettings
+            attachedProperties={attachedProperties}
+            setAttachedProperties={setAttachedProperties}
+          />
         </div>
         {/* Other form fields and components go here */}
       </div>
@@ -391,37 +409,5 @@ const EditUpsell: React.FC = () => {
     </div>
   );
 };
-function IconOne() {
-  return (
-    <svg
-      width="25"
-      height="25"
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect width="48" height="48" rx="8" fill="#FFEDD5" />
-      <path
-        d="M24 11L35.2583 17.5V30.5L24 37L12.7417 30.5V17.5L24 11Z"
-        stroke="#FB923C"
-        strokeWidth="2"
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M16.7417 19.8094V28.1906L24 32.3812L31.2584 28.1906V19.8094L24 15.6188L16.7417 19.8094Z"
-        stroke="#FDBA74"
-        strokeWidth="2"
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M20.7417 22.1196V25.882L24 27.7632L27.2584 25.882V22.1196L24 20.2384L20.7417 22.1196Z"
-        stroke="#FDBA74"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
 
 export default EditUpsell;

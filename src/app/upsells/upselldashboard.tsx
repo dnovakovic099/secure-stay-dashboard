@@ -10,27 +10,24 @@ import {
   ArrowRightIcon,
   ChevronDownIcon,
   QuestionMarkCircleIcon,
+  TrashIcon,
+  LinkIcon,
+  XCircleIcon,
 } from "@heroicons/react/20/solid";
 import axios from "axios";
-import ManageUpsell from "./manageupsell";
-import UpsellOrder from "./upsellorder";
+import ManageUpsell from "./upsellstabdata/manageupsell";
+import UpsellOrder from "./upsellstabdata/upsellorder";
 import Pagination from "@/components/commonPagination";
-import { CheckmarkIcon, Toaster, toast } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import CommonPopup from "@/components/commonPopup";
 import { envConfig } from "@/utility/environment";
-import { title } from "process";
 
 export interface Upsell {
-  checkIn: string;
-  checkOut: string;
+  availability: string;
   description: string;
-  guestName: string;
   image: string | null;
-  isApprovalRequired: number;
-  isUpSellMandatory: number;
+  isActive: boolean;
   price: string;
-  pricingModel: string;
-  purchaseDate: string;
   status: number;
   timePeriod: string;
   title: string;
@@ -38,7 +35,7 @@ export interface Upsell {
 }
 
 const UpsellDashboard: React.FC = () => {
-  const [totalData, setTotalData] = useState(100);
+  const [totalData, setTotalData] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(totalData / limit);
@@ -47,6 +44,7 @@ const UpsellDashboard: React.FC = () => {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [upsells, setUpsells] = useState<Upsell[]>([]);
   const [title, setTitle] = useState("");
+  const [activeTab, setActiveTab] = useState("manageUpsells");
 
   useEffect(() => {
     fetchData(currentPage, limit, title);
@@ -71,7 +69,8 @@ const UpsellDashboard: React.FC = () => {
 
   useEffect(() => {
     if (totalData > 10) {
-      setTotalPages(totalData / limit);
+      setTotalPages(Math.ceil(totalData / limit));
+
     }
   }, [totalData]);
 
@@ -91,9 +90,8 @@ const UpsellDashboard: React.FC = () => {
 
       const result: any = await handleApiCallFetch(apiUrl, params);
       // Handle successful data fetch
-
-      setUpsells(result[0]);
-      setTotalData(result[1]);
+      setUpsells(result.data);
+      setTotalData(result.length);
     } catch (error) {
       toast.error("Error occured");
       // Handle error
@@ -120,11 +118,9 @@ const UpsellDashboard: React.FC = () => {
           "Content-Type": "application/json",
         },
       });
-
+      fetchData(currentPage, limit, title);
       // Handle the successful response here
       toast.success(response.data.message);
-      const responseData = response.data;
-      console.log("Response data:", responseData);
     } catch (error: any) {
       toast.error(error.message);
       // Handle errors here
@@ -137,7 +133,9 @@ const UpsellDashboard: React.FC = () => {
       toast.error("Please selcect data first");
       return;
     }
-    handleRequest("DELETE", `upsell/delete?upSellId=${selectedRows}`, {});
+    handleRequest("POST", `upsell/delete-multiple`, {
+      upSellIds: selectedRows,
+    });
   };
 
   const handleActivate = () => {
@@ -145,8 +143,10 @@ const UpsellDashboard: React.FC = () => {
       toast.error("Please select data first");
       return;
     }
-    handleRequest("PUT", "activated api", { id: selectedRows });
-    console.log("Delete is clicked");
+    handleRequest("PUT", "upsell/update-multiple-status", {
+      upSellId: selectedRows,
+      status: 1,
+    });
   };
 
   const handleDeactivate = () => {
@@ -155,29 +155,29 @@ const UpsellDashboard: React.FC = () => {
       toast.error("Please selcect data first");
       return;
     }
-    handleRequest("PUT", "deactivate api", { id: selectedRows });
-    console.log("Delete is clicked");
+    handleRequest("PUT", "upsell/update-multiple-status", {
+      upSellId: selectedRows,
+      status: 0,
+    });
   };
 
   const solutions = [
     {
       name: "Delete Upsell",
-      icon: IconOne,
+      icon: TrashIcon,
       onclick: handleDelete,
     },
     {
       name: "Activate Upsell",
-      icon: IconOne,
+      icon: LinkIcon,
       onclick: handleActivate,
     },
     {
       name: "Deactivate Upsell",
-      icon: IconOne,
+      icon: XCircleIcon,
       onclick: handleDeactivate,
     },
   ];
-
-  const [activeTab, setActiveTab] = useState("manageUpsells");
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -187,7 +187,6 @@ const UpsellDashboard: React.FC = () => {
     setSelectAll(!selectAll);
     const allRows = upsells.map((upsell, index) => upsell.upSellId);
     setSelectedRows(selectAll ? [] : allRows);
-    console.log(selectedRows);
   };
 
   const handleRowCheckboxChange = (index: number) => {
@@ -201,13 +200,26 @@ const UpsellDashboard: React.FC = () => {
     }
 
     setSelectedRows(newSelectedRows);
-    console.log(selectedRows);
   };
 
   const handleToggle = (index: number) => {
+    let upsellStatus;
     const updatedUpsells = [...upsells];
-    updatedUpsells[index].status = updatedUpsells[index].status === 1 ? 0 : 1;
+    updatedUpsells.map((upsell, i) => {
+      if (upsell.upSellId === index) {
+        upsell.status = upsell.status === 1 ? 0 : 1;
+        upsellStatus = upsell.status;
+      }
+    });
+
+    console.log(updatedUpsells);
+
+    // updatedUpsells[index].status = updatedUpsells[index].status === 1 ? 0 : 1;
     setUpsells(updatedUpsells);
+    handleRequest("PUT", "upsell/update-multiple-status", {
+      upSellId: [index],
+      status: upsellStatus,
+    });
   };
 
   const renderTabContent = () => {
@@ -228,38 +240,6 @@ const UpsellDashboard: React.FC = () => {
     return null;
   };
 
-  function IconOne() {
-    return (
-      <svg
-        width="25"
-        height="25"
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect width="48" height="48" rx="8" fill="#FFEDD5" />
-        <path
-          d="M24 11L35.2583 17.5V30.5L24 37L12.7417 30.5V17.5L24 11Z"
-          stroke="#FB923C"
-          strokeWidth="2"
-        />
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M16.7417 19.8094V28.1906L24 32.3812L31.2584 28.1906V19.8094L24 15.6188L16.7417 19.8094Z"
-          stroke="#FDBA74"
-          strokeWidth="2"
-        />
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M20.7417 22.1196V25.882L24 27.7632L27.2584 25.882V22.1196L24 20.2384L20.7417 22.1196Z"
-          stroke="#FDBA74"
-          strokeWidth="2"
-        />
-      </svg>
-    );
-  }
   return (
     <div className="flex flex-col justify-center p-10 h-[100%] rounded-md ml-auto mr-auto bg-gray-100">
       <Toaster position="top-center" reverseOrder={false} />
@@ -313,9 +293,9 @@ const UpsellDashboard: React.FC = () => {
                     onChange={(e) => setLimit(parseInt(e.target.value, 10))}
                   >
                     <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="100">100</option>
-                    <option value="500">500</option>
+                    <option value="20">25</option>
+                    <option value="100">50</option>
+                    <option value="500">100</option>
                   </select>
                   <ChevronDownIcon className="w-5 h-5 text-gray-500 absolute top-1/2 right-3 transform -translate-y-1/2" />
                 </label>
@@ -363,7 +343,10 @@ const UpsellDashboard: React.FC = () => {
                                       onClick={item.onclick}
                                     >
                                       <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
-                                        <item.icon aria-hidden="true" />
+                                        <item.icon
+                                          aria-hidden="true"
+                                          className="w-8 h-8 text-red-700"
+                                        />
                                       </div>
                                       <div className="ml-2">
                                         <p className="text-sm font-medium text-gray-900">

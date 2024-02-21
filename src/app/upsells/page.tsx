@@ -8,8 +8,8 @@ import UpsellDashboard from "./upselldashboard";
 const Upsells = () => {
   return (
     <SideBarMain>
-      <div className="flex min-h-screen bg-gray-100">
-        <div className="flex-grow ml-auto mr-auto">
+      <div className="flex items-center justify-center bg-gray-100 min-h-screen">
+        <div className="min-h-screen min-w-full ">
           <UpsellDashboard />
         </div>
       </div>

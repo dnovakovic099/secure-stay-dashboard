@@ -59,7 +59,7 @@ const Pagination: React.FC<PaginationProps> = ({
         <ChevronLeftIcon className="w-5 h-5" />
       </button>
 
-      {visiblePageNumbers.map((pageNumber, index) => (
+      {visiblePageNumbers?.map((pageNumber, index) => (
         <button
           key={index}
           onClick={() => handlePageChange(pageNumber)}

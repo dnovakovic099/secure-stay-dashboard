@@ -64,7 +64,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({ children }) => {
 
                     <div className='flex flex-col h-[100%] w-full'>
                         {children &&
-                            <main className='h-[100%] bg-gray-100 rounded-md'>
+                            <main className='h-[100%] bg-gray-100 overflow-y-scroll  rounded-md'>
                                 <div className="h-[100%]">
                                     {children}
                                 </div>

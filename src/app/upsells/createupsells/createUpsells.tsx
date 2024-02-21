@@ -1,18 +1,31 @@
 "use client";
 import React, { useState } from "react";
-import { ChevronRightIcon } from "@heroicons/react/20/solid";
-import CommonDropdown from "@/components/commonDropdown";
+
 import { Toaster, toast } from "react-hot-toast";
 import { CameraIcon } from "@heroicons/react/20/solid";
 import { envConfig } from "@/utility/environment";
 import axios from "axios";
+import MoreSettings from "./moresettings";
+
+export interface Property {
+  listingId: number;
+  id: number;
+  name: string;
+  externalListingName: string;
+  address: string;
+  price: number;
+  guestsIncluded: number;
+  priceForExtraPerson: number;
+  currencyCode: string;
+  status: number;
+}
 
 const CreateUpsell: React.FC = () => {
+  const emptyProperties: Property[] = [];
   const [title, setTitle] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [listingIds, setListingIds] = useState(["1", "2", "3"]);
-
+  const [attachedProperties, setAttachedProperties] = useState(emptyProperties);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handlePostRequest = async (postData: any) => {
@@ -28,6 +41,12 @@ const CreateUpsell: React.FC = () => {
       // Handle the response here
       if (response.status === 200) {
         toast.success(`${response.data.message}`);
+        setTitle("");
+        setShortDescription("");
+        setPrice("");
+        setAttachedProperties(emptyProperties);
+        setSelectedImage(null);
+        location.reload();
         return;
       }
       toast.error(`${response.data.message}`);
@@ -46,17 +65,12 @@ const CreateUpsell: React.FC = () => {
     formData.append("title", title);
     formData.append("description", shortDescription);
     formData.append("price", price);
-    formData.append("purchaseDate", "2080-04-10");
-    formData.append("checkIn", "2080-04-10");
-    formData.append("checkOut", "2080-04-10");
-    formData.append("guestName", "2080-04-10");
-    formData.append("timePeriod", "Always");
-
-    listingIds.forEach((listingId, index) => {
-      formData.append(`listingIds[${index}]`, listingId);
+    attachedProperties.forEach((property, index) => {
+      if (property.status == 1) {
+        formData.append(`listingIds[${index}]`, property.listingId.toString());
+      }
     });
     handlePostRequest(formData);
-    console.log("Form Submitted");
   };
 
   const handleImageUpload = (e: any) => {
@@ -193,7 +207,12 @@ const CreateUpsell: React.FC = () => {
             required
           />
         </div>
-
+        <div className="container mx-auto p-4">
+          <MoreSettings
+            attachedProperties={attachedProperties}
+            setAttachedProperties={setAttachedProperties}
+          />
+        </div>
         {/* <div className="mb-2 col-span-full">
           <label
             htmlFor="shortDescription"
