@@ -20,6 +20,11 @@ import {
   MDBTextArea,
 } from "mdb-react-ui-kit";
 import Image from "next/image";
+import { BellIcon } from "@heroicons/react/24/outline";
+
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(" ");
+}
 
 const sampleJSON = {
   accountId: 10450,
@@ -88,16 +93,30 @@ const ChatLayout = ({ selectedData }: any) => {
   ]);
 
   const chatMessages = [
+    // {
+    //   sender: "host",
+    //   message: sampleJSON.body,
+    //   timestamp: sampleJSON.date,
+    //   type: "incomeing",
+    //   profileUrl: sampleJSON.attachments[0].url,
+    // },
     {
       sender: "host",
-      message: sampleJSON.body,
+      // message: sampleJSON.body,
+      message:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates debitis inventore vero doloremque molestias quas, omnis fugit, sunt reiciendis explicabo ipsum officia odio nisi, rerum illo voluptatem! Possimus, ipsam officiis Quam voluptatum maxime, nisi, dolore enim quia debitis ut possimus maiores accusamus nobis. Pariatur est, distinctio minus nihil natus ipsam error fuga fugiat, facere quibusdam, officiis unde excepturi repudiandae facilis",
+      notification:
+        "new inquiry for Nov 22 to 24 at # Largest Tampa Private Component.11BR Sleeps 40+. Heated Pool/Spa.Gym",
       timestamp: sampleJSON.date,
       type: "incomeing",
       profileUrl: sampleJSON.attachments[0].url,
     },
     {
       sender: "host",
-      message: sampleJSON.body,
+      // message: sampleJSON.body,
+      message:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates debitis inventore vero doloremque molestias quas, omnis fugit, sunt reiciendis explicabo ipsum officia odio nisi, rerum illo voluptatem! Possimus, ipsam officiis Quam voluptatum maxime, nisi, dolore enim quia debitis ut possimus maiores accusamus nobis. Pariatur est, distinctio minus nihil natus ipsam error fuga fugiat, facere quibusdam, officiis unde excepturi repudiandae facilis",
+      notification: "new inquiry for Nov 22 to 24 at # Largest Tampa Private",
       timestamp: sampleJSON.date,
       type: "incomeing",
       profileUrl: sampleJSON.attachments[0].url,
@@ -155,7 +174,7 @@ const ChatLayout = ({ selectedData }: any) => {
   }
 
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col w-full">
       <div className="flex-1">
         {/* <MinChatUiProvider theme="#6ea9d7" colorSet={customColorSet}>
           <MainContainer>
@@ -172,63 +191,88 @@ const ChatLayout = ({ selectedData }: any) => {
         <MDBContainer className="py-5 ">
           <MDBRow className="d-flex justify-content-center ">
             <MDBCol md="8" lg="6" xl="4">
-              <MDBCard id="chat1" style={{ borderRadius: "15px" }}>
+              <MDBCard id="chat1">
                 <MDBCardBody>
                   <div className="flex-1  justify-between flex flex-col h-90vh">
-                    <div
-                      id="messages"
-                      className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
-                    >
-                      <div className="flex items-center justify-center text-xs uppercase">
-                        Start the conversion at 12 am
+                    <div id="messages" className="flex flex-col space-y-4  ">
+                      <div className="flex items-center justify-center text-xs text-gray-400 uppercase ">
+                        Start of conversion
                       </div>
-                      {chatMessages.map((chat, index) => (
+                      <div className="flex items-center justify-center text-xs text-gray-400 uppercase ">
+                        12 Feb
+                      </div>
+
+                      {selectedData.message.map((chat:any, index:any) => (
                         <div
                           key={index}
-                          className={`chat-message ${
-                            chat.type === "outgoing" ? "" : "justify-end"
+                          className={`chat-message  ${
+                            chat?.type === "outgoing" ? "" : "justify-end"
                           }`}
                         >
+                          {chat?.notification && (
+                            <div className="flex items-center text-xs text-gray-400 m-2">
+                              <div className="flex items-start">
+                                <BellIcon
+                                  className="h-4 w-4 mx-2 "
+                                  aria-hidden="true"
+                                />
+                                <div className="whitespace-wrap  items-center">
+                                  {chat?.notification}
+                                </div>
+                              </div>
+                            </div>
+                          )}
                           <div
                             className={`flex items-end ${
-                              chat.type === "outgoing" ? "" : "justify-end"
+                              chat?.type === "outgoing" ? "" : "justify-end"
                             }`}
                           >
                             <div
-                              className={`flex flex-col space-y-2 text-xs max-w-xs mx-2 ${
-                                chat.type === "outgoing"
-                                  ? "order-2 items-start"
-                                  : "order-1 items-end"
+                              className={`flex flex-col space-y-2 text-xs max-w-xs justify-between ${
+                                chat?.type === "outgoing"
+                                  ? "order-2 items-start ml-4"
+                                  : "order-1 items-end mr-4 "
                               }`}
                             >
-                              <div>
+                              <div
+                                className={classNames(
+                                  chat?.type === "outgoing"
+                                    ? "flex-row-reverse justify-between items-start "
+                                    : "flex justify-between items-end ",
+                                  "flex justify-between items-end"
+                                )}
+                              >
                                 <span
                                   className={`px-4 py-2 rounded-lg inline-block ${
-                                    chat.type === "outgoing"
-                                      ? "bg-gray-300 text-gray-600"
-                                      : "bg-blue-600 text-white"
+                                    chat?.type === "outgoing"
+                                      ? "bg-gray-600 text-white max-w-60 bubble left"
+                                      : "bg-gray-300 text-gray-600 max-w-60 rounded-r-lg bubble right"
                                   }`}
                                 >
-                                  {chat.message}
+                                  {chat?.content}
                                 </span>
-                                <div className="text-xs text-gray-400 flex justify-between mt-1">
-                                  {formatTimeToAmPm(chat.timestamp)}
-                                  <Image
-                              src={
-                                chat.type === "outgoing"
-                                  ? "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                                  : "https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                              }
-                              alt="My profile"
-                              className="w-3 h-3  rounded-full"
-                              width={50}
-                              height={50}
-                            />
-                                </div>
+
+                                <Image
+                                  // src={
+                                  //   chat.type === "outgoing"
+                                  //     ? "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                                  //     : "https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                                  // }
+                                  src={
+                                    "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                                  }
+                                  alt="My profile"
+                                  className={classNames(
+                                    "w-5 h-5  rounded-full"
+                                  )}
+                                  width={50}
+                                  height={50}
+                                />
                               </div>
-                           
+                              <div className="text-gray-400 ">
+                                {formatTimeToAmPm(chat?.timestamp)}
+                              </div>
                             </div>
-                        
                           </div>
                         </div>
                       ))}
@@ -240,12 +284,6 @@ const ChatLayout = ({ selectedData }: any) => {
           </MDBRow>
         </MDBContainer>
       </div>
-
-      {/* <MessageInput
-        showSendButton={true}
-        placeholder="Type message here"
-        onSendMessage={handleSendMessage}
-      /> */}
     </div>
   );
 };

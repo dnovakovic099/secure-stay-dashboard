@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/24/outline";
 import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
-import { Listbox, Transition } from "@headlessui/react";
+import { Listbox, Transition, Menu } from "@headlessui/react";
 import CommonDropdown from "@/components/commonDropdown";
 import CommonTabs from "@/components/commonTabs";
 import {
@@ -16,18 +16,21 @@ import {
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { Disclosure } from "@headlessui/react";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 const menuItems = [
-  { id: 1, item: "Unknown" },
-  { id: 2, item: "Unstatisfied" },
-  { id: 3, item: "Somewhat statisfied" },
-  { id: 4, item: "Nuetral" },
-  { id: 5, item: "Statisfied" },
-  { id: 6, item: "Highly statisfied" },
+  { id: 1, item: "Unknown", color: "gray-900" },
+  { id: 2, item: "Unsatisfied", color: "red-500" },
+  { id: 3, item: "Somewhat satisfied", color: "yellow-400" },
+  { id: 4, item: "Neutral", color: "purple-400" },
+  { id: 5, item: "Satisfied", color: "indigo-600" },
+  { id: 6, item: "Highly satisfied", color: "green-500" },
 ];
+
 const languages = [
   { id: 1, item: "English" },
   { id: 2, item: "Spanish" },
@@ -122,8 +125,10 @@ const UserInfo = ({ selectedData }: any) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [addtag, setAddtag] = useState("");
+  const [selectedField, setSelectedField] = useState(null);
+  const [selectedColor, setSelectedColor] = useState("");
 
-  useEffect(() => {}, [initialTabValue, menuItemsArray]);
+  useEffect(() => {}, [selectedField,initialTabValue, menuItemsArray,selectedColor]);
 
   const handleItemClick = (item: any) => {
     console.log("Selected item:", item);
@@ -298,7 +303,10 @@ const UserInfo = ({ selectedData }: any) => {
   const handleAddTagFunction = (value: any) => {
     setAddtag(value);
 
-    setMenuItemsArray([...menuItemsArray, { id: 10, item: value.split() }]);
+    setMenuItemsArray([
+      ...menuItemsArray,
+      { id: 10, item: value.split(), color: "text-gray-900" },
+    ]);
   };
 
   function AddNewTag() {
@@ -376,12 +384,12 @@ const UserInfo = ({ selectedData }: any) => {
             </div>
           ) : (
             <div>
-              <div className="mt-2">
+              <div className=" py-4 rounded-md bg-gray-200 flex justify-center">
                 <input
                   type="text"
                   name="email"
                   id="email"
-                  className="block w-full pl-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-10/12 pl-4  rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -432,23 +440,13 @@ const UserInfo = ({ selectedData }: any) => {
             </div>
           ) : (
             <div>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="phone"
-                  id="phone"
-                  className="block w-full pl-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  placeholder="123456789"
-                  value={phone}
-                  onChange={(e) => {
-                    const inputValue = e.target.value;
-                    const numericValue = inputValue.replace(/[^0-9]/g, "");
-                    setPhone(numericValue);
-                  }}
-                  // onChange={(e) => setPhone(e.target.value)}
-                />
-              </div>
-
+              <PhoneInput
+                defaultCountry="ua"
+                value={phone}
+                onChange={(phone) => setPhone(phone)}
+                className="ml-2 py-4 px-4 bg-gray-200 text-gray-900 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+              />
+              <div className="m-2">
               <button
                 onClick={() => {
                   handlePhone();
@@ -465,6 +463,7 @@ const UserInfo = ({ selectedData }: any) => {
               >
                 Cancel
               </button>
+              </div>
             </div>
           )}
         </div>
@@ -510,15 +509,13 @@ const UserInfo = ({ selectedData }: any) => {
     );
   }
 
- 
-
   function comfirmedDetails() {
     return (
       <>
         <div className="relative mt-3  ">
-          {initialTabValue?.bookingType.map((item: any,index:any) => (
+          {initialTabValue?.bookingType.map((item: any, index: any) => (
             <div key={index}>
-              <div  className="relative mt-2">
+              <div className="relative mt-2">
                 <Image
                   className="aspect-[3/2]  h-52  w-full rounded-md object-cover"
                   src={item?.imageUrl}
@@ -733,13 +730,81 @@ const UserInfo = ({ selectedData }: any) => {
     );
   }
 
+  const handleClick = (menuItem: any) => {
+    setSelectedField(menuItem.item);
+    setSelectedColor(menuItem.color);
+  };
+  function userReviewDropDown() {
+    return (
+      <div className="inline-flex rounded-md shadow-sm">
+        <button
+          type="button"
+          // className=" relative inline-flex items-center rounded-l-full w-44 truncate bg-white px-3 py-2 text-sm  text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+          className={classNames(
+            "relative inline-flex items-center rounded-l-full w-44 truncate bg-white px-3 py-2 text-sm focus:z-10",
+            selectedColor.length>0
+              ? `text-${selectedColor} ring-1 ring-inset ring-${selectedColor} hover:bg-gray-50`
+              : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          )}
+          
+        >
+          {selectedField ? selectedField : "Select a rating"}
+        </button>
+        <Menu as="div" className="relative -ml-px block">
+          <Menu.Button
+            className={classNames(
+              selectedColor.length>0
+                ? `text-${selectedColor} ring-1 ring-inset ring-${selectedColor}  hover:bg-gray-50`
+                : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50",
+              "relative inline-flex items-center rounded-r-full bg-white px-2 py-2   focus:z-10"
+            )}
+          >
+            <span className="sr-only">Open options</span>
+            <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+          </Menu.Button>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <Menu.Items className="absolute right-0 cursor-pointer  z-10 -mr-1 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <div className="py-1">
+                {menuItemsArray.map((data) => (
+                  <Menu.Item key={data.id}>
+                    {({ active }) => (
+                      <div
+                        onClick={() => handleClick(data)}
+                        className={classNames(
+                          "block px-4 py-2 text-sm", // Base styles
+                          `text-${data.color}`
+                        )}
+                      >
+                        {data.item}
+                      </div>
+                    )}
+                  </Menu.Item>
+                ))}
+              </div>
+            </Menu.Items>
+          </Transition>
+        </Menu>
+      </div>
+    );
+  }
+
   return (
     <div className="p-2 h-[640px] overflow-y-auto">
       <p className=" flex font-semibold text-xl text-left text-gray-900">
         {selectedData.name ? selectedData.name : ""}
       </p>
       <div className="flex items-center">
-        <CommonDropdown menuItems={menuItemsArray} onClick={handleItemClick} />
+        {/* <CommonDropdown menuItems={menuItemsArray} onClick={handleItemClick} /> */}
+
+        {userReviewDropDown()}
         <div className="border-l border-gray-300 h-7 ml-2"></div>
         {isTag ? AddNewTag() : emptyPlateTagUi()}
       </div>
