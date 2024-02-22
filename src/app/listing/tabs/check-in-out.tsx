@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CheckInandOut = () => {
+const CheckInandOut = ({ selectedItem }: any) => {
   return (
     <div className='flex mt-4 w-full'>
       {/* Check In/out Time */}
@@ -10,11 +10,11 @@ const CheckInandOut = () => {
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
             <div className="text-gray-600">Check-in time</div>
-            <div className="text-gray-900">03:00 PM</div>
+            <div className="text-gray-900">{`${selectedItem?.checkInTimeStart} ${selectedItem?.checkInTimeStart > 12 ? "PM" : "AM"}`}</div>
           </div>
           <div>
             <div className="text-gray-600">Checkout time</div>
-            <div className="text-gray-900">11:00 AM</div>
+            <div className="text-gray-900">{`${selectedItem?.checkOutTime} ${selectedItem?.checkOutTime > 12 ? "PM" : "AM"}`}</div>
           </div>
         </div>
         {/* Row 2 */}

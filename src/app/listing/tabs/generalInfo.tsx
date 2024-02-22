@@ -1,6 +1,6 @@
 import React from 'react'
 
-const GenetalInfo = ({ selectedItem }: any) => {
+const GeneralInfo = ({ selectedItem }: any) => {
 
   return (
     <div className='mt-6'>
@@ -13,7 +13,7 @@ const GenetalInfo = ({ selectedItem }: any) => {
               </h3>
             </div>
             <span className="truncate text-sm font-medium text-gray-900 ">
-              {selectedItem?.nickName}
+              {selectedItem?.internalListingName}
             </span>
           </div>
         </div>
@@ -39,7 +39,7 @@ const GenetalInfo = ({ selectedItem }: any) => {
               </h3>
             </div>
             <span className="truncate text-sm font-medium text-gray-900">
-              {selectedItem?.propertyType}
+              {selectedItem?.bookingcomPropertyRoomName}
             </span>
           </div>
         </div>
@@ -70,7 +70,7 @@ const GenetalInfo = ({ selectedItem }: any) => {
                   wifi Network
                 </h3>
                 <span className="truncate text-sm font-medium text-gray-900">
-                  {selectedItem?.wifiName}
+                  {selectedItem?.wifiUsername}
                 </span>
               </div>
               <div>
@@ -110,4 +110,4 @@ const GenetalInfo = ({ selectedItem }: any) => {
   )
 }
 
-export default GenetalInfo
+export default GeneralInfo;
