@@ -58,8 +58,13 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
 
   const saveDeviceLockInfo = async () => {
     const apiUrl = `${envConfig.backendUrl}/device/savelocklistinginfo`
-    const res = await axios.post(apiUrl, { device_id, listing_id: selectedListing })
+    const res = await axios.post(apiUrl, { device_id, listing_id: selectedListing[0] })
     if (res.status == 200) {
+      if (res.data.success) {
+        toast.success(res.data.message)
+      } else {
+        toast.error(res.data.message)
+      }
       setSelection(false)
       getDeviceListings()
     }
@@ -80,15 +85,7 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
   }
 
   const handleChange = (value: any) => {
-    let arr = [...selectedListing]
-    if (arr.includes(value)) {
-      arr = arr.filter((d) => d != value)
-      setSelectedListing(arr)
-    } else {
-      setSelectedListing((prev) => ([...prev, value]))
-      console.log(selectedListing);
-      
-    }
+    setSelectedListing([value])
   }
 
   const handleEditClick = async (e: any) => {
