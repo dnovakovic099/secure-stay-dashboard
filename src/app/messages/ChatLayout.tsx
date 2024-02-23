@@ -242,7 +242,7 @@ const ChatLayout = ({ selectedData }: any) => {
                                   "flex justify-between items-end"
                                 )}
                               >
-                                <span
+                                 <span
                                   className={`px-4 py-2 rounded-lg inline-block ${
                                     chat?.type === "outgoing"
                                       ? "bg-gray-600 text-white max-w-60 bubble left"
@@ -250,20 +250,21 @@ const ChatLayout = ({ selectedData }: any) => {
                                   }`}
                                 >
                                   {chat?.content}
-                                </span>
+                                </span> 
+
+
+
 
                                 <Image
-                                  // src={
-                                  //   chat.type === "outgoing"
-                                  //     ? "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                                  //     : "https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                                  // }
                                   src={
-                                    "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                                    chat.type === "outgoing"
+                                   ? "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                                   :"https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
                                   }
+                                  
                                   alt="My profile"
                                   className={classNames(
-                                    "w-5 h-5  rounded-full"
+                                    "w-5 h-5 m-1 rounded-full"
                                   )}
                                   width={50}
                                   height={50}

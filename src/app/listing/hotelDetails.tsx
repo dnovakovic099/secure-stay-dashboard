@@ -166,7 +166,7 @@ export default function HotelDetail({ selectedItem }: any) {
       </div>
     );
   }
-
+console.log(selectedItem,"selectedItem1010")
   return (
     <>
       <div className="grid grid-cols-12 gap-5 bg-white p-4 mt-4 h-[600px] overflow-y-auto">
@@ -258,7 +258,7 @@ export default function HotelDetail({ selectedItem }: any) {
                 ) : initialTabValue.id === 5 ? (
                   <Policies />
                 ) : initialTabValue.id === 6 ? (
-                  <Picture selectedItem={selectedItem} />
+                  <Picture selectedItem={selectedItem}/>
                 ) : initialTabValue.id === 7 ? (
                   <Device />
                 ) : (

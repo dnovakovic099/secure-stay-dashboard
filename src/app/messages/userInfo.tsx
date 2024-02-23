@@ -18,6 +18,7 @@ import Image from "next/image";
 import { Disclosure } from "@headlessui/react";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
+import InfoDetail from "./infoDetail";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -112,6 +113,70 @@ const paymentMethods = [
   { id: "fees", title: "Fees" },
   { id: "checkin", title: "Check in" },
 ];
+
+const people = [
+  {
+    id: 1,
+    name: "Wade Cooper",
+    avatar:
+      "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  },
+  {
+    id: 2,
+    name: "Arlene Mccoy",
+    avatar:
+      "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  },
+  {
+    id: 3,
+    name: "Devon Webb",
+    avatar:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80",
+  },
+  {
+    id: 4,
+    name: "Tom Cook",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  },
+  {
+    id: 5,
+    name: "Tanya Fox",
+    avatar:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  },
+  {
+    id: 6,
+    name: "Hellen Schmidt",
+    avatar:
+      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  },
+  {
+    id: 7,
+    name: "Caroline Schultz",
+    avatar:
+      "https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  },
+  {
+    id: 8,
+    name: "Mason Heaney",
+    avatar:
+      "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  },
+  {
+    id: 9,
+    name: "Claudie Smitham",
+    avatar:
+      "https://images.unsplash.com/photo-1584486520270-19eca1efcce5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  },
+  {
+    id: 10,
+    name: "Emil Schaefer",
+    avatar:
+      "https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  },
+];
+
 const UserInfo = ({ selectedData }: any) => {
   const [initialTabValue, setInitialTabValue] = useState(tabs[0]);
   const [menuItemsArray, setMenuItemsArray] = useState(menuItems);
@@ -127,8 +192,17 @@ const UserInfo = ({ selectedData }: any) => {
   const [addtag, setAddtag] = useState("");
   const [selectedField, setSelectedField] = useState(null);
   const [selectedColor, setSelectedColor] = useState("");
+  const [screenName, setScreenName] = useState("userInfo");
+  const [selected, setSelected] = useState(people[3]);
 
-  useEffect(() => {}, [selectedField,initialTabValue, menuItemsArray,selectedColor]);
+
+  useEffect(() => {}, [
+    screenName,
+    selectedField,
+    initialTabValue,
+    menuItemsArray,
+    selectedColor,
+  ]);
 
   const handleItemClick = (item: any) => {
     console.log("Selected item:", item);
@@ -140,71 +214,9 @@ const UserInfo = ({ selectedData }: any) => {
     // Handle the selected item here in the parent component
   };
 
-  const people = [
-    {
-      id: 1,
-      name: "Wade Cooper",
-      avatar:
-        "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      id: 2,
-      name: "Arlene Mccoy",
-      avatar:
-        "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      id: 3,
-      name: "Devon Webb",
-      avatar:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80",
-    },
-    {
-      id: 4,
-      name: "Tom Cook",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      id: 5,
-      name: "Tanya Fox",
-      avatar:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      id: 6,
-      name: "Hellen Schmidt",
-      avatar:
-        "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      id: 7,
-      name: "Caroline Schultz",
-      avatar:
-        "https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      id: 8,
-      name: "Mason Heaney",
-      avatar:
-        "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      id: 9,
-      name: "Claudie Smitham",
-      avatar:
-        "https://images.unsplash.com/photo-1584486520270-19eca1efcce5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-      id: 10,
-      name: "Emil Schaefer",
-      avatar:
-        "https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-  ];
+  
 
   function AssignedToFunction() {
-    const [selected, setSelected] = useState(people[3]);
 
     return (
       <Listbox value={selected} onChange={setSelected}>
@@ -447,22 +459,22 @@ const UserInfo = ({ selectedData }: any) => {
                 className="ml-2 py-4 px-4 bg-gray-200 text-gray-900 rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
               />
               <div className="m-2">
-              <button
-                onClick={() => {
-                  handlePhone();
-                }}
-                className="m-2 py-1 px-4 bg-indigo-600 text-white rounded-full shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                Save
-              </button>
-              <button
-                onClick={() => {
-                  handlePhone();
-                }}
-                className="ml-2 py-1 px-4 bg-gray-200 text-gray-900 rounded-full shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
-              >
-                Cancel
-              </button>
+                <button
+                  onClick={() => {
+                    handlePhone();
+                  }}
+                  className="m-2 py-1 px-4 bg-indigo-600 text-white rounded-full shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => {
+                    handlePhone();
+                  }}
+                  className="ml-2 py-1 px-4 bg-gray-200 text-gray-900 rounded-full shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           )}
@@ -514,10 +526,13 @@ const UserInfo = ({ selectedData }: any) => {
       <>
         <div className="relative mt-3  ">
           {initialTabValue?.bookingType.map((item: any, index: any) => (
-            <div key={index}>
-              <div className="relative mt-2">
+            <div key={index} >
+              <div
+                className="relative mt-2 cursor-pointer"
+                onClick={() => setScreenName("info")}
+              >
                 <Image
-                  className="aspect-[3/2]  h-52  w-full rounded-md object-cover"
+                  className="aspect-[3/2]  h-52  w-full rounded-md object-cover "
                   src={item?.imageUrl}
                   alt="hotel"
                   width={500}
@@ -742,18 +757,17 @@ const UserInfo = ({ selectedData }: any) => {
           // className=" relative inline-flex items-center rounded-l-full w-44 truncate bg-white px-3 py-2 text-sm  text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
           className={classNames(
             "relative inline-flex items-center rounded-l-full w-44 truncate bg-white px-3 py-2 text-sm focus:z-10",
-            selectedColor.length>0
+            selectedColor.length > 0
               ? `text-${selectedColor} ring-1 ring-inset ring-${selectedColor} hover:bg-gray-50`
               : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
           )}
-          
         >
           {selectedField ? selectedField : "Select a rating"}
         </button>
         <Menu as="div" className="relative -ml-px block">
           <Menu.Button
             className={classNames(
-              selectedColor.length>0
+              selectedColor.length > 0
                 ? `text-${selectedColor} ring-1 ring-inset ring-${selectedColor}  hover:bg-gray-50`
                 : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50",
               "relative inline-flex items-center rounded-r-full bg-white px-2 py-2   focus:z-10"
@@ -795,42 +809,74 @@ const UserInfo = ({ selectedData }: any) => {
       </div>
     );
   }
+  console.log(screenName, "screenName");
+
+function dynamicUi(){
+  return (
+    <>
+        <div className="flex items-center">
+          <div>{AssignedToFunction()}</div>
+           
+           {isNotes&& <div className="mt-10 mx-2">
+              <CommonDropdown menuItems={languages} onClick={handleItemClick} />
+            </div>}
+            
+         
+        </div>
+
+        {isNotes&& AddNotes()}
+        <div className="mt-2">
+          <button
+            onClick={() => setIsNotes(!isNotes)}
+            className="w-full bg-indigo-100 text-indigo-600 hover:text-indigo-500 cursor-pointer font-semibold py-2 rounded-b-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+          >
+            {isNotes
+              ? "See Less"
+              : "See Response Time & Language & Notes Fields"}
+          </button>
+        </div> 
+    </>
+  )
+}
 
   return (
     <div className="p-2 h-[640px] overflow-y-auto">
-      <p className=" flex font-semibold text-xl text-left text-gray-900">
-        {selectedData.name ? selectedData.name : ""}
-      </p>
-      <div className="flex items-center">
-        {/* <CommonDropdown menuItems={menuItemsArray} onClick={handleItemClick} /> */}
+    {screenName ==="userInfo"?   <>
+        <p className="flex font-semibold text-xl text-left text-gray-900">
+          {selectedData.name ? selectedData.name : ""}
+        </p>
+        <div className="flex items-center">
+          {userReviewDropDown()}
+          <div className="border-l border-gray-300 h-7 ml-2"></div>
+          {isTag ? AddNewTag() : emptyPlateTagUi()}
+        </div>
+        <div className="flex items-center w-full">{inputFieldsUi()}</div>
+{dynamicUi()}
+        {/* <div className="flex items-center">
+          <div>{AssignedToFunction()}</div>
+          {isNotes && (
+            <div className="mt-10 mx-2">
+              <CommonDropdown menuItems={languages} onClick={handleItemClick} />
+            </div>
+          )}
+        </div>
 
-        {userReviewDropDown()}
-        <div className="border-l border-gray-300 h-7 ml-2"></div>
-        {isTag ? AddNewTag() : emptyPlateTagUi()}
-      </div>
-      <div className="flex items-center w-full">{inputFieldsUi()}</div>
+        {isNotes && AddNotes()}
+        <div className="mt-2">
+          <button
+            onClick={() => setIsNotes(!isNotes)}
+            className="w-full bg-indigo-100 text-indigo-600 hover:text-indigo-500 cursor-pointer font-semibold py-2 rounded-b-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+          >
+            {isNotes
+              ? "See Less"
+              : "See Response Time & Language & Notes Fields"}
+          </button>
+        </div> */}
+        <CommonTabs tab={tabs} onClick={handleTabClick} />
 
-      <div className="flex items-center">
-        <div>{AssignedToFunction()}</div>
-        {isNotes && (
-          <div className="mt-10 mx-2">
-            <CommonDropdown menuItems={languages} onClick={handleItemClick} />
-          </div>
-        )}
-      </div>
-
-      {isNotes && AddNotes()}
-      <div className=" mt-2">
-        <button
-          onClick={() => setIsNotes(!isNotes)}
-          className="w-full  bg-indigo-100 text-indigo-600 hover:text-indigo-500 cursor-pointer font-semibold py-2 rounded-b-md    focus:outline-none focus:ring-2 focus:ring-gray-500"
-        >
-          {isNotes ? "See Less" : "See Response Time & Language & Notes Fields"}
-        </button>
-      </div>
-      <CommonTabs tab={tabs} onClick={handleTabClick} />
-      {/* {inquieryDetails()} */}
-      {comfirmedDetails()}
+        {comfirmedDetails()}
+      </> :
+     <InfoDetail screenName={screenName} setScreenName={setScreenName}/>}
     </div>
   );
 };

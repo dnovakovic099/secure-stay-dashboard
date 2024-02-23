@@ -36,8 +36,8 @@ export default function UserList({ setSelectedData, userList }: any) {
                   {person.message.filter((p: any) => !p.isRead).length > 0 ? (
                     person.message
                       .filter((p: any) => !p.isRead)
-                      .map((filteredMessage: any) => (
-                        <span key={filteredMessage.id}>
+                      .map((filteredMessage: any,index:any) => (
+                        <span key={index}>
                           {filteredMessage.content}
                         </span>
                       ))

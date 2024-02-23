@@ -37,17 +37,7 @@ const UserUi = ({ setSelectedData, people }: any) => {
   const [userSearch, setUserSearch] = useState("");
   const [userList, setUserList] = useState(people);
 
-  const onChangeTab = (tabId: any, index: any) => {
-    const newState = usertab.map((tab, i) => {
-      if (index == i) {
-        return { ...tab, current: true };
-      } else {
-        return { ...tab, current: false };
-      }
-    });
-    setUsertab(newState);
-    setActiveTab(tabId);
-  };
+
 
   const handleTabClick = (item: any) => {
     setActiveTab(item.id);
