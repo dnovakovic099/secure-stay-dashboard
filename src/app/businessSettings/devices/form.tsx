@@ -5,7 +5,7 @@ import axios, { AxiosResponse } from 'axios'
 import toast from 'react-hot-toast'
 
 const Form = (props: any) => {
-    const { closeModal } = props
+    const { closeModal,getSifelyLocks } = props
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -25,7 +25,7 @@ const Form = (props: any) => {
             localStorage.setItem('sifely_access_token', response.data.access_token)
             localStorage.setItem('sifely_refresh_token', response.data.refresh_token)
             closeModal()
-            window.location.reload()
+            getSifelyLocks()
         });
         toast.promise(responsePromise, {
             loading: 'Authenticating...',
