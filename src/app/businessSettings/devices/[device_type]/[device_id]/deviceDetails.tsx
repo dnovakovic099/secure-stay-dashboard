@@ -49,7 +49,7 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
 
   const router = useRouter();
 
-  
+
   useEffect(() => {
     getListings();
     getDeviceListings();
@@ -69,7 +69,7 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
 
     const res = await axios.post(apiUrl, {
       device_id,
-      listing_id: selectedListing[0],
+      listing_id: selectedListing[0] ? selectedListing[0] : null,
     });
 
     if (res.status == 200) {
@@ -90,19 +90,25 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
     const result = await axios.get(apiUrl);
 
     if (result.status == 200) {
+
       setConnectedListings(result.data);
       setFilteredListings(result.data);
+
       let arr: number[] = [];
       result.data.map((res: listing) => {
         arr.push(res.listingId);
       });
+
       setSelectedListing(arr);
     }
-
   };
 
-  const handleChange = (value: any) => {
-    setSelectedListing([value])
+  const handleChange = (value: number) => {
+    if (selectedListing.includes(value)) {
+      setSelectedListing([]);
+    } else {
+      setSelectedListing([value]);
+    }
   };
 
   const handleEditClick = async (e: any) => {
@@ -173,12 +179,15 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
                 key={listing.listingId}
                 className="flex items-center gap-4 p-3 w-[85%] mx-auto mt-3 cursor-pointer select-none border rounded-md hover:shadow-md bg-white shadow-lg transition-transform transform hover:scale-105"
               >
-                <input
-                  type="checkbox"
-                  onChange={() => handleChange(listing.listingId)}
-                  checked={selectedListing?.includes(listing.listingId)}
-                  className="w-4 h-4 border rounded cursor-pointer focus:ring focus:border-indigo-300"
-                />
+                {
+                  selection &&
+                  <input
+                    type="checkbox"
+                    onChange={() => handleChange(listing.listingId)}
+                    checked={selectedListing?.includes(listing.listingId)}
+                    className="w-4 h-4 border rounded cursor-pointer focus:ring focus:border-indigo-300"
+                  />
+                }
                 <img
                   src={listing.images[0].url}
                   alt={listing.name}

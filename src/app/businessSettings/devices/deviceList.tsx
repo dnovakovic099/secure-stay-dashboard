@@ -16,7 +16,7 @@ import {
 const DeviceList = ({ children }: any) => {
   const router = useRouter();
   const [clientSessionToken, setClientSessionToken] = useState("");
-  const [sifelyLocks, setSifelyLocks] = useState([]);
+  const [sifelyLocks, setSifelyLocks] = useState<object[] | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [locksPressed, setLockedPress] = useState(false);
@@ -32,8 +32,8 @@ const DeviceList = ({ children }: any) => {
   const getSifelyLocks = async () => {
     const access_token = localStorage.getItem("sifely_access_token");
 
-    if (!access_token || access_token == "" || sifelyLocks?.length > 0) {
-      setSifelyLocks([]);
+    if (!access_token || access_token == "") {
+      setSifelyLocks(null);
       return;
     }
 
@@ -98,7 +98,7 @@ const DeviceList = ({ children }: any) => {
       <CommonPopup
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        children={<Form closeModal={closeModal} />}
+        children={<Form closeModal={closeModal} getSifelyLocks={getSifelyLocks}/>}
         disableCloseIcon={false}
         heightwidth="100rem"
       />
@@ -106,9 +106,8 @@ const DeviceList = ({ children }: any) => {
       <div className="flex flex-row gap-[0.05rem] h-[100%] ">
         {/* column 1 */}
         <div
-          className={`flex-1 bg-white py-2 px-4 rounded-md ${
-            locksPressed ? "w-1/2" : "w-full"
-          }`}
+          className={`flex-1 bg-white py-2 px-4 rounded-md ${locksPressed ? "w-1/2" : "w-full"
+            }`}
         >
           <div className="flex justify-between px-4 mt-1">
             <h2 className="text-xl font-bold text-indigo-700 mb-4">
@@ -136,9 +135,7 @@ const DeviceList = ({ children }: any) => {
           </div>
 
           <div
-            className={` ${
-              locksPressed ? "" : "flex justify-start"
-            } gap-10 mt-1 h-[90%] overflow-y-auto`}
+            className={` ${locksPressed ? "" : "flex justify-start"} gap-10 mt-1 h-[90%] overflow-y-auto`}
           >
             {" "}
             {/* Device List here */}
@@ -155,7 +152,7 @@ const DeviceList = ({ children }: any) => {
                 Sifely Locks
               </h4>
 
-              {sifelyLocks?.length === 0 ? (
+              {sifelyLocks === null ? (
                 <div className="text-center p-4">
                   {!isLoading ? (
                     <>
@@ -176,6 +173,12 @@ const DeviceList = ({ children }: any) => {
               ) : (
                 <ul className="text-slate-700 text-base font-medium mt-4">
                   <>
+                    {
+                      (sifelyLocks && sifelyLocks.length == 0) &&
+                      <div>
+                        <p className="text-slate-400 text-center mt-32">Sorry, no devices were found</p>
+                      </div>
+                    }
                     {sifelyLocks?.map((lock: any) => (
                       <li
                         onClick={() => handleClick(lock.lockId)}
