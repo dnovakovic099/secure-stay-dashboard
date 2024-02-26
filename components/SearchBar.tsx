@@ -2,9 +2,9 @@ import {
   BarsArrowDownIcon,
   MagnifyingGlassIcon,
   PlusIcon,
-} from "@heroicons/react/20/solid";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import classNames from "classnames";
+} from '@heroicons/react/20/solid';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import classNames from 'classnames';
 
 function SearchBar() {
   return (
@@ -13,8 +13,8 @@ function SearchBar() {
         <div className="flex flex-1">
           <div
             className={classNames(
-              "ml-0",
-              "text-lg md:text-2xl lg:text-2xl font-bold m-auto flex items-center"
+              'ml-0',
+              'text-lg md:text-2xl lg:text-2xl font-bold m-auto flex items-center',
             )}
           >
             <div className="pl-4 text-lg md:text-xl lg:text-2xl font-normal m-auto flex">
@@ -53,15 +53,16 @@ function SearchBar() {
         <div className="flex items-center gap-3 px-2">
           <button
             className={classNames(
-              "flex items-center gap-2 text-sm text-white font-semibold p-2 rounded-md",
-              "border border-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2",
-              "bg-gradient-to-r from-purple-600 to-indigo-500"
+              'flex items-center justify-center gap-2 text-sm text-white font-semibold px-4 py-2 rounded-md',
+              'bg-gradient-to-r from-purple-600 to-indigo-500',
+              'border border-transparent hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500',
             )}
             // onClick={() => handleButtonClick("create")}
           >
             <PlusIcon className="text-white h-6 w-6" aria-hidden="true" />
             <span>Create Upsells</span>
           </button>
+
           <div className="bg-[#1f284d] p-3 rounded-md cursor-pointer">
             <BsThreeDotsVertical className="text-xl text-gray-100" />
           </div>

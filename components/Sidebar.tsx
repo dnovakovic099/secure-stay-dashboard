@@ -44,9 +44,9 @@ function Sidebar() {
   ];
 
   return (
-    <aside className="w-1/6 flex flex-col justify-between h-screen">
+    <aside className="w-1/8 flex flex-col justify-between h-screen">
       <div className="bg-white">
-        <div className="h-16 flex px-4 text-[20px] font-semibold items-center bg-[#141b37] text-white justify-start">
+        <div className="h-16 flex px-4 text-lg font-semibold items-center bg-[#141b37] text-white justify-start">
           <Image src={Logo} alt="logo" width={150} height={150} />
         </div>
         <div className="py-4 lg:sticky lg:flex-col w-full">
@@ -55,7 +55,7 @@ function Sidebar() {
               <ul role="list" className="-mx-2 space-y-3">
                 {navigation.map((item, index) => (
                   <li
-                    className="flex items-center gap-2 text-zinc-400 text-md m-0"
+                    className="flex items-center gap-2 text-zinc-400 text-base m-0"
                     key={index}
                   >
                     <Link
@@ -78,7 +78,7 @@ function Sidebar() {
                         aria-hidden="true"
                       />
                       <p
-                        className={classNames('text-gray-500 text-lg', {
+                        className={classNames('text-gray-500 text-base', {
                           'text-indigo-500': currentPath === item.href,
                         })}
                       >
@@ -92,7 +92,7 @@ function Sidebar() {
           </div>
         </div>
       </div>
-      <div className="flex items-center space-x-4 my-4 mx-2  p-4 bg-slate-50 rounded-lg">
+      <div className="flex items-center space-x-4 my-4 mx-2 p-4 bg-gray-100 rounded-lg">
         <div className="flex-shrink-0">
           <Image
             className="object-cover h-12 w-12 rounded-full cursor-pointer"
@@ -103,10 +103,10 @@ function Sidebar() {
           />
         </div>
         <div className="flex flex-col flex-grow">
-          <p className="text-lg font-semibold text-gray-900 line-clamp-1">
+          <p className="text-lg font-semibold text-gray-900 truncate">
             Alex Stanton
           </p>
-          <p className="text-gray-500 text-sm">Super Admin</p>
+          <p className="text-sm text-gray-500">Super Admin</p>
         </div>
         <ChevronRightIcon
           className="h-6 w-6 text-gray-400 group-hover:text-gray-500 transition duration-300 transform group-hover:translate-x-1 cursor-pointer"

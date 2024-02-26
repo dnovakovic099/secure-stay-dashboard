@@ -1,217 +1,149 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import {
-  EllipsisVerticalIcon,
-  BarsArrowDownIcon,
-  MagnifyingGlassIcon,
-  PlusIcon,
-} from '@heroicons/react/20/solid';
-import { SlArrowRight } from 'react-icons/sl';
-import { SlArrowLeft } from 'react-icons/sl';
-import HotelDetail from './HotelDetail';
-import axios, { AxiosResponse } from 'axios';
-import toast from 'react-hot-toast';
+import axios from 'axios';
 import { envConfig } from '@/utility/environment';
-import handleApiCallFetch from '@/components/handleApiCallFetch';
-
-const projects = [
-  {
-    id: 1,
-    name: 'Sun Set Hotel & villas',
-    address: '2/123 Sunset Street,Paradise,Ice Land',
-    nickName: 'Triple S Retreat',
-    bgColor: 'bg-pink-600',
-    imageUrl:
-      'https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    id: 2,
-    name: 'Royal Oasis Hotel',
-
-    address: '2/123 Royal Street,Paradise,Nobia City',
-    nickName: 'Royal Oasis',
-    bgColor: 'bg-purple-600',
-    imageUrl:
-      'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    id: 3,
-    name: 'Emerald Resort',
-    address: '2/123 Emerald  Street,Paradise,Nobia City',
-    nickName: 'Emerald Resort',
-    bgColor: 'bg-yellow-500',
-    imageUrl:
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    id: 4,
-    name: 'Modern Villas',
-    address: '2/123 Modern Street,Paradise,New York',
-    nickName: 'Modern Villas special',
-
-    bgColor: 'bg-green-500',
-    imageUrl:
-      'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    id: 5,
-    name: 'Sun Set Hotel & villas',
-    address: '2/123 Sunset Street,Paradise,Ice Land',
-    nickName: 'Sun Set Hotel',
-
-    bgColor: 'bg-pink-600',
-    imageUrl:
-      'https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    id: 6,
-    name: 'Royal Oasis Hotel',
-    nickName: 'Royal Oasis',
-
-    address: '2/123 Royal Street,Paradise,Nobia City',
-
-    bgColor: 'bg-purple-600',
-    imageUrl:
-      'https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    id: 7,
-    name: 'Emerald Resort',
-    address: '2/123 Emerald  Street,Paradise,Nobia City',
-    nickName: 'Emerald',
-
-    bgColor: 'bg-yellow-500',
-    imageUrl:
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    id: 8,
-    name: 'Modern Villas',
-    address: '2/123 Modern Street,Paradise,New York',
-    nickName: 'Modern',
-
-    bgColor: 'bg-green-500',
-    imageUrl:
-      'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-];
+import { SlArrowRight, SlArrowLeft } from 'react-icons/sl';
+import classNames from 'classnames';
+import HotelDetail from './HotelDetail';
 
 function Listing() {
-  const [showAll, setShowAll] = useState(false);
-  const [selectedItem, setSelectedItem] = useState();
-  const visibleProjects = showAll ? projects : projects.slice(0, 4);
-
-  const [listdata, setListdata] = useState<any[]>([]);
-
-  const getHostawayListFromDb = async () => {
-    const headers = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    var params = { method: 'GET', headers: headers };
-    try {
-      const apiUrl = `${envConfig.backendUrl}/listing/getlistings`;
-      const response: any = await handleApiCallFetch(apiUrl, params);
-      console.log('response', response);
-      if (response && response.success) {
-        console.log('response getlistings:', response.listings);
-        formattResponse(response.listings);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const formattResponse = (AllData: any) => {
-    const formattedData = AllData.map((data: any) => ({
-      id: data && data.id ? data.id : '',
-      name: data.name ? data.name : '',
-      address: data && data.address ? data.address : '',
-      nickName: data.name ? data.name : '',
-      bgColor: 'bg-pink-600',
-      imageUrl:
-        'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      // imageUrl: data && data.images && data.images[0] && data.images[0].url ? data.images[0].url : '',
-    }));
-    setListdata(formattedData);
-  };
-
-  const syncHostawayListings = async () => {
-    try {
-      const apiUrl = `${envConfig.backendUrl}/listing/synchostawaylistings`;
-      const axiosPromise: Promise<AxiosResponse<any>> = axios.get(apiUrl);
-      const responsePromise: Promise<any> = axiosPromise.then(
-        (response) => response.data,
-      );
-      toast.promise(responsePromise, {
-        loading: 'Syncing listings with hostaway listing Please wait!',
-        success: 'Listing synced successfully!',
-        error: 'Something went wrong!',
-      });
-
-      return;
-    } catch (error) {
-      console.log(error, 'Error-checking');
-      console.log(error);
-    }
-  };
-
-  const toggleShowAll = () => {
-    setShowAll(!showAll);
-  };
+  const [sliceNum, setSliceNum] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [listings, setListings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getHostawayListFromDb();
+    const fetchData = async () => {
+      try {
+        const apiUrl = `http://192.168.1.11:5173/listing/getlistings`;
+        const response = await axios.get(apiUrl); // Fetch data
+        const data = response.data;
+        setListings(data.listings);
+        setIsLoading(false); // Set loading state to false after fetching data
+
+        if (data.listings && data.listings.length > 0) {
+          setSelectedItem(data.listings[0]);
+        }
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false); // Set loading state to false in case of error
+      }
+    };
+
+    fetchData();
   }, []);
+
+  // const syncHostawayListings = async () => {
+  //   try {
+  //     const apiUrl = `${envConfig.backendUrl}/listing/synchostawaylistings`;
+  //     const response = await axios.get(apiUrl);
+  //     const data = response.data;
+  //     setListings(data.listings);
+  //   } catch (error) {
+  //     console.log(error, 'Error-checking');
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleRightSide = (val: any) => {
+    setSliceNum((num) => num + val);
+  };
+
+  const handleItemClick = (project: any) => {
+    setSelectedItem(project);
+  };
 
   return (
     <>
-      <div className="m-6 relative rounded-md">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-[600] text-gray-900">All Listings</h2>
-        </div>
-
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-flow-col-3 lg:grid-cols-4 min-w-[200px] relative">
-          <div className="absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-1/2 z-10 bg-white p-1.5 rounded-full shadow-md hover:shadow-lg cursor-pointer">
-            <SlArrowLeft className="w-5 h-5 text-gray-900" />
+      <>
+        <div className="m-6 relative rounded-md">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold text-gray-900">
+              All Listings
+            </h2>
           </div>
-          {visibleProjects?.map((project: any) => (
-            <div
-              key={project.id}
-              onClick={() => setSelectedItem(project)}
-              className={`relative flex rounded-md shadow-md p-1.5 bg-white transition duration-300 transform cursor-pointer ${
-                selectedItem === project
-                  ? 'ring-2 ring-blue-500'
-                  : 'hover:ring-2 hover:ring-blue-500'
-              }`}
-            >
-              <div className="w-1/3 h-24  ">
-                <Image
-                  className="object-cover w-full h-full rounded-md"
-                  src={project.imageUrl}
-                  alt="hotel"
-                  width={500}
-                  height={500}
-                />
-              </div>
-              <div className="flex-1 p-2">
-                <p className="font-semibold text-base text-gray-900 hover:text-indigo-600 mb-1 line-clamp-1">
-                  {project.name}
-                </p>
-                <p className="text-gray-500 text-sm line-clamp-2">
-                  {project.address}
-                </p>
-              </div>
+          {isLoading ? (
+            <div className="flex items-center justify-center h-[70vh]">
+              <div className="w-12 h-12 border-4 border-blue-500 border-r-gray-100 rounded-full animate-spin"></div>
             </div>
-          ))}
-          <div className="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2 z-10 bg-white p-1.5 rounded-full shadow-md hover:shadow-lg cursor-pointer">
-            <SlArrowRight className="w-5 h-5 text-gray-900" />
-          </div>
+          ) : (
+            selectedItem && (
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-flow-col-3 lg:grid-cols-4 min-w-[200px] relative ">
+                {/* Left arrow button */}
+                <div
+                  className={classNames(
+                    'absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-1/2 z-10 bg-white p-1.5 rounded-full shadow-md hover:shadow-lg cursor-pointer',
+                    { hidden: sliceNum <= 0 },
+                  )}
+                >
+                  <SlArrowLeft
+                    className="w-5 h-5 text-gray-900"
+                    onClick={() => {
+                      if (sliceNum <= 0) return;
+                      handleRightSide(-1);
+                    }}
+                  />
+                </div>
+                {/* Listing items */}
+                {listings?.slice(sliceNum, sliceNum + 4).map((project: any) => (
+                  <div
+                    key={project.id}
+                    onClick={() => handleItemClick(project)}
+                    className={`flex rounded-md shadow-md p-2 bg-white transition duration-300 transform cursor-pointer ${
+                      selectedItem === project
+                        ? 'ring-2 ring-purple-500'
+                        : 'hover:ring-2 hover:ring-purple-500'
+                    }`}
+                  >
+                    <div className="flex-1">
+                      <img
+                        className="object-cover w-full h-24 rounded-md"
+                        src={project.images[0].url}
+                        alt="hotel"
+                      />
+                    </div>
+                    <div className="flex-1 px-2 py-1">
+                      <p className="font-semibold text-lg text-gray-900 hover:text-indigo-600 mb-1 line-clamp-1">
+                        {project.name}
+                      </p>
+                      <p className="text-gray-600 text-sm font-normal line-clamp-2">
+                        {project.address}
+                      </p>
+                    </div>
+                    <div
+                      className={
+                        selectedItem === project
+                          ? 'absolute inset-0 bg-gradient-to-bl from-dark to-white opacity-20 rounded-lg'
+                          : ''
+                      }
+                    />
+                  </div>
+                ))}
+                {/* Right arrow button */}
+                <div
+                  className={classNames(
+                    'absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2 z-10 bg-white p-1.5 rounded-full shadow-md hover:shadow-lg cursor-pointer transition-transform duration-300',
+                    { hidden: sliceNum >= listings?.length - 4 },
+                  )}
+                >
+                  <SlArrowRight
+                    className="w-5 h-5 text-gray-900"
+                    onClick={() => {
+                      if (sliceNum >= listings.length - 4) return;
+                      handleRightSide(1);
+                    }}
+                  />
+                </div>
+              </div>
+            )
+          )}
         </div>
-      </div>
 
-      {selectedItem && <HotelDetail selectedItem={selectedItem} />}
+        {/* Display the details of the selected item */}
+        {selectedItem && <HotelDetail selectedItem={selectedItem} />}
+      </>
     </>
   );
 }
