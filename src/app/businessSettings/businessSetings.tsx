@@ -21,7 +21,7 @@ const BusinessSettings = ({ children }: any) => {
       case "Messaging":
         return null;
       case "users":
-        return null;
+        return router.push("/businessSettings/users");;
       case "Billing":
         return null;
       case "devices":
@@ -45,7 +45,9 @@ const BusinessSettings = ({ children }: any) => {
               Connected Accounts{" "}
             </li>
             <li className="hover:bg-indigo-100 p-3 rounded-md">Messaging </li>
-            <li className="hover:bg-indigo-100 p-3 rounded-md">Users </li>
+          <li className={`${selectedMenu == "users" ? "bg-slate-200" : ""
+            } hover:bg-slate-200 p-3 rounded-md`}
+            onClick={() => handleMenuClick("users")}>Users </li>
             <li className="hover:bg-indigo-100 p-3 rounded-md">Billing </li>
             <li
               className={`${
