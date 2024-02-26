@@ -30,9 +30,9 @@ const DeviceList = ({ children }: any) => {
   };
 
   const getSifelyLocks = async () => {
-    const access_token = localStorage.getItem("sifely_access_token");
+    const accessToken = localStorage.getItem("sifely_access_token");
 
-    if (!access_token || access_token == "") {
+    if (!accessToken || accessToken == "") {
       setSifelyLocks(null);
       return;
     }
@@ -41,7 +41,7 @@ const DeviceList = ({ children }: any) => {
 
     const apiUrl = `${envConfig.backendUrl}/device/sifely/locklist`;
     const result = await axios.post(apiUrl, {
-      access_token,
+      accessToken,
       pageNo: 1,
       pageSize: 100,
     });
@@ -84,13 +84,13 @@ const DeviceList = ({ children }: any) => {
   const handleDeviceClick = (device_id: any) => {
     setLockedPress(true);
     localStorage.setItem("locksPressed", "true");
-    router.push(`/businessSettings/devices/seam/${device_id}`);
+    router.push(`/businessSettings/devices/Seam/${device_id}`);
   };
 
   const handleClick = (lockId: any) => {
     setLockedPress((prevLockedPress) => !prevLockedPress);
     localStorage.setItem("locksPressed", "true");
-    router.push(`/businessSettings/devices/sifely/${lockId}`);
+    router.push(`/businessSettings/devices/Sifely/${lockId}`);
   };
 
   return (

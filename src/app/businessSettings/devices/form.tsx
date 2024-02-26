@@ -1,39 +1,55 @@
-"use client"
-import React, { useState } from 'react'
-import { envConfig } from '@/utility/environment'
-import axios, { AxiosResponse } from 'axios'
-import toast from 'react-hot-toast'
+"use client";
+import React, { useState } from 'react';
+import { envConfig } from '@/utility/environment';
+import axios, { AxiosResponse } from 'axios';
+import toast from 'react-hot-toast';
 
 const Form = (props: any) => {
-    const { closeModal,getSifelyLocks } = props
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const { closeModal, getSifelyLocks } = props;
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleUsernameChange = (value: string) => {
-        setUsername(value)
-    }
+        setUsername(value);
+    };
     const handlePasswordChange = (value: string) => {
-        setPassword(value)
-    }
+        setPassword(value);
+    };
 
     const handleSubmit = async () => {
-        const apiUrl = `${envConfig.backendUrl}/device/sifely/getaccesstoken`
-        if (username == '' || password == '') return toast.error('Please enter the credentials!')
-        const axiosPromise: Promise<AxiosResponse<any>> = axios.post(apiUrl, { username, password });
-        const responsePromise: Promise<any> = axiosPromise.then(response => {
-            //store the access_token in the local storage          
-            localStorage.setItem('sifely_access_token', response.data.access_token)
-            localStorage.setItem('sifely_refresh_token', response.data.refresh_token)
-            closeModal()
-            getSifelyLocks()
-        });
-        toast.promise(responsePromise, {
-            loading: 'Authenticating...',
-            success: 'Successfully! authenticated',
-            error: 'Something went wrong!',
-        });
-    }
-    
+        const apiUrl = `${envConfig.backendUrl}/device/sifely/getaccesstoken`;
+
+        if (username == '' || password == '') {
+            return toast.error('Please enter the credentials!');
+        }
+
+        setIsLoading(true);
+
+        await axios.post(apiUrl, { username, password })
+            .then((response) => {
+
+                setIsLoading(false);
+
+                if (response.status == 200 && response.data?.success) {
+                    //store the access_token in the local storage          
+                    localStorage.setItem('sifely_access_token', response.data?.data?.access_token);
+                    localStorage.setItem('sifely_refresh_token', response.data?.data?.refresh_token);
+
+                    closeModal();
+                    getSifelyLocks();
+                    toast.success(response.data?.message);
+                    return;
+                }
+
+                toast.error(response.data?.message);
+            })
+            .catch((error) => {
+                toast.error(error?.message);
+            });
+
+    };
+
     return (
         <div className=' px-5 py-6 rounded-md'>
             <div className='text-center font-semibold -mt-14 text-indigo-600 py-2 text-2xl mb-6'>Login to Sifely Account</div>
@@ -73,17 +89,19 @@ const Form = (props: any) => {
                         />
                     </div>
                     <div className="flex items-center justify-start ">
+
                         <button
+                            disabled={isLoading}
                             onClick={() => handleSubmit()}
                             className=" rounded-md w-full bg-indigo-600 px-10 py-1 text-base font-medium  text-white shadow-sm hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-800"
                         >
-                            Sign In
+                            {isLoading ? 'Processing..' : 'Sign In'}
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Form
+export default Form;

@@ -68,15 +68,16 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
     const apiUrl = `${envConfig.backendUrl}/device/savelocklistinginfo`;
 
     const res = await axios.post(apiUrl, {
-      device_id,
-      listing_id: selectedListing[0] ? selectedListing[0] : null,
+      deviceId: device_id,
+      listingId: selectedListing[0] ? selectedListing[0] : null,
+      deviceType: device_type
     });
 
     if (res.status == 200) {
-      if (res.data.success) {
-        toast.success(res.data.message)
+      if (res.data?.success) {
+        toast.success(res.data?.message);
       } else {
-        toast.error(res.data.message)
+        toast.error(res.data?.message);
       }
       setSelection(false);
       getDeviceListings();
@@ -145,8 +146,8 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
       </div>
 
       <div>
-        {device_type == "seam" && <SeamDeviceInfo device_id={device_id} />}
-        {device_type == "sifely" && <SifelyDeviceInfo device_id={device_id} />}
+        {device_type == "Seam" && <SeamDeviceInfo device_id={device_id} />}
+        {device_type == "Sifely" && <SifelyDeviceInfo device_id={device_id} />}
         <div
           onClick={() => setShowConnectedListings((prev) => !prev)}
           className="px-6 w-[91%] mx-auto bg-indigo-100 mb-5 py-3 rounded-md cursor-pointer select-none flex justify-between items-center transition duration-300 ease-in-out transform hover:scale-105"
