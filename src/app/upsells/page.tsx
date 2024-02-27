@@ -1,5 +1,5 @@
 "use client";
-import SideBarMain from "@/components/sidebar";
+import { SideBarMain } from "@/components/sidebar";
 import UpsellDashboard from "./upselldashboard";
 
 //This is client component
