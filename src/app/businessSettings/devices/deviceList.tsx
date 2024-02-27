@@ -47,7 +47,7 @@ const DeviceList = ({ children }: any) => {
     });
 
     setIsLoading(false);
-    setSifelyLocks(result.data.list);
+    setSifelyLocks(result.data);
   };
 
   const closeModal = () => {
