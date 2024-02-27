@@ -1,5 +1,5 @@
 "use client";
-import SideBarMain from "@/components/sidebar";
+import { SideBarMain } from "@/components/sidebar";
 import CreateUpsell from "./createUpsells";
 import { useRouter } from "next/router";
 import EditUpsell from "./editUpsells";

@@ -1,13 +1,13 @@
-import SideBarMain from '@/components/sidebar'
-import React from 'react'
-import AddDevices from './addDevices'
+import { SideBarMain } from "@/components/sidebar";
+import React from "react";
+import AddDevices from "./addDevices";
 
 const page = () => {
   return (
     <SideBarMain>
-        <AddDevices/>
+      <AddDevices />
     </SideBarMain>
-  )
-}
+  );
+};
 
-export default page
+export default page;
