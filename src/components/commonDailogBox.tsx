@@ -32,28 +32,24 @@ export const CommonDialog: React.FC<CommonDialogProps> = ({
   }, [isOpen, onClose]);
 
   return (
-    <div
-      className={`fixed inset-0 ${
-        isOpen ? "flex" : "hidden"
-      } items-center justify-center bg-gray-900 bg-opacity-75 z-40`}
-    >
+    <div className={`fixed inset-0 ${isOpen ? "flex" : "hidden"} items-center justify-center bg-black bg-opacity-50 z-40`}>
       <div ref={dialogRef} className="bg-white w-full max-w-md p-6 rounded-md shadow-lg">
-        <h2 className="text-md items-center font-bold mb-4 text-gray-800"> {message} </h2>
-        <div className="flex justify-end space-x-4">
+        <h2 className="text-xl font-semibold mb-4 text-gray-800 text-center">{message}</h2>
+        <div className="flex justify-center space-x-4 mt-5">
           <button
-            className="bg-green-500 text-white px-6 py-1 rounded-full hover:bg-green-600 transition focus:outline-none"
+            className="bg-blue-500 text-white px-4 py-1.5 rounded-full hover:bg-blue-600 transition focus:outline-none"
             onClick={() => {
               onYes();
               onClose();
             }}
           >
-            Yes
+            Confirm
           </button>
           <button
-            className="bg-red-500 text-white px-6 py-1 rounded-full hover:bg-red-600 transition focus:outline-none"
+            className="bg-red-500 text-white px-4 py-1.5 rounded-full hover:bg-gray-600 transition focus:outline-none"
             onClick={onClose}
           >
-            No
+            Cancel
           </button>
         </div>
       </div>

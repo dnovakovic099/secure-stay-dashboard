@@ -2,6 +2,7 @@
 import handleApiCallFetch from "@/components/handleApiCallFetch";
 import { envConfig } from "@/utility/environment";
 import { useEffect, useState } from "react";
+import Loader from "../loading";
 interface UpSellListingProps {
   upsellid: number; // Assuming upsellid is a string, adjust the type accordingly
 }
@@ -19,6 +20,8 @@ export interface ListingInfo {
 }
 
 const UpSellListing: React.FC<UpSellListingProps> = ({ upsellid }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     fetchAssociatedListing(upsellid);
   }, []);
@@ -46,26 +49,32 @@ const UpSellListing: React.FC<UpSellListingProps> = ({ upsellid }) => {
         "Content-Type": "application/json",
       },
     };
-
+    setIsLoading(true);
     const result: any = await handleApiCallFetch(apiUrl, params);
-
     setListingData(result.data);
+    setIsLoading(false);
   };
   return (
-    <div className="overflow-auto">
-      <div className="rounded-md text-sm py-2 px-2 border shadow-md">
-        <p className="font-semibold py-2 ">Attached rentals</p>
-        <table className="min-w-full overflow-x-auto">
-          <thead>
-            <tr className="grid grid-cols-12 px-4 py-2 bg-slate-200 rounded-md">
-              <th className="col-span-2 text-start">Property Id</th>
-              <th className="col-span-8 text-start">Property Name</th>
-              <th className="col-span-2 text-start">Rentals</th>
-            </tr>
-          </thead>
-          <tbody className="text-sm">{renderUpSellListing}</tbody>
-        </table>
-      </div>
+    <div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="overflow-auto">
+          <div className="rounded-md text-sm py-2 px-2 border shadow-md">
+            <p className="font-semibold py-2 ">Attached rentals</p>
+            <table className="min-w-full overflow-x-auto">
+              <thead>
+                <tr className="grid grid-cols-12 px-4 py-2 bg-slate-200 rounded-md">
+                  <th className="col-span-2 text-start">Property Id</th>
+                  <th className="col-span-8 text-start">Property Name</th>
+                  <th className="col-span-2 text-start">Rentals</th>
+                </tr>
+              </thead>
+              <tbody className="text-sm">{renderUpSellListing}</tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
