@@ -65,6 +65,14 @@ const NavBar = () => {
     setPopupOpen(false);
   };
 
+  const handleCardClick = (item: any) => {
+    router.push("/upsells/createupsells?template_id=${item.title}", item);
+  };
+
+  const handleCreateUpsell = () => {
+    router.push("/upsells/createupsells");
+  };
+
   const fetchData = async (
     currentPage: number,
     limit: number,
@@ -197,6 +205,17 @@ const NavBar = () => {
     },
   ];
 
+  const sampleImageUrl =
+    "https://placehold.co/200x400/?text=Build+your%0Aown+upsells";
+
+  const sampleTitle = "Start from Blank";
+  const sampleDescription = "Lorem ipsum ";
+
+  const data: any[] = [
+    // { imageUrl: 'https://placekitten.com/300/200', title: 'Card 1', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: Math.random() * 100 },
+    // { imageUrl: 'https://placehouse.com/300/200', title: 'Card 2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: Math.random() * 100 },
+  ];
+
   return (
     <div className="flex items-center bg-[#141B37] h-12">
       <div className="flex justify-between items-center w-full">
@@ -207,7 +226,7 @@ const NavBar = () => {
           />
         </div>
 
-        <div className="flex items-center justify-between py-1 pl-8 w-4/5 h-10">
+        <div className="flex items-center justify-between py-1 px-7 w-4/5 h-10">
           <div className="">
             <input
               type="text"
@@ -286,6 +305,40 @@ const NavBar = () => {
           </div>
         </div>
       </div>
+      <CommonDialog
+        isOpen={isDialogOpen}
+        onClose={() => {
+          setDialogOpen(false);
+          setDialogAction(null);
+          setDialogMessage("");
+        }}
+        onYes={handleDialogAction}
+        message={dialogMessage}
+      />
+
+      <CommonPopup
+        isOpen={isPopupOpen}
+        onClose={handleClosePopup}
+        title="Create Upsell"
+        disableCloseIcon={false}
+        heightwidth="max-w-[100%] max-h-[100%]"
+      >
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1">
+          <div key={0} onClick={() => handleCreateUpsell()}>
+            <Card
+              imageUrl={sampleImageUrl}
+              title={sampleTitle}
+              description={sampleDescription}
+            />
+          </div>
+
+          {data.map((item, index) => (
+            <div key={index} onClick={() => handleCardClick(item)}>
+              <Card {...item} />
+            </div>
+          ))}
+        </div>
+      </CommonPopup>
     </div>
   );
 };

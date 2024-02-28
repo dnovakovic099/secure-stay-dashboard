@@ -401,13 +401,6 @@ const UpsellDashboard: React.FC = () => {
 
               <div className="flex items-center space-x-4">
                 {/* Search Bar */}
-                {/* <input  ******change here*****
-                  type="text"
-                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 placeholder-gray-500"
-                  placeholder="Search..."
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                /> */}
 
                 {/* Filter Icon */}
                 <div className="relative sm:mt-0 sm:ml-4">
@@ -429,7 +422,7 @@ const UpsellDashboard: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-row  justify-between w-[100%] bg-white px-5 py-2 ">
+            {/* <div className="flex flex-row  justify-between w-[100%] bg-white px-5 py-2 ">
               <div>
                 {activeTab === "manageUpsells" && (
                   <div className="flex justify-start items-center mt-2 gap-5 ml-auto">
@@ -498,7 +491,7 @@ const UpsellDashboard: React.FC = () => {
                   </div>
                 )}
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="w-[100%] rounded-lg px-5">
             <div className="col-span-2 mt-1 ml-2 mr-2">
@@ -508,7 +501,7 @@ const UpsellDashboard: React.FC = () => {
         </div>
       )}
 
-      <CommonDialog
+      {/* <CommonDialog
         isOpen={isDialogOpen}
         onClose={() => {
           setDialogOpen(false);
@@ -541,7 +534,7 @@ const UpsellDashboard: React.FC = () => {
             </div>
           ))}
         </div>
-      </CommonPopup>
+      </CommonPopup> */}
     </div>
   );
 };
