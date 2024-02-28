@@ -164,7 +164,7 @@ const UpsellDashboard: React.FC = () => {
 
   const handleDelete = () => {
     if (selectedRows.length === 0 || selectedRows === null) {
-      toast.error("Please select data first");
+      toast.error("Please select upsells");
       return;
     }
 
@@ -179,7 +179,7 @@ const UpsellDashboard: React.FC = () => {
 
   const handleActivate = () => {
     if (selectedRows.length === 0 || selectedRows === null) {
-      toast.error("Please select data first");
+      toast.error("Please select upsells");
       return;
     }
 
@@ -195,7 +195,7 @@ const UpsellDashboard: React.FC = () => {
 
   const handleDeactivate = () => {
     if (selectedRows.length === 0 || selectedRows === null) {
-      toast.error("Please select data first");
+      toast.error("Please select upsells");
       return;
     }
 
@@ -341,7 +341,7 @@ const UpsellDashboard: React.FC = () => {
 
   const sampleTitle = "Start from Blank";
   const sampleDescription =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+    "Lorem ipsum ";
 
   const data: any[] = [
     // { imageUrl: 'https://placekitten.com/300/200', title: 'Card 1', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: Math.random() * 100 },
@@ -543,7 +543,7 @@ const UpsellDashboard: React.FC = () => {
         </div>
 
       </CommonPopup>
-      
+
     </div>
   );
 };
