@@ -69,11 +69,8 @@ const UpsellSettings = ({ children }: any) => {
   return (
     <div className="flex flex-col sm:flex-row gap-0 h-[90vh] w-full bg-gray-100">
       {/* Column 1 - Setting nav */}
-      <div className="flex flex-col flex-grow p-4 rounded-md bg-gray-100 max-h-[90vh] w-[8%]">
+      <div className="flex flex-col flex-grow py-4 bg-white max-h-[90vh] w-[8%]">
         <div className="mb-8">
-          <h2 className="text-xl font-bold text-indigo-700">
-            Upsells Settings
-          </h2>
           <ul className="flex flex-col gap-1 py-4 cursor-pointer">
             <li className="hover:bg-indigo-100 p-3 rounded-md flex items-center space-x-2">
               <BuildingOffice2Icon className="w-6 h-6" />
@@ -83,25 +80,22 @@ const UpsellSettings = ({ children }: any) => {
             <li
               className={`${
                 selectedMenu === "Upsells"
-                  ? "bg-indigo-700 text-white"
+                  ? "border-l-2 border-indigo-700 text-indigo-700"
                   : "hover:bg-indigo-100"
-              } p-3 rounded-md cursor-pointer flex items-center space-x-2`}
+              } p-3 cursor-pointer flex items-center space-x-2`}
               onClick={() => handleMenuClick("Upsells")}
             >
-              <ShoppingBagIcon className="w-6 h-6" />{" "}
-              <span>Upsells</span>
+              <ShoppingBagIcon className="w-6 h-6" /> <span>Upsells</span>
             </li>
             <li className="hover:bg-indigo-100 p-3 rounded-md flex items-center space-x-2">
               <ChatBubbleLeftEllipsisIcon className="w-6 h-6" />{" "}
               <span>Chat</span>
             </li>
             <li className="hover:bg-indigo-100 p-3 rounded-md flex items-center space-x-2">
-              <UserGroupIcon className="w-6 h-6" />{" "}
-              <span>Guests</span>
+              <UserGroupIcon className="w-6 h-6" /> <span>Guests</span>
             </li>
             <li className="hover:bg-indigo-100 p-3 rounded-md flex items-center space-x-2">
-              <BriefcaseIcon className="w-6 h-6" />{" "}
-              <span>Workplace</span>
+              <BriefcaseIcon className="w-6 h-6" /> <span>Workplace</span>
             </li>
           </ul>
         </div>
@@ -110,7 +104,7 @@ const UpsellSettings = ({ children }: any) => {
         </div> */}
       </div>
       {/* Column 2 - page components */}
-      <div className="w-full sm:w-4/5 h-[100%] border-4 border-gray-300 overflow-y-auto p-2">
+      <div className="w-full sm:w-4/5 h-[100%] overflow-y-auto">
         {returnSelectedComponent(selectedMenu)}
       </div>
     </div>

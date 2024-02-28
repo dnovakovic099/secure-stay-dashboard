@@ -13,7 +13,7 @@ const Upsells = () => {
   return (
     <SideBarMain>
       <div className="flex items-center justify-center bg-gray-100 h-[100%]">
-        <div className="min-w-full m ">
+        <div className="min-w-full">
           <Suspense fallback={<Loader />}>
             <Navbar />
             <UpsellSettings />

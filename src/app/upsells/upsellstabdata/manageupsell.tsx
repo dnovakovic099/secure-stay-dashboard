@@ -30,7 +30,6 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
   selectedRows,
   //   ...otherProps
 }) => {
-  
   const router = useRouter();
 
   const handleEditUpsell = (data: any) => {
@@ -55,18 +54,18 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
       <div className="flex flex-col">
         <div className="-my-2 overflow-hidden sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-1">
-            <div className="overflow-y-scroll border-b border-gray-200 sm:rounded-lg gap-20 max-h-[70vh]">
+            <div className="overflow-y-scroll gap-20 max-h-[70vh] rounded-md">
               <table
-                className="w-full bg-transparent border"
+                className="w-full bg-transparent"
                 style={{
                   borderCollapse: "separate",
                   borderSpacing: "0 0.2rem",
-                  alignItems:"baseline",
+                  alignItems: "baseline",
                 }}
               >
-                <thead className="bg-blue-500 text-gray-800 lg:table-header-group shadow-md w-full sticky top-0 z-10">
+                <thead className="bg-white text-black lg:table-header-group w-full sticky top-0 z-10">
                   {" "}
-                  <tr className=" text-white  bg-indigo-700 items-center rounded-t-md p-5 ">
+                  <tr className=" text-black  bg-white items-center p-5 ">
                     <th className="pl-5 py-2 text-start ">
                       <input
                         type="checkbox"
@@ -75,25 +74,25 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                         onChange={handleSelectAll}
                       />
                     </th>
-                    <th className="py-1 text-start text-sm text-white">
+                    <th className="py-1 text-start text-sm text-black">
                       Title
                     </th>
-                    <th className=" py-1 text-start text-sm text-white">
+                    <th className=" py-1 text-start text-sm text-black">
                       Price
                     </th>
-                    <th className=" py-1 text-start text-sm text-white">
+                    <th className=" py-1 text-start text-sm text-black">
                       Period
                     </th>
-                    <th className=" py-1 text-start text-sm text-white">
+                    <th className=" py-1 text-start text-sm text-black">
                       Availability
                     </th>
                     {/* <th className=" py-1 text-start text-blue-500">
                       Active Properties
                     </th> */}
-                    <th className=" py-1 text-start text-sm text-white">
+                    <th className=" py-1 text-start text-sm text-black">
                       Status
                     </th>
-                    <th className=" py-1 text-start text-sm text-white">
+                    <th className=" py-1 text-start text-sm text-black">
                       Action
                     </th>
                   </tr>

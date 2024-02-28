@@ -39,7 +39,7 @@ export interface Upsell {
 
 const UpsellDashboard: React.FC = () => {
   const router = useRouter();
-  const [totalData, setTotalData] = useState(10);
+  const [totalData, setTotalData] = useState(14);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(totalData / limit);
@@ -75,10 +75,10 @@ const UpsellDashboard: React.FC = () => {
       fetchDataSearch(currentPage, limit, title);
     }, 300);
     return () => clearTimeout(delaySearch);
-}, [title]);
+  }, [title]);
 
   useEffect(() => {
-    if (totalData > 10) {
+    if (totalData > 14) {
       setTotalPages(Math.ceil(totalData / limit));
     }
   }, [totalData, limit]);
@@ -324,7 +324,7 @@ const UpsellDashboard: React.FC = () => {
           "Content-Type": "application/json",
         },
       };
- 
+
       const result: any = await handleApiCallFetch(apiUrl, params);
       // Handle successful data fetch
       setUpsells(result.data);
@@ -340,8 +340,7 @@ const UpsellDashboard: React.FC = () => {
     "https://placehold.co/200x400/?text=Build+your%0Aown+upsells";
 
   const sampleTitle = "Start from Blank";
-  const sampleDescription =
-    "Lorem ipsum ";
+  const sampleDescription = "Lorem ipsum ";
 
   const data: any[] = [
     // { imageUrl: 'https://placekitten.com/300/200', title: 'Card 1', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: Math.random() * 100 },
@@ -353,25 +352,62 @@ const UpsellDashboard: React.FC = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="flex flex-col items-center justify-center rounded-md  mr-auto bg-gray-100">
+        <div className="flex flex-col items-center justify-center  mr-auto bg-gray-100">
           <Toaster position="top-center" reverseOrder={false} />
-          <div className="w-[100%] bg-white px-5 py-2 rounded-md  gap-10">
+          <div className="w-[100%] bg-white px-5 py-2 gap-10">
             <div className="mb-2 mt-2 flex justify-between items-center">
               <div>
-                <h1 className="text-2xl font-extrabold">
-                  Upsells - <span className="text-indigo-700">{totalData}</span>
+                <h1 className="text-2xl font-semibold">
+                  Upsells - <span>{totalData}</span>
                 </h1>
               </div>
 
+              {/* here */}
+              <div className="flex justify-start space-x-1 w-[50%] mt-1 bg-gray-200 p-1 rounded-md">
+                {[
+                  {
+                    label: "Manage Upsells",
+                    icon: <Bars4Icon className="w-4 h-4" />,
+                    tab: "manageUpsells",
+                  },
+                  {
+                    label: "Upsell Orders",
+                    icon: <ArrowRightIcon className="w-3 h-3" />,
+                    tab: "upsellOrders",
+                  },
+                  {
+                    label: "Upsell Request",
+                    icon: <ArrowPathRoundedSquareIcon className="w-3 h-3" />,
+                    tab: "upsellRequest",
+                  },
+                ].map(({ label, tab }) => (
+                  <div
+                    key={tab}
+                    className={`flex items-center justify-center w-full h-10 bg-gray-200 text-gray-700 rounded-md cursor-pointer transition-transform ${
+                      activeTab === tab
+                        ? "bg-white text-black shadow-md"
+                        : "hover:shadow-lg hover:scale-105"
+                    }`}
+                    onClick={() => handleTabClick(tab)}
+                  >
+                    <div className="flex items-center space-x-2">
+                      {/* {icon} */}
+                      <h2 className="text-xs font-bold">{label}</h2>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* here */}
+
               <div className="flex items-center space-x-4">
                 {/* Search Bar */}
-                <input
+                {/* <input  ******change here*****
                   type="text"
                   className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 placeholder-gray-500"
                   placeholder="Search..."
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                />
+                /> */}
 
                 {/* Filter Icon */}
                 <div className="relative sm:mt-0 sm:ml-4">
@@ -394,41 +430,6 @@ const UpsellDashboard: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-row  justify-between w-[100%] bg-white px-5 py-2 ">
-              <div className="flex justify-start space-x-1 w-[50%] mt-1">
-                {[
-                  {
-                    label: "Manage Upsells",
-                    icon: <Bars4Icon className="w-4 h-4" />,
-                    tab: "manageUpsells",
-                  },
-                  {
-                    label: "Upsell Orders",
-                    icon: <ArrowRightIcon className="w-3 h-3" />,
-                    tab: "upsellOrders",
-                  },
-                  {
-                    label: "Upsell Request",
-                    icon: <ArrowPathRoundedSquareIcon className="w-3 h-3" />,
-                    tab: "upsellRequest",
-                  },
-                ].map(({ label, icon, tab }) => (
-                  <div
-                    key={tab}
-                    className={`flex items-center justify-center w-full h-10 bg-gray-200 text-gray-700 rounded-md cursor-pointer transition-transform ${
-                      activeTab === tab
-                        ? "border-b-2 border-indigo-700 bg-white text-black shadow-md"
-                        : "hover:shadow-lg hover:scale-105"
-                    }`}
-                    onClick={() => handleTabClick(tab)}
-                  >
-                    <div className="flex items-center space-x-2">
-                      {icon}
-                      <h2 className="text-xs font-bold">{label}</h2>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
               <div>
                 {activeTab === "manageUpsells" && (
                   <div className="flex justify-start items-center mt-2 gap-5 ml-auto">
@@ -527,7 +528,6 @@ const UpsellDashboard: React.FC = () => {
       >
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1">
           <div key={0} onClick={() => handleCreateUpsell()}>
-
             <Card
               imageUrl={sampleImageUrl}
               title={sampleTitle}
@@ -541,9 +541,7 @@ const UpsellDashboard: React.FC = () => {
             </div>
           ))}
         </div>
-
       </CommonPopup>
-
     </div>
   );
 };
