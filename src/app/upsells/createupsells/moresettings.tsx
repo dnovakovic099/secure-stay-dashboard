@@ -61,7 +61,7 @@ const MoreSettings: React.FC<ChildProps> = ({
                 key={index}
                 className="bg-white py-4 rounded-lg shadow-md border border-gray-300"
               >
-                <div className="px-5 flex justify-between relative">
+                <div className="px-5 flex justify-between relative select-none cursor-pointer" onClick={() => handleSettingClick(index)}>
                   <div>
                     <h2 className="text-sm font-semibold">{setting.title}</h2>
                     <p className="text-gray-500 text-xs">
