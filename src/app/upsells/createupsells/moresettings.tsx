@@ -7,13 +7,15 @@ import { Property } from "./createUpsells";
 interface ChildProps {
   attachedProperties: Property[];
   setAttachedProperties: React.Dispatch<React.SetStateAction<Property[]>>;
+  fetchListingData: () => void;
 }
 
 const MoreSettings: React.FC<ChildProps> = ({
   attachedProperties,
   setAttachedProperties,
+  fetchListingData,
 }) => {
-  const [showSettings, setShowSettings] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
   const [selectedSetting, setSelectedSetting] = useState(null);
 
   const toggleSettings = () => {
@@ -32,16 +34,15 @@ const MoreSettings: React.FC<ChildProps> = ({
 
   const settingsList = [
     {
-      title: "Setting 1",
-      description: "Description 1",
-      data: ["Data 1", "Data 2", "Data 3"],
+      title: "Attache Properties/Rental",
+      description: "All properties attached",
     },
   ];
 
   return (
-    <div>
+<>
       <div
-        className="flex items-center cursor-pointer border-b border-gray-300 p-2 "
+        className="flex items-center cursor-pointer border border-gray-100 p-1 "
         onClick={toggleSettings}
       >
         {showSettings ? (
@@ -54,7 +55,7 @@ const MoreSettings: React.FC<ChildProps> = ({
 
       <div className="relative">
         {showSettings && (
-          <div className="mt-4 space-y-4 border-2 p-5">
+          <div className="mt-4 space-y-8 border-2 shadow-lg p-3">
             {settingsList?.map((setting, index) => (
               <div
                 key={index}
@@ -85,6 +86,7 @@ const MoreSettings: React.FC<ChildProps> = ({
                     <AdditionalContent
                       attachedProperties={attachedProperties}
                       setAttachedProperties={setAttachedProperties}
+                      fetchListingData={fetchListingData}
                     />
                   </div>
                 )}
@@ -93,7 +95,7 @@ const MoreSettings: React.FC<ChildProps> = ({
           </div>
         )}
       </div>
-    </div>
+</>
   );
 };
 export default MoreSettings;

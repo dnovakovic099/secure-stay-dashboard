@@ -2,12 +2,15 @@
 import { useState } from "react";
 import { Switch } from "@headlessui/react";
 import {
-  PencilSquareIcon,
+  PencilIcon,
   ArrowUpIcon,
   ArrowDownIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
 } from "@heroicons/react/20/solid";
-import { Upsell } from "../upselldashboard";
+import { Upsell } from "../upsellView/upselldashboard";
 import UpSellListing from "./upSellListing";
+import { useRouter } from "next/navigation";
 
 interface ManageUpsellProps {
   upsells: Upsell[];
@@ -27,14 +30,14 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
   selectedRows,
   //   ...otherProps
 }) => {
+  
+  const router = useRouter();
+
   const handleEditUpsell = (data: any) => {
     // Navigate to the desired screen in a new tab
-    window.open(
-      `/upsells/createupsells?upsell_id=${data}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    router.push(`/upsells/createupsells?upsell_id=${data}`);
   };
+
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
 
   const handleToggleRow = (index: number) => {
@@ -48,59 +51,67 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto ">
       <div className="flex flex-col">
-        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-            <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg gap-20">
+        <div className="-my-2 overflow-hidden sm:-mx-6 lg:-mx-8">
+          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-1">
+            <div className="overflow-y-scroll border-b border-gray-200 sm:rounded-lg gap-20 max-h-[70vh]">
               <table
-                className="w-full divide-y divide-gray-200"
+                className="w-full bg-transparent border"
                 style={{
                   borderCollapse: "separate",
-                  borderSpacing: "0 1rem",
+                  borderSpacing: "0 0.2rem",
+                  alignItems:"baseline",
                 }}
               >
-                <thead className="bg-gradient-to-r from-gray-300 via-gray-300 to-gray-300 text-white hidden lg:table-header-group">
-                  <tr>
-                    <th className="px-5 py-2 text-center">
+                <thead className="bg-blue-500 text-gray-800 lg:table-header-group shadow-md w-full sticky top-0 z-10">
+                  {" "}
+                  <tr className=" text-white  bg-indigo-700 items-center rounded-t-md p-5 ">
+                    <th className="pl-5 py-2 text-start ">
                       <input
                         type="checkbox"
-                        className="form-checkbox h-5 w-5 text-blue-500"
+                        className="form-checkbox h-4 w-4 text-black"
                         checked={selectAll}
                         onChange={handleSelectAll}
                       />
                     </th>
-                    <th className="px-6 py-1 text-left text-blue-500">Title</th>
-                    <th className="px-6 py-1 text-left text-blue-500">Price</th>
-                    <th className="px-6 py-1 text-left text-blue-500">
+                    <th className="py-1 text-start text-sm text-white">
+                      Title
+                    </th>
+                    <th className=" py-1 text-start text-sm text-white">
+                      Price
+                    </th>
+                    <th className=" py-1 text-start text-sm text-white">
                       Period
                     </th>
-                    <th className="px-6 py-1 text-left text-blue-500">
+                    <th className=" py-1 text-start text-sm text-white">
                       Availability
                     </th>
-                    <th className="px-6 py-1 text-left text-blue-500">
+                    {/* <th className=" py-1 text-start text-blue-500">
                       Active Properties
-                    </th>
-                    <th className="px-6 py-1 text-left text-blue-500">
+                    </th> */}
+                    <th className=" py-1 text-start text-sm text-white">
                       Status
                     </th>
-                    <th className="px-6 py-1 text-left text-blue-500">
+                    <th className=" py-1 text-start text-sm text-white">
                       Action
                     </th>
                   </tr>
                 </thead>
 
-                <tbody className="bg-white divide-y divide-gray-200 mt-2">
+                <tbody className="bg-white divide-ymt-2">
                   {upsells?.map((upsell, index) => (
                     <>
                       <tr
                         key={upsell.title}
-                        className={`transition-all duration-300 ease-in-out hover:bg-gray-100 mb-1 rounded-md overflow-hidden shadow-md hidden lg:table-row ${
-                          expandedRows.includes(index) ? "bg-gray-100" : ""
-                        }`}
+                        className={`transition-all duration-300 ease-in-out mb-1 rounded-md hover:bg-indigo-100 overflow-hidden shadow-md md:table-row lg:table-row ${
+                          selectedRows.includes(upsell.upSellId)
+                            ? "bg-indigo-100"
+                            : ""
+                        } ${expandedRows.includes(index) ? "bg-gray-100" : ""}`}
                         style={{ position: "relative" }}
                       >
-                        <td className="px-5 py-3 whitespace-nowrap">
+                        <td className="pl-5 whitespace-nowrap p-2">
                           <input
                             type="checkbox"
                             className="form-checkbox h-4 w-4 text-blue-500"
@@ -111,16 +122,20 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                           />
                         </td>
 
-                        <td className="px-4 py-3 text-sm">{upsell.title}</td>
-                        <td className="px-4 py-3 text-sm">{upsell.price}</td>
-                        <td className="px-4 py-3 text-sm">
+                        <td className="text-sm text-gray-700 font-semibold">
+                          {upsell.title}
+                        </td>
+                        <td className=" text-sm text-gray-700 font-semibold">
+                          {upsell.price}
+                        </td>
+                        <td className=" text-sm text-gray-700 font-semibold">
                           {upsell.timePeriod}
                         </td>
-                        <td className="px-4 py-3 text-sm">
+                        <td className=" text-sm text-gray-700 font-semibold">
                           {upsell.availability}
                         </td>
-                        <td className="px-4 py-3 text-sm">{upsell.isActive}</td>
-                        <td className="px-4 py-3 whitespace-nowrap">
+                        {/* <td className=" py-3 text-sm">{upsell.isActive}</td> */}
+                        <td className="whitespace-nowrap">
                           <Switch
                             checked={upsell.status === 1}
                             onChange={() => handleToggle(upsell.upSellId)}
@@ -156,42 +171,31 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                           </Switch>
                         </td>
 
-                        <td className="px-4 sm:px-6 py-3">
+                        <td>
                           <button
-                            className="text-indigo-600 hover:text-indigo-800 focus:outline-none transition-all duration-300 text-lg"
+                            className="text-gray-700 hover:text-indigo-800 focus:outline-none transition-all duration-300 text-3xl"
                             onClick={() => {
                               handleEditUpsell(upsell.upSellId);
                             }}
                           >
-                            <PencilSquareIcon className="w-5 h-5 text-blue-500" />
+                            <PencilIcon className="w-8 h-6 font-extrabold text-gray-700" />
+                          </button>
+
+                          <button
+                            className="hover:text-indigo-800 focus:outline-none transition-all duration-300 text-sm border-2 ml-5 rounded-full bg-gray-200"
+                            onClick={() => handleToggleRow(index)}
+                          >
+                            {expandedRows.includes(index) ? (
+                              /* Arrow pointing upwards when expanded */
+                              <ChevronUpIcon className="w-4 h-4 text-black font-black" />
+                            ) : (
+                              /* Arrow pointing downwards when collapsed */
+                              <ChevronDownIcon className="w-4 h-4 text-black font-black" />
+                            )}
                           </button>
                         </td>
-
-                        <button
-                          className="text-indigo-600 hover:text-indigo-800 focus:outline-none transition-all duration-300 text-sm" // Adjusted to text-sm for a smaller size
-                          onClick={() => handleToggleRow(index)}
-                          style={{
-                            position: "absolute",
-                            bottom: "-10px", // Adjusted to move the button a bit lower
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            borderRadius: "20% / 50%",
-                            background: "#fff",
-                            padding: "6px", // Adjusted for smaller padding
-                            // Removed the boxShadow
-                          }}
-                        >
-                          {expandedRows.includes(index) ? (
-                            /* Arrow pointing upwards when expanded */
-                            <ArrowUpIcon className="w-4 h-4 text-blue-500" />
-                          ) : (
-                            /* Arrow pointing downwards when collapsed */
-                            <ArrowDownIcon className="w-4 h-4 text-blue-500" />
-                          )}
-                        </button>
                       </tr>
-
-                      <tr className="lg:hidden">
+                      <tr className="lg:hidden md:hidden">
                         <td colSpan={7}>
                           <div className="bg-gradient-to-r from-indigo-100 to-purple-200 rounded-md  shadow-md mb-2 relative">
                             {/* Card Content */}
@@ -232,7 +236,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                                     handleEditUpsell(index);
                                   }}
                                 >
-                                  <PencilSquareIcon
+                                  <PencilIcon
                                     className="w-4 h-4 text-white"
                                     style={{ color: "white" }}
                                   />
@@ -272,12 +276,12 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                                       </p>
                                     </div>
                                     <div className="mt-1">
-                                      <p className="text-sm  text-black ">
+                                      {/* <p className="text-sm  text-black ">
                                         Active Properties
                                       </p>
                                       <p className="text-md font-bold text-black">
                                         {upsell.isActive}
-                                      </p>
+                                      </p> */}
                                     </div>
                                   </div>
                                   <div>
@@ -294,7 +298,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                                         Availability
                                       </p>
                                       <p className="text-md font-bold text-black">
-                                        {upsell.isActive}
+                                        {upsell.availability}
                                       </p>
                                     </div>
                                     <div className="mt-1">
@@ -303,7 +307,9 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                                       </p>
                                       <Switch
                                         checked={upsell.status === 1}
-                                        onChange={() => handleToggle(index)}
+                                        onChange={() =>
+                                          handleToggle(upsell.upSellId)
+                                        }
                                         className={`${
                                           upsell.status === 1
                                             ? "bg-green-500"
@@ -346,7 +352,6 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                       {expandedRows.includes(index) && (
                         <tr>
                           <td colSpan={7} className="w-full pl-10">
-                            {/* Your expanded content */}
                             <UpSellListing upsellid={upsell.upSellId} />
                           </td>
                         </tr>

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import EditUpsell from "./editUpsells";
 import { request } from "http";
 import { useSearchParams } from "next/navigation";
+import NavBar from "../upsellView/navbar";
 
 //This is client component
 //Component
@@ -17,6 +18,7 @@ const CreateUpsellPage = () => {
 
   return (
     <SideBarMain>
+      <NavBar/>
       <div className="flex bg-gray-100">
         {searchParams.has("upsell_id") ? <EditUpsell /> : <CreateUpsell />}
       </div>

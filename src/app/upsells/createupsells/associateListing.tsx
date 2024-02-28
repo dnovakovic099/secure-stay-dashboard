@@ -18,6 +18,7 @@ interface ToggleSwitchCardProps {
 interface AdditionalContentProps {
   attachedProperties: Property[];
   setAttachedProperties: React.Dispatch<React.SetStateAction<Property[]>>;
+  fetchListingData: () => void;
 }
 
 // Functional component for the toggle switch card
@@ -26,7 +27,7 @@ const ToggleSwitchCard: React.FC<ToggleSwitchCardProps> = ({
   handleToggle,
 }) => {
   return (
-    <div className="bg-white px-4 py-2 rounded-lg shadow-md mb-4 flex items-center gap-5">
+    <div className="bg-white px-4 py-2 rounded-lg shadow-md mb-4 max-w-screen-xl flex items-center gap-5">
       <div>
         <Switch
           checked={property.status === 1}
@@ -68,32 +69,13 @@ const ToggleSwitchCard: React.FC<ToggleSwitchCardProps> = ({
 const AdditionalContent: React.FC<AdditionalContentProps> = ({
   attachedProperties,
   setAttachedProperties,
+  fetchListingData,
 }) => {
-  const [properties, setProperties] = useState<Property[]>([]);
   const [totalData, setTotalData] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(7);
   const [totalPages, setTotalPages] = useState(totalData / limit);
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    setAttachedProperties(
-      properties?.map((property) => ({ ...property, status: 1 }))
-    );
-    fetchData();
-  }, []);
-
-  // useEffect(() => {
-  //   if (totalData > 7) {
-  //     setTotalPages(totalData / limit);
-  //   }
-  // }, [totalData]);
-
-  useEffect(() => {
-    setAttachedProperties(
-      properties?.map((property) => ({ ...property, status: 1 }))
-    );
-  }, [properties]);
 
   // Updated handleToggleAllOn and handleToggleAllOff functions
   const handleToggleAllOn = () => {
@@ -130,38 +112,15 @@ const AdditionalContent: React.FC<AdditionalContentProps> = ({
     setCurrentPage(page);
   };
 
-  const fetchData = async () => {
-    try {
-      const apiUrl = `${envConfig.backendUrl}/listing/getlistings`; // Replace with your API endpoint
-      const params = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
-      const result: any = await handleApiCallFetch(apiUrl, params);
-
-      // Handle successful data fetch
-      setProperties(result.listings);
-
-      //   setUpsells(result[0]);
-      setTotalData(result.listings.length);
-    } catch (error) {
-      toast.error("Error occured");
-      // Handle error
-    }
-  };
-
   return (
-    <div className="container p-4">
+    <div className="container p-4 max-w-screen-xl">
       <>
         <div className="mb-4 grid grid-cols-1 sm:grid sm:grid-cols-2 gap-5 space-x-2 ">
           <div className="overflow-hidden">
             <input
               type="text"
               placeholder="Search by name or id"
-              className="w-full  border border-gray-300 p-2 rounded-full focus:outline-none focus:border-blue-500 placeholder-gray-300"
+              className="w-full  border border-gray-700 p-2 rounded-full focus:outline-none shadow-lg focus:border-blue-500 placeholder-gray-300"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
