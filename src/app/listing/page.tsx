@@ -5,7 +5,7 @@ import SearchBar from "@/components/SearchBar";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
-import { envConfig } from "@/utility/environment";
+import { envConfig } from "../../utility/environment";
 import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
 import classNames from "classnames";
 import HotelDetail from "./HotelDetail";
@@ -18,7 +18,7 @@ const MainMessageScreen = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiUrl = `http://192.168.1.11:5173/listing/getlistings`;
+        const apiUrl = `${envConfig.backendUrl}/listing/getlistings`;
         const response = await axios.get(apiUrl); // Fetch data
         const data = response.data;
         setListings(data.listings);
