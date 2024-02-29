@@ -12,7 +12,12 @@ import {
   XCircleIcon,
   CircleStackIcon,
   ArrowPathRoundedSquareIcon,
+  EllipsisVerticalIcon,
 } from "@heroicons/react/20/solid";
+import {
+  MagnifyingGlassIcon,
+  Bars3BottomRightIcon,
+} from "@heroicons/react/24/outline";
 import axios from "axios";
 import ManageUpsell from "../upsellstabdata/manageupsell";
 import UpsellOrder from "../upsellstabdata/upsellorder";
@@ -226,21 +231,23 @@ const NavBar = () => {
           />
         </div>
 
-        <div className="flex items-center justify-between py-1 px-7 w-4/5 h-10">
-          <div className="">
+        <div className="flex items-center justify-between py-1 px-5 w-4/5 h-10">
+          <div className="flex items-center bg-[#212d5a] px-1 rounded-md">
+            <MagnifyingGlassIcon className="h-4 text-gray-300" />
             <input
               type="text"
-              className="px-3 py-2 h-8 bg-blue-950 text-gray-300 text-sm rounded-md focus:outline-none focus:border-blue-500 transition duration-300 placeholder-gray-300"
+              className="px-3 py-2 h-8 bg-[#212d5a] text-gray-300 text-sm rounded-md focus:outline-none focus:border-blue-500 transition duration-300 placeholder-gray-300"
               placeholder="Search upsells here"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
+            <Bars3BottomRightIcon className="h-4 text-gray-300" />
           </div>
 
           <div className="flex items-center gap-5 ml-auto">
             <div className="flex items-center gap-5 ml-auto">
               <button
-                className="text-white px-4 py-1 rounded-full hover:bg-blue-600 transition-all duration-300 flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-indigo-700"
+                className="text-white px-4 py-1 rounded-md hover:bg-blue-600 transition-all duration-300 flex items-center gap-2 bg-gradient-to-r from-purple-600 to-purple-800"
                 onClick={handleOpenPopup}
               >
                 <PlusIcon className="ml-2 w-4 h-4 font-extrabold" /> Create
@@ -253,10 +260,9 @@ const NavBar = () => {
                       <Popover.Button
                         className={`
                           ${open ? "text-white" : "text-white/90"}
-                          group inline-flex items-center justify-center rounded-full bg-gray-400 w-8 h-8 text-base font-bold hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
-                        style={{ borderRadius: "50%" }}
+                          group inline-flex items-center justify-center rounded-md bg-[#212d5a] w-8 h-8 text-base font-bold hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
                       >
-                        <span className="mb-2">...</span>
+                        <EllipsisVerticalIcon className="text-white h-5" />
                       </Popover.Button>
 
                       <Transition

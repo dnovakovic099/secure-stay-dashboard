@@ -52,7 +52,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
   return (
     <div className="container mx-auto ">
       <div className="flex flex-col">
-        <div className="-my-2 overflow-hidden sm:-mx-6 lg:-mx-8">
+        <div className="-my-2 overflow-hidden sm:-mr-10 sm:-ml-7">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-1">
             <div className="overflow-y-scroll gap-20 max-h-[70vh] rounded-md">
               <table

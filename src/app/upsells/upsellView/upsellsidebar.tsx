@@ -2,13 +2,14 @@
 import { useState } from "react";
 
 import UpsellDashboard from "./upselldashboard";
+
 import {
+  ChatBubbleLeftRightIcon,
+  UserGroupIcon,
   BriefcaseIcon,
   BuildingOffice2Icon,
-  ChatBubbleLeftEllipsisIcon,
-  ShoppingBagIcon,
-  UserGroupIcon,
-} from "@heroicons/react/20/solid";
+  CurrencyDollarIcon,
+} from "@heroicons/react/24/outline";
 const UpsellSettings = ({ children }: any) => {
   const [selectedMenu, setSelectedMenu] = useState("");
 
@@ -72,7 +73,7 @@ const UpsellSettings = ({ children }: any) => {
       <div className="flex flex-col flex-grow py-4 bg-white max-h-[90vh] w-[8%]">
         <div className="mb-8">
           <ul className="flex flex-col gap-1 py-4 cursor-pointer">
-            <li className="hover:bg-indigo-100 p-3 rounded-md flex items-center space-x-2">
+            <li className="hover:bg-indigo-100 text-gray-500 p-3 rounded-md flex items-center space-x-2">
               <BuildingOffice2Icon className="w-6 h-6" />
               <span>Listing</span>
             </li>
@@ -81,20 +82,19 @@ const UpsellSettings = ({ children }: any) => {
               className={`${
                 selectedMenu === "Upsells"
                   ? "border-l-2 border-indigo-700 text-indigo-700"
-                  : "hover:bg-indigo-100"
+                  : "hover:bg-indigo-100 text-gray-500"
               } p-3 cursor-pointer flex items-center space-x-2`}
               onClick={() => handleMenuClick("Upsells")}
             >
-              <ShoppingBagIcon className="w-6 h-6" /> <span>Upsells</span>
+              <CurrencyDollarIcon className="w-6 h-6" /> <span>Upsells</span>
             </li>
-            <li className="hover:bg-indigo-100 p-3 rounded-md flex items-center space-x-2">
-              <ChatBubbleLeftEllipsisIcon className="w-6 h-6" />{" "}
-              <span>Chat</span>
+            <li className="hover:bg-indigo-100 text-gray-500 p-3 rounded-md flex items-center space-x-2">
+              <ChatBubbleLeftRightIcon className="w-6 h-6" /> <span>Chat</span>
             </li>
-            <li className="hover:bg-indigo-100 p-3 rounded-md flex items-center space-x-2">
+            <li className="hover:bg-indigo-100 text-gray-500 p-3 rounded-md flex items-center space-x-2">
               <UserGroupIcon className="w-6 h-6" /> <span>Guests</span>
             </li>
-            <li className="hover:bg-indigo-100 p-3 rounded-md flex items-center space-x-2">
+            <li className="hover:bg-indigo-100 text-gray-500 p-3 rounded-md flex items-center space-x-2">
               <BriefcaseIcon className="w-6 h-6" /> <span>Workplace</span>
             </li>
           </ul>
@@ -104,7 +104,7 @@ const UpsellSettings = ({ children }: any) => {
         </div> */}
       </div>
       {/* Column 2 - page components */}
-      <div className="w-full sm:w-4/5 h-[100%] overflow-y-auto">
+      <div className="sm:w-4/5 h-[100%] overflow-hidden">
         {returnSelectedComponent(selectedMenu)}
       </div>
     </div>

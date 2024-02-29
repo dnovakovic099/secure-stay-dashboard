@@ -10,7 +10,7 @@ import {
   TrashIcon,
   LinkIcon,
   XCircleIcon,
-  CircleStackIcon,
+  ArrowDownOnSquareStackIcon,
   ArrowPathRoundedSquareIcon,
 } from "@heroicons/react/20/solid";
 import axios from "axios";
@@ -355,47 +355,49 @@ const UpsellDashboard: React.FC = () => {
         <div className="flex flex-col items-center justify-center  mr-auto bg-gray-100">
           <Toaster position="top-center" reverseOrder={false} />
           <div className="w-[100%] bg-white px-5 py-2 gap-10">
-            <div className="mb-2 mt-2 flex justify-between items-center">
-              <div>
-                <h1 className="text-2xl font-semibold">
-                  Upsells - <span>{totalData}</span>
-                </h1>
-              </div>
+            <div className="w-full mb-2 mt-2 flex justify-between items-center">
+              <div className="w-[65%] flex justify-between items-center">
+                <div className="w-1/4">
+                  <h1 className="text-2xl font-semibold">
+                    Upsells - <span>{totalData}</span>
+                  </h1>
+                </div>
 
-              {/* here */}
-              <div className="flex justify-start space-x-1 w-[50%] mt-1 bg-gray-200 p-1 rounded-md">
-                {[
-                  {
-                    label: "Manage Upsells",
-                    icon: <Bars4Icon className="w-4 h-4" />,
-                    tab: "manageUpsells",
-                  },
-                  {
-                    label: "Upsell Orders",
-                    icon: <ArrowRightIcon className="w-3 h-3" />,
-                    tab: "upsellOrders",
-                  },
-                  {
-                    label: "Upsell Request",
-                    icon: <ArrowPathRoundedSquareIcon className="w-3 h-3" />,
-                    tab: "upsellRequest",
-                  },
-                ].map(({ label, tab }) => (
-                  <div
-                    key={tab}
-                    className={`flex items-center justify-center w-full h-10 bg-gray-200 text-gray-700 rounded-md cursor-pointer transition-transform ${
-                      activeTab === tab
-                        ? "bg-white text-black shadow-md"
-                        : "hover:shadow-lg hover:scale-105"
-                    }`}
-                    onClick={() => handleTabClick(tab)}
-                  >
-                    <div className="flex items-center space-x-2">
-                      {/* {icon} */}
-                      <h2 className="text-xs font-bold">{label}</h2>
+                {/* here */}
+                <div className="flex space-x-1 bg-gray-100 w-[70%] p-1 rounded-md">
+                  {[
+                    {
+                      label: "Manage Upsells",
+                      icon: <Bars4Icon className="w-4 h-4" />,
+                      tab: "manageUpsells",
+                    },
+                    {
+                      label: "Upsell Orders",
+                      icon: <ArrowRightIcon className="w-3 h-3" />,
+                      tab: "upsellOrders",
+                    },
+                    {
+                      label: "Upsell Request",
+                      icon: <ArrowPathRoundedSquareIcon className="w-3 h-3" />,
+                      tab: "upsellRequest",
+                    },
+                  ].map(({ label, tab }) => (
+                    <div
+                      key={tab}
+                      className={`flex items-center justify-center w-full h-10 bg-gray-100 rounded-md cursor-pointer transition-transform ${
+                        activeTab === tab
+                          ? "bg-white text-black shadow-md"
+                          : "hover:shadow-lg hover:scale-105 text-gray-500"
+                      }`}
+                      onClick={() => handleTabClick(tab)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        {/* {icon} */}
+                        <h2 className="text-xs font-semibold">{label}</h2>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
               {/* here */}
 
@@ -403,21 +405,22 @@ const UpsellDashboard: React.FC = () => {
                 {/* Search Bar */}
 
                 {/* Filter Icon */}
-                <div className="relative sm:mt-0 sm:ml-4">
-                  <label className="flex justify-items-center relative">
-                    <select
+                <div className="relative sm:mt-0 sm:ml-4 bg-gray-100 rounded-md py-1 px-3">
+                  <label className="flex justify-between items-center gap-2 h-10 cursor-pointer">
+                    <ArrowDownOnSquareStackIcon className="w-5 h-5 text-black" />
+                    <span className="text-black">customize</span>
+                    {/* <select
                       className="block appearance-none w-full sm:w-32border-2 border-black text-black py-2 px-2 pr-8 rounded-md leading-tight focus:outline-none focus:border-blue-500"
                       data-te-select-init
                       data-te-select-clear-button="true"
                       value={limit}
                       onChange={(e) => setLimit(parseInt(e.target.value, 10))}
                     >
-                      <option value="10">10</option>
+                      {limit !== 0 && <option value="10">10</option>}
                       <option value="20">25</option>
                       <option value="100">50</option>
                       <option value="500">100</option>
-                    </select>
-                    <CircleStackIcon className="w-5 h-5 text-gray-500 absolute top-1/2 right-3 transform -translate-y-1/2" />
+                    </select> */}
                   </label>
                 </div>
               </div>
