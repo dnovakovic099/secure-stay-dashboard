@@ -1,28 +1,36 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { envConfig } from "@/utility/environment";
-import { Battery100Icon, Battery50Icon } from "@heroicons/react/20/solid";
+import ReactTooltip from 'react-tooltip';
+import { Battery100Icon, Battery50Icon, ChevronDownIcon, ChevronUpIcon, PencilSquareIcon, PlusIcon, TrashIcon } from "@heroicons/react/20/solid";
+import SifelyDeviceAccessCodes from "./sifelyDeviceAccessCodes";
+
 
 interface DeviceInfo {
   lockName: string;
+  lockAlias: string;
   modelNum: string;
   electricQuantity: number;
   noKeyPwd: number;
   lockMac: string;
   openDirection: number;
+  accessToken: string;
 }
 const deviceInfoObj = {
   lockName: "",
+  lockAlias: "",
   modelNum: "",
   electricQuantity: 0,
   noKeyPwd: 0,
   lockMac: "",
   openDirection: 0,
+  accessToken: ""
 };
 
 const SifelyDeviceInfo = ({ device_id }: any) => {
 
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo>(deviceInfoObj);
+  const [passCodes, setPassCodes] = useState([]);
 
   const getDeviceInfo = async () => {
 
@@ -42,6 +50,22 @@ const SifelyDeviceInfo = ({ device_id }: any) => {
 
   };
 
+  const fetchPassCodes = async () => {
+    try {
+      const apiUrl = `${envConfig.backendUrl}/device/sifely/getpasscodes?deviceId=${device_id}&accessToken=${deviceInfo?.accessToken}`;
+      const result = await axios.get(apiUrl);
+      if (result.status == 200) {
+        setPassCodes(result.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPassCodes();
+  }, [deviceInfo])
+
   useEffect(() => {
     getDeviceInfo();
 
@@ -49,7 +73,7 @@ const SifelyDeviceInfo = ({ device_id }: any) => {
 
   return (
     <>
-      <div className="flex items-center bg-gray-100  gap-4 mt-5 p-4 mx-5 px-3">
+      <div className="flex items-center bg-gray-100  gap-4 mt-5 p-4 mx-5 px-3 rounded-md">
         <div className="flex items-center ">
           <div className="w-16 h-16 overflow-hidden rounded-full mr-2">
             <img
@@ -61,8 +85,8 @@ const SifelyDeviceInfo = ({ device_id }: any) => {
         </div>
         <div className="w-8/1">
           <div className="flex gap-1 items-center">
-            <p className="text-2xl font-semibold text-gray-800">
-              {deviceInfo.lockName}
+            <p className="text-xl font-semibold text-gray-800 uppercase">
+              {deviceInfo?.lockAlias}
             </p>
           </div>
           <div className="flex flex-col mt-1 text-gray-500 gap-1">
@@ -73,12 +97,12 @@ const SifelyDeviceInfo = ({ device_id }: any) => {
               ) : (
                 <Battery50Icon color="green" width={16} height={16} />
               )}
-              <small className="text-green-600">{`${deviceInfo.electricQuantity}%`}</small>
+              <small className="text-green-600">{`${deviceInfo?.electricQuantity}%`}</small>
             </div>
-            <div className="flex items-center gap-1">
+            {/* <div className="flex items-center gap-1">
               <small>Model:</small>
-              <small className="text-gray-600">{deviceInfo.modelNum}</small>
-            </div>
+              <small className="text-gray-600">{deviceInfo.lockName}</small>
+            </div> */}
           </div>
         </div>
       </div>
@@ -102,6 +126,14 @@ const SifelyDeviceInfo = ({ device_id }: any) => {
           </p>
         </div>
       </div>
+      
+      <SifelyDeviceAccessCodes
+        fetchPassCodes={fetchPassCodes}
+        passCodes={passCodes}
+        deviceId={device_id}
+        accessToken={deviceInfo.accessToken}
+      />
+
     </>
   );
 };

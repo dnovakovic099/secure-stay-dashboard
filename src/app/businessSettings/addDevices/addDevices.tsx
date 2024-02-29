@@ -20,7 +20,7 @@ const AddDevices = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-10  h-screen w-screen">
+    <div className="flex flex-col items-center pt-4">
       <div>
         <div className="mb-2">
           <span
@@ -40,7 +40,7 @@ const AddDevices = () => {
             <span className="text-sm text-slate-500 mb-2">
               Access Management
             </span>
-            <div className="grid grid-cols-3 gap-4 h-[300px] overflow-y-auto mt-2">
+            <div className="grid grid-cols-3 gap-4  overflow-y-auto mt-2">
               {/* card */}
               {brandList.map((brand) => (
                 <div

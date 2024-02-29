@@ -49,7 +49,6 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
 
   const router = useRouter();
 
-
   useEffect(() => {
     getListings();
     getDeviceListings();
@@ -114,13 +113,21 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
 
   const handleEditClick = async (e: any) => {
     e.stopPropagation();
-    setSelection(true);
-    setFilteredListings(listings);
+    setSelection((prev)=>!prev);
+    
   };
+
+  useEffect(()=>{
+    if(selection){
+      setFilteredListings(listings);
+    }else{
+      setFilteredListings(connectedListings)
+    }
+  },[selection])
 
 
   return (
-    <div className="bg-white rounded-md h-[100%] p-4">
+    <div className="bg-white rounded-md  p-4">
       {/* <Toaster /> */}
       <div className="flex justify-between px-2">
         <h2 className="text-xl font-bold text-indigo-600">Device Details</h2>
@@ -150,35 +157,26 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
         {device_type == "Sifely" && <SifelyDeviceInfo device_id={device_id} />}
         <div
           onClick={() => setShowConnectedListings((prev) => !prev)}
-          className="px-6 w-[91%] mx-auto bg-indigo-100 mb-5 py-3 rounded-md cursor-pointer select-none flex justify-between items-center transition duration-300 ease-in-out transform hover:scale-105"
+          className="px-6 w-[91%] mx-auto bg-gray-100 mb-2 py-3 rounded-md cursor-pointer select-none flex justify-between items-center transition duration-300 ease-in-out transform"
         >
           <p className="text-gray-700 font-semibold text-sm">
-            Connected Listings {`(${connectedListings.length})`}
+            Connected Listings <span className="text-slate-400">({connectedListings?.length})</span >
           </p>
-          <div className="flex items-center gap-4">
-            {showConnectedListings ? (
-              <>
-                <button
-                  onClick={(e) => handleEditClick(e)}
-                  className={`rounded-full flex items-center gap-1 bg-indigo-600 px-3 py-1 text-sm text-white shadow-md focus:outline-none focus:ring focus:border-indigo-300`}
-                >
-                  <PencilSquareIcon height={16} width={16} />
-                  <span>Edit</span>
-                </button>
-                <ChevronUpIcon height={20} width={20} />
-              </>
-            ) : (
-              <ChevronDownIcon height={20} width={20} />
-            )}
+          <div className="">
+            <button
+              onClick={(e) => handleEditClick(e)}
+              className="outline outline-2 outline-indigo-600  bg-white p-1 rounded-md"><PencilSquareIcon className="text-indigo-800  h-4 w-5" /></button>
+            <>
+            </>
           </div>
         </div>
 
         <div>
-          {showConnectedListings &&
+          {
             filteredListings?.map((listing: listing) => (
               <div
                 key={listing.listingId}
-                className="flex items-center gap-4 p-3 w-[85%] mx-auto mt-3 cursor-pointer select-none border rounded-md hover:shadow-md bg-white shadow-lg transition-transform transform hover:scale-105"
+                className="flex items-center gap-4 p-3  w-[90%] mx-auto cursor-pointer select-none border-b hover:bg-[#f1f3f4] rounded-md  bg-white  transition-transform transform"
               >
                 {
                   selection &&
@@ -186,18 +184,20 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
                     type="checkbox"
                     onChange={() => handleChange(listing.listingId)}
                     checked={selectedListing?.includes(listing.listingId)}
-                    className="w-4 h-4 border rounded cursor-pointer focus:ring focus:border-indigo-300"
+                    className="size-4 border rounded cursor-pointer focus:ring focus:border-indigo-300"
                   />
                 }
-                <img
-                  src={listing.images[0].url}
-                  alt={listing.name}
-                  height={40}
-                  width={40}
-                  className="rounded-md object-cover border-2 border-indigo-500"
-                />
+                <div className=" overflow-hidden">
+                  <img
+                    src={listing.images[0].url}
+                    alt={listing.name}
+                    height={40}
+                    width={80}
+                    className="rounded-md h-12"
+                  />
+                </div>
                 <div className="flex flex-col">
-                  <h5 className="font-semibold text-sm text-indigo-800">
+                  <h5 className="font-semibold text-sm ">
                     {listing?.name.substring(0, 30) + "..."}
                   </h5>
                   <small className="text-xs text-gray-600">

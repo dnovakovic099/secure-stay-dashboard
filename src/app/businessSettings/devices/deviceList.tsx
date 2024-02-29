@@ -103,13 +103,10 @@ const DeviceList = ({ children }: any) => {
         heightwidth="100rem"
       />
 
-      <div className="flex flex-row gap-[0.05rem] h-[100%] ">
+      <div className="flex flex-row gap-[0.05rem] h-[100%] overflow-x-hidden">
         {/* column 1 */}
-        <div
-          className={`flex-1 bg-white py-2 px-4 rounded-md ${locksPressed ? "w-1/2" : "w-full"
-            }`}
-        >
-          <div className="flex justify-between px-4 mt-1">
+        <div className={`flex-1 bg-white py-2 px-4 rounded-md w-1/2`}>
+          <div className={`flex justify-between px-4 mt-1 `}>
             <h2 className="text-xl font-bold text-indigo-700 mb-4">
               Smart Home Devices
             </h2>
@@ -135,7 +132,7 @@ const DeviceList = ({ children }: any) => {
           </div>
 
           <div
-            className={` ${locksPressed ? "" : "flex justify-start"} gap-10 mt-1 h-[90%] overflow-y-auto`}
+            className={` gap-10 mt-1 h-[90%] overflow-y-auto overflow-x-hidden`}
           >
             {" "}
             {/* Device List here */}
@@ -147,9 +144,9 @@ const DeviceList = ({ children }: any) => {
                 disableSearch
               />
             </SeamProvider>
-            <div className="p-4 w-full bg-gray-50 rounded-md">
-              <h4 className="text-black text-xl font-bold mb-4">
-                Sifely Locks
+            <div className="p-0 w-[564px]  rounded-md">
+              <h4 className="text-black text-lg font-semibold mb-4 mt-4 ml-4">
+                Sifely Locks <small className="text-slate-400">({sifelyLocks?.length})</small >
               </h4>
 
               {sifelyLocks === null ? (
@@ -182,7 +179,7 @@ const DeviceList = ({ children }: any) => {
                     {sifelyLocks?.map((lock: any) => (
                       <li
                         onClick={() => handleClick(lock.lockId)}
-                        className="p-2 rounded-md font-normal text-sm text-justify hover:bg-slate-100 flex items-center gap-4 justify-between border-b-2 shadow-md mb-2 cursor-pointer transition-all duration-300"
+                        className="py-4  font-normal text-sm text-justify hover:bg-[#f1f3f4] flex items-center gap-4 justify-between border-b  cursor-pointer transition-all duration-300"
                       >
                         <div className="flex justify-start gap-5 mx-5">
                           <div>
@@ -195,18 +192,18 @@ const DeviceList = ({ children }: any) => {
                             />
                           </div>
                           <div className="flex flex-col">
-                            <h1 className="font-medium text-base text-black">
-                              {lock.lockName}
+                            <h1 className="font-semibold text-base text-black uppercase">
+                              {lock?.lockAlias?.substring(0, 30)}
                             </h1>
                             <p className="text-xs text-slate-500">
-                              {lock.lockAlias}
+                              {lock.lockName}
                             </p>
                           </div>
                         </div>
 
-                        <div className="flex flex-col ml-4 items-baseline text-slate-500">
-                          <span className="text-xs">Mac: {lock.lockMac}</span>
-                          <span className="text-xs flex items-center gap-2">
+                        <div className="flex flex-col mr-4 items-baseline text-slate-500">
+                          {/* <span className="text-xs">Mac: {lock.lockMac}</span> */}
+                          <div className="text-xs flex items-center gap-2 text-left">
                             {lock.electricQuantity > 80 ? (
                               <Battery100Icon
                                 color="green"
@@ -220,11 +217,11 @@ const DeviceList = ({ children }: any) => {
                                 height={20}
                               />
                             )}
-                            <span>
+                            <div>
                               {lock.electricQuantity < 20 ? "Low" : "Good"} (
                               {lock.electricQuantity}%)
-                            </span>
-                          </span>
+                            </div>
+                          </div>
                         </div>
                       </li>
                     ))}
@@ -235,9 +232,9 @@ const DeviceList = ({ children }: any) => {
           </div>
         </div>
         {/* column 2 - Device Details */}
-        {locksPressed && (
-          <div className=" overflow-y-auto w-[50%] bg-white">{children}</div>
-        )}
+        <div className=" overflow-y-auto w-[50%] bg-white">{children}</div>
+        {/* {locksPressed && (
+        )} */}
       </div>
     </div>
   );
