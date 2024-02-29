@@ -54,28 +54,9 @@ const UpsellDashboard: React.FC = () => {
   const [dialogMessage, setDialogMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [isPopupOpen, setPopupOpen] = useState(false);
-
-  // Handler to open the popup
-  const handleOpenPopup = () => {
-    setPopupOpen(true);
-  };
-
-  // Handler to close the popup
-  const handleClosePopup = () => {
-    setPopupOpen(false);
-  };
-
   useEffect(() => {
     fetchData(currentPage, limit, title);
   }, [currentPage, limit]);
-
-  useEffect(() => {
-    const delaySearch = setTimeout(() => {
-      fetchDataSearch(currentPage, limit, title);
-    }, 300);
-    return () => clearTimeout(delaySearch);
-  }, [title]);
 
   useEffect(() => {
     if (totalData > 14) {
@@ -111,14 +92,6 @@ const UpsellDashboard: React.FC = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  };
-
-  const handleCardClick = (item: any) => {
-    router.push("/upsells/createupsells?template_id=${item.title}", item);
-  };
-
-  const handleCreateUpsell = () => {
-    router.push("/upsells/createupsells");
   };
 
   const handleRequest = async (method: string, uri: string, data?: any) => {
@@ -161,71 +134,6 @@ const UpsellDashboard: React.FC = () => {
     setDialogMessage(message);
     setDialogOpen(true);
   };
-
-  const handleDelete = () => {
-    if (selectedRows.length === 0 || selectedRows === null) {
-      toast.error("Please select upsells");
-      return;
-    }
-
-    openDialog(
-      () =>
-        handleRequest("POST", `upsell/delete-multiple`, {
-          upSellIds: selectedRows,
-        }),
-      "Are you sure you want to delete all selected upsells?"
-    );
-  };
-
-  const handleActivate = () => {
-    if (selectedRows.length === 0 || selectedRows === null) {
-      toast.error("Please select upsells");
-      return;
-    }
-
-    openDialog(
-      () =>
-        handleRequest("PUT", "upsell/update-multiple-status", {
-          upSellId: selectedRows,
-          status: 1,
-        }),
-      "Are you sure you want to activate all selected upsells?"
-    );
-  };
-
-  const handleDeactivate = () => {
-    if (selectedRows.length === 0 || selectedRows === null) {
-      toast.error("Please select upsells");
-      return;
-    }
-
-    openDialog(
-      () =>
-        handleRequest("PUT", "upsell/update-multiple-status", {
-          upSellId: selectedRows,
-          status: 0,
-        }),
-      "Are you sure you want to deactivate all selected upsells?"
-    );
-  };
-
-  const solutions = [
-    {
-      name: "Delete Upsell",
-      icon: TrashIcon,
-      onclick: handleDelete,
-    },
-    {
-      name: "Activate Upsell",
-      icon: LinkIcon,
-      onclick: handleActivate,
-    },
-    {
-      name: "Deactivate Upsell",
-      icon: XCircleIcon,
-      onclick: handleDeactivate,
-    },
-  ];
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -311,41 +219,11 @@ const UpsellDashboard: React.FC = () => {
     return null;
   };
 
-  const fetchDataSearch = async (
-    currentPage: number,
-    limit: number,
-    title: string
-  ) => {
-    try {
-      const apiUrl = `${envConfig.backendUrl}/upsell/upsellList?page=${currentPage}&limit=${limit}&title=${title}`; // Replace with your API endpoint
-      const params = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+  const [showOptions, setShowOptions] = useState(false);
 
-      const result: any = await handleApiCallFetch(apiUrl, params);
-      // Handle successful data fetch
-      setUpsells(result.data);
-      setTotalData(result.length);
-    } catch (error) {
-      setIsLoading(false);
-      toast.error("Error occured");
-      // Handle error
-    }
+  const handleClick = () => {
+    setShowOptions(!showOptions);
   };
-
-  const sampleImageUrl =
-    "https://placehold.co/200x400/?text=Build+your%0Aown+upsells";
-
-  const sampleTitle = "Start from Blank";
-  const sampleDescription = "Lorem ipsum ";
-
-  const data: any[] = [
-    // { imageUrl: 'https://placekitten.com/300/200', title: 'Card 1', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: Math.random() * 100 },
-    // { imageUrl: 'https://placehouse.com/300/200', title: 'Card 2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: Math.random() * 100 },
-  ];
 
   return (
     <div>
@@ -406,95 +284,30 @@ const UpsellDashboard: React.FC = () => {
 
                 {/* Filter Icon */}
                 <div className="relative sm:mt-0 sm:ml-4 bg-gray-100 rounded-md py-1 px-3">
-                  <label className="flex justify-between items-center gap-2 h-10 cursor-pointer">
+                  <label
+                    className="flex justify-between items-center relative gap-2 h-10 cursor-pointer"
+                    onClick={handleClick}
+                  >
                     <ArrowDownOnSquareStackIcon className="w-5 h-5 text-black" />
                     <span className="text-black">customize</span>
-                    {/* <select
-                      className="block appearance-none w-full sm:w-32border-2 border-black text-black py-2 px-2 pr-8 rounded-md leading-tight focus:outline-none focus:border-blue-500"
-                      data-te-select-init
-                      data-te-select-clear-button="true"
-                      value={limit}
-                      onChange={(e) => setLimit(parseInt(e.target.value, 10))}
-                    >
-                      {limit !== 0 && <option value="10">10</option>}
-                      <option value="20">25</option>
-                      <option value="100">50</option>
-                      <option value="500">100</option>
-                    </select> */}
+                    {/* {showOptions && (
+                      <select
+                        className="absolute z-40 top-full left-0 w-full sm:w-32 border-2 border-black text-black py-2 px-2 pr-8 rounded-md leading-tight focus:outline-none focus:border-blue-500"
+                        data-te-select-init
+                        data-te-select-clear-button="true"
+                        value={limit}
+                        onChange={(e) => setLimit(parseInt(e.target.value, 10))}
+                      >
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                      </select>
+                    )} */}
                   </label>
                 </div>
               </div>
             </div>
-            {/* <div className="flex flex-row  justify-between w-[100%] bg-white px-5 py-2 ">
-              <div>
-                {activeTab === "manageUpsells" && (
-                  <div className="flex justify-start items-center mt-2 gap-5 ml-auto">
-                    <button
-                      className="text-white px-4 py-1 rounded-full hover:bg-blue-600 transition-all duration-300 flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-indigo-700"
-                      onClick={handleOpenPopup}
-                    >
-                      <PlusIcon className="ml-2 w-4 h-4 font-extrabold" />{" "}
-                      Create Upsell
-                    </button>
-                    <div>
-                      <Popover className="relative">
-                        {({ open, close }) => (
-                          <>
-                            <Popover.Button
-                              className={`
-                          ${open ? "text-white" : "text-white/90"}
-                          group inline-flex items-center justify-center rounded-full bg-gray-400 w-8 h-8 text-base font-bold hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
-                              style={{ borderRadius: "50%" }}
-                            >
-                              <span className="mb-2">...</span>
-                            </Popover.Button>
-
-                            <Transition
-                              as={Fragment}
-                              enter="transition ease-out duration-200"
-                              enterFrom="opacity-0 translate-y-1"
-                              enterTo="opacity-100 translate-y-0"
-                              leave="transition ease-in duration-150"
-                              leaveFrom="opacity-100 translate-y-0"
-                              leaveTo="opacity-0 translate-y-5"
-                            >
-                              <Popover.Panel className="absolute right-1 z-20 mt-2 w-screen max-w-sm translate-x-1 transform px-4 sm:px-0 lg:max-w-sm">
-                                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
-                                  <div className="relative grid gap-1 bg-white p-2 lg:grid-cols-1">
-                                    {solutions.map((item) => (
-                                      <button
-                                        key={item.name}
-                                        className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
-                                        onClick={() => {
-                                          item.onclick();
-                                          close(); // Close the Popover after the button is clicked
-                                        }}
-                                      >
-                                        <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
-                                          <item.icon
-                                            aria-hidden="true"
-                                            className="w-8 h-8 text-red-700"
-                                          />
-                                        </div>
-                                        <div className="ml-2">
-                                          <p className="text-sm font-medium text-gray-900">
-                                            {item.name}
-                                          </p>
-                                        </div>
-                                      </button>
-                                    ))}
-                                  </div>
-                                </div>
-                              </Popover.Panel>
-                            </Transition>
-                          </>
-                        )}
-                      </Popover>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div> */}
           </div>
           <div className="w-[100%] rounded-lg px-5">
             <div className="col-span-2 mt-1 ml-2 mr-2">
@@ -503,41 +316,6 @@ const UpsellDashboard: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* <CommonDialog
-        isOpen={isDialogOpen}
-        onClose={() => {
-          setDialogOpen(false);
-          setDialogAction(null);
-          setDialogMessage("");
-        }}
-        onYes={handleDialogAction}
-        message={dialogMessage}
-      />
-
-      <CommonPopup
-        isOpen={isPopupOpen}
-        onClose={handleClosePopup}
-        title="Create Upsell"
-        disableCloseIcon={false}
-        heightwidth="max-w-[100%] max-h-[100%]"
-      >
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1">
-          <div key={0} onClick={() => handleCreateUpsell()}>
-            <Card
-              imageUrl={sampleImageUrl}
-              title={sampleTitle}
-              description={sampleDescription}
-            />
-          </div>
-
-          {data.map((item, index) => (
-            <div key={index} onClick={() => handleCardClick(item)}>
-              <Card {...item} />
-            </div>
-          ))}
-        </div>
-      </CommonPopup> */}
     </div>
   );
 };

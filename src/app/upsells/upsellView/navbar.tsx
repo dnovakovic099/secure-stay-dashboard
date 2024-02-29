@@ -5,13 +5,9 @@ import { Popover, Transition } from "@headlessui/react";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
 import {
   PlusIcon,
-  Bars4Icon,
-  ArrowRightIcon,
   TrashIcon,
   LinkIcon,
   XCircleIcon,
-  CircleStackIcon,
-  ArrowPathRoundedSquareIcon,
   EllipsisVerticalIcon,
 } from "@heroicons/react/20/solid";
 import {
@@ -19,13 +15,9 @@ import {
   Bars3BottomRightIcon,
 } from "@heroicons/react/24/outline";
 import axios from "axios";
-import ManageUpsell from "../upsellstabdata/manageupsell";
-import UpsellOrder from "../upsellstabdata/upsellorder";
-import Pagination from "@/components/commonPagination";
 import { Toaster, toast } from "react-hot-toast";
 import { envConfig } from "@/utility/environment";
 import { CommonDialog } from "@/components/commonDailogBox";
-import Loader from "../loading";
 import { useRouter } from "next/navigation";
 import CommonPopup from "@/components/commonPopup";
 import { Card } from "../createupsells/cardComponent";
@@ -47,7 +39,6 @@ const NavBar = () => {
   const [totalData, setTotalData] = useState(14);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [totalPages, setTotalPages] = useState(totalData / limit);
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
@@ -209,6 +200,38 @@ const NavBar = () => {
       onclick: handleDeactivate,
     },
   ];
+
+  const fetchDataSearch = async (
+    currentPage: number,
+    limit: number,
+    title: string
+  ) => {
+    try {
+      const apiUrl = `${envConfig.backendUrl}/upsell/upsellList?page=${currentPage}&limit=${limit}&title=${title}`; // Replace with your API endpoint
+      const params = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const result: any = await handleApiCallFetch(apiUrl, params);
+      // Handle successful data fetch
+      setUpsells(result.data);
+      setTotalData(result.length);
+    } catch (error) {
+      setIsLoading(false);
+      toast.error("Error occured");
+      // Handle error
+    }
+  };
+
+  useEffect(() => {
+    const delaySearch = setTimeout(() => {
+      fetchDataSearch(currentPage, limit, title);
+    }, 300);
+    return () => clearTimeout(delaySearch);
+  }, [title]);
 
   const sampleImageUrl =
     "https://placehold.co/200x400/?text=Build+your%0Aown+upsells";
