@@ -6,8 +6,12 @@ import {
   ArrowUpIcon,
   ArrowDownIcon,
 } from "@heroicons/react/20/solid";
+import Image from "next/image";
 import { Upsell } from "../upselldashboard";
 import UpSellListing from "./upSellListing";
+import EditIcon from "../../../assets/edit.svg";
+import DownIcon from "../../../assets/down.svg";
+import DraggableIcon from "../../../assets/draggable.svg";
 
 interface ManageUpsellProps {
   upsells: Upsell[];
@@ -48,70 +52,69 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="container">
       <div className="flex flex-col">
-        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg gap-20">
               <table
                 className="w-full divide-y divide-gray-200"
                 style={{
                   borderCollapse: "separate",
-                  borderSpacing: "0 1rem",
+                  borderSpacing: "0",
                 }}
               >
-                <thead className="bg-gradient-to-r from-gray-300 via-gray-300 to-gray-300 text-white hidden lg:table-header-group">
+                <thead className="bg-gradient-to-r hidden sm:table-header-group bg-white">
                   <tr>
-                    <th className="px-5 py-2 text-center">
+                    <th />
+                    <th className="pl-2 pr-5 py-1 text-left flex items-center">
+                      {" "}
                       <input
                         type="checkbox"
-                        className="form-checkbox h-5 w-5 text-blue-500"
+                        className="form-checkbox h-4 w-4 mr-2"
                         checked={selectAll}
                         onChange={handleSelectAll}
                       />
+                      Title
                     </th>
-                    <th className="px-6 py-1 text-left text-blue-500">Title</th>
-                    <th className="px-6 py-1 text-left text-blue-500">Price</th>
-                    <th className="px-6 py-1 text-left text-blue-500">
-                      Period
-                    </th>
-                    <th className="px-6 py-1 text-left text-blue-500">
-                      Availability
-                    </th>
-                    <th className="px-6 py-1 text-left text-blue-500">
-                      Active Properties
-                    </th>
-                    <th className="px-6 py-1 text-left text-blue-500">
-                      Status
-                    </th>
-                    <th className="px-6 py-1 text-left text-blue-500">
-                      Action
-                    </th>
+                    <th className="px-6 py-1 text-left">Price</th>
+                    <th className="px-6 py-1 text-left">Period</th>
+                    <th className="px-6 py-1 text-left">Availability</th>
+                    <th className="px-6 py-1 text-left">Active Properties</th>
+                    <th className="px-6 py-1 text-left">Status</th>
+                    <th className="px-6 py-1 text-left">Action</th>
                   </tr>
                 </thead>
 
-                <tbody className="bg-white divide-y divide-gray-200 mt-2">
+                <tbody className="bg-white divide-y divide-gray-200">
                   {upsells?.map((upsell, index) => (
                     <>
                       <tr
                         key={upsell.title}
-                        className={`transition-all duration-300 ease-in-out hover:bg-gray-100 mb-1 rounded-md overflow-hidden shadow-md hidden lg:table-row ${
+                        className={`transition-all duration-300 ease-in-out hover:bg-gray-100 rounded-md overflow-hidden shadow-md hidden lg:table-row ${
                           expandedRows.includes(index) ? "bg-gray-100" : ""
                         }`}
                         style={{ position: "relative" }}
                       >
-                        <td className="px-5 py-3 whitespace-nowrap">
+                        <td className="px-1 text-sm text-center mb-2 cursor-pointer whitespace-nowrap">
+                          <Image
+                            src={DraggableIcon}
+                            height={16}
+                            width={16}
+                            alt="icon"
+                          />
+                        </td>
+                        <td className="pl-2 pr-5 py-3 text-sm">
                           <input
                             type="checkbox"
-                            className="form-checkbox h-4 w-4 text-blue-500"
+                            className="form-checkbox h-4 w-4 text-blue-500 mr-2"
                             checked={selectedRows.includes(upsell.upSellId)}
                             onChange={() =>
                               handleRowCheckboxChange(upsell.upSellId)
                             }
                           />
+                          {upsell.title}
                         </td>
-
-                        <td className="px-4 py-3 text-sm">{upsell.title}</td>
                         <td className="px-4 py-3 text-sm">{upsell.price}</td>
                         <td className="px-4 py-3 text-sm">
                           {upsell.timePeriod}
@@ -147,12 +150,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                                   ? "text-white"
                                   : "text-white"
                               }`}
-                            >
-                              ON
-                              <span className="text-xs">
-                                {upsell.status === 1 ? "" : "OFF"}
-                              </span>
-                            </span>
+                            ></span>
                           </Switch>
                         </td>
 
@@ -163,32 +161,27 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                               handleEditUpsell(upsell.upSellId);
                             }}
                           >
-                            <PencilSquareIcon className="w-5 h-5 text-blue-500" />
+                            <Image
+                              src={EditIcon}
+                              height={20}
+                              width={20}
+                              alt="icon"
+                            />
+                          </button>
+                          <button
+                            className="text-indigo-600 hover:text-indigo-800 focus:outline-none transition-all duration-300 text-lg bg-gray-100 h-5 w-5 rounded-xl ml-2"
+                            onClick={() => {
+                              handleEditUpsell(upsell.upSellId);
+                            }}
+                          >
+                            <Image
+                              src={DownIcon}
+                              height={20}
+                              width={20}
+                              alt="icon"
+                            />
                           </button>
                         </td>
-
-                        <button
-                          className="text-indigo-600 hover:text-indigo-800 focus:outline-none transition-all duration-300 text-sm" // Adjusted to text-sm for a smaller size
-                          onClick={() => handleToggleRow(index)}
-                          style={{
-                            position: "absolute",
-                            bottom: "-10px", // Adjusted to move the button a bit lower
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            borderRadius: "20% / 50%",
-                            background: "#fff",
-                            padding: "6px", // Adjusted for smaller padding
-                            // Removed the boxShadow
-                          }}
-                        >
-                          {expandedRows.includes(index) ? (
-                            /* Arrow pointing upwards when expanded */
-                            <ArrowUpIcon className="w-4 h-4 text-blue-500" />
-                          ) : (
-                            /* Arrow pointing downwards when collapsed */
-                            <ArrowDownIcon className="w-4 h-4 text-blue-500" />
-                          )}
-                        </button>
                       </tr>
 
                       <tr className="lg:hidden">
@@ -343,14 +336,6 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                           </div>
                         </td>
                       </tr>
-                      {expandedRows.includes(index) && (
-                        <tr>
-                          <td colSpan={7} className="w-full pl-10">
-                            {/* Your expanded content */}
-                            <UpSellListing upsellid={upsell.upSellId} />
-                          </td>
-                        </tr>
-                      )}
                     </>
                   ))}
                 </tbody>
