@@ -37,6 +37,11 @@ export interface Upsell {
   upSellId: number;
 }
 
+interface Option {
+  value: number;
+  label: string;
+}
+
 const UpsellDashboard: React.FC = () => {
   const router = useRouter();
   const [totalData, setTotalData] = useState(14);
@@ -225,6 +230,18 @@ const UpsellDashboard: React.FC = () => {
     setShowOptions(!showOptions);
   };
 
+  const options: Option[] = [
+    { value: 10, label: "10" },
+    { value: 20, label: "20" },
+    { value: 100, label: "100" },
+    { value: 500, label: "500" },
+  ];
+
+  const handleChange = (value: number) => {
+    setLimit(value);
+    setShowOptions(false);
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -241,7 +258,6 @@ const UpsellDashboard: React.FC = () => {
                   </h1>
                 </div>
 
-                {/* here */}
                 <div className="flex space-x-1 bg-gray-100 w-[70%] p-1 rounded-md">
                   {[
                     {
@@ -277,34 +293,35 @@ const UpsellDashboard: React.FC = () => {
                   ))}
                 </div>
               </div>
-              {/* here */}
 
               <div className="flex items-center space-x-4">
                 {/* Search Bar */}
 
                 {/* Filter Icon */}
                 <div className="relative sm:mt-0 sm:ml-4 bg-gray-100 rounded-md py-1 px-3">
-                  <label
-                    className="flex justify-between items-center relative gap-2 h-10 cursor-pointer"
-                    onClick={handleClick}
-                  >
-                    <ArrowDownOnSquareStackIcon className="w-5 h-5 text-black" />
-                    <span className="text-black">customize</span>
-                    {/* {showOptions && (
-                      <select
-                        className="absolute z-40 top-full left-0 w-full sm:w-32 border-2 border-black text-black py-2 px-2 pr-8 rounded-md leading-tight focus:outline-none focus:border-blue-500"
-                        data-te-select-init
-                        data-te-select-clear-button="true"
-                        value={limit}
-                        onChange={(e) => setLimit(parseInt(e.target.value, 10))}
-                      >
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="100">100</option>
-                        <option value="500">500</option>
-                      </select>
-                    )} */}
-                  </label>
+                  <div className="relative">
+                    <button
+                      className="flex justify-between items-center gap-2 h-10 text-black rounded-md leading-tight focus:outline-none"
+                      onClick={handleClick}
+                    >
+                      <ArrowDownOnSquareStackIcon className="w-5 h-5 text-black" />
+                      <span className="text-black">customize</span>
+                    </button>
+                    {showOptions && (
+                      <ul className="absolute top-full left-0 z-20 bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden">
+                        {options.map((option) => (
+                          <li
+                            key={option.value}
+                            className="block px-4 py-2 hover:bg-gray-100"
+                          >
+                            <button onClick={() => handleChange(option.value)}>
+                              {option.label}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
