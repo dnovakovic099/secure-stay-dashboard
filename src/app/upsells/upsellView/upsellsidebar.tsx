@@ -9,7 +9,9 @@ import {
   BriefcaseIcon,
   BuildingOffice2Icon,
   CurrencyDollarIcon,
+  ArrowRightIcon,
 } from "@heroicons/react/24/outline";
+import { ChevronRightIcon } from "@heroicons/react/20/solid";
 const UpsellSettings = ({ children }: any) => {
   const [selectedMenu, setSelectedMenu] = useState("");
 
@@ -47,25 +49,32 @@ const UpsellSettings = ({ children }: any) => {
     requiredText,
   }) => {
     return (
-      <div className="flex items-center space-x-4">
-        <div className="w-12 h-12 overflow-hidden rounded-full border-4 border-white">
-          <img
-            src={imageUrl}
-            alt="Profile Avatar"
-            className="object-cover w-full h-full rounded-full"
-          />
-        </div>
-        <div>
-          <p className="text-xl font-semibold text-gray-800">{profileName}</p>
-          <p className="text-sm text-gray-500">{requiredText}</p>
+      <div className="flex items-center space-x-4 ">
+        <div className="flex items-center justify-between p-2 mx-4 bg-gray-100 rounded-md w-full">
+          <div className="flex items-center justify-between">
+            <div className="w-12 h-12 overflow-hidden rounded-full">
+              <img
+                src="https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_1280.png"
+                alt="Profile Avatar"
+                className="object-cover w-full h-full rounded-full"
+              />
+            </div>
+            <div>
+              <p className="text-xl font-semibold text-gray-800">
+                {profileName}
+              </p>
+              <p className="text-sm text-gray-500">{requiredText}</p>
+            </div>
+          </div>
+          <ChevronRightIcon className="w-6 h-6" />
         </div>
       </div>
     );
   };
   const avatarProps = {
     imageUrl: "path/to/your/image.jpg",
-    profileName: "Amit Kharel",
-    requiredText: "Full Stack Developer",
+    profileName: "Stanton A.",
+    requiredText: "Super Admin",
   };
   return (
     <div className="flex flex-col sm:flex-row gap-0 h-[90vh] w-full bg-gray-100">
@@ -99,9 +108,9 @@ const UpsellSettings = ({ children }: any) => {
             </li>
           </ul>
         </div>
-        {/* <div className="mt-auto">
+        <div className="mt-auto">
           <Avatar {...avatarProps} />
-        </div> */}
+        </div>
       </div>
       {/* Column 2 - page components */}
       <div className="sm:w-4/5 h-[100%] overflow-hidden">

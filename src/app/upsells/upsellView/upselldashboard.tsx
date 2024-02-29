@@ -58,6 +58,7 @@ const UpsellDashboard: React.FC = () => {
   const [dialogAction, setDialogAction] = useState<(() => void) | null>(null);
   const [dialogMessage, setDialogMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [numberOfActive, setNumberOfActive] = useState(20);
 
   useEffect(() => {
     fetchData(currentPage, limit, title);
@@ -94,6 +95,16 @@ const UpsellDashboard: React.FC = () => {
       // Handle error
     }
   };
+
+  useEffect(() => {
+    if (upsells?.length > 0) {
+      for (const upsell of upsells) {
+        // if (upsell.isActive) {
+        setNumberOfActive(numberOfActive + 1);
+        // }
+      }
+    }
+  }, [upsells]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -199,6 +210,8 @@ const UpsellDashboard: React.FC = () => {
         <div>
           <ManageUpsell
             upsells={upsells}
+            totalData={totalData}
+            numberOfActive={numberOfActive}
             selectAll={selectAll}
             handleSelectAll={handleSelectAll}
             handleRowCheckboxChange={handleRowCheckboxChange}

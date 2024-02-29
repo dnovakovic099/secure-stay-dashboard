@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Switch } from "@headlessui/react";
 import {
   PencilIcon,
@@ -8,12 +8,15 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
 } from "@heroicons/react/20/solid";
+import { ListBulletIcon } from "@heroicons/react/24/outline";
 import { Upsell } from "../upsellView/upselldashboard";
 import UpSellListing from "./upSellListing";
 import { useRouter } from "next/navigation";
 
 interface ManageUpsellProps {
   upsells: Upsell[];
+  totalData: number;
+  numberOfActive: number;
   selectAll: boolean;
   handleSelectAll: () => void;
   handleRowCheckboxChange: (index: number) => void;
@@ -23,6 +26,8 @@ interface ManageUpsellProps {
 }
 const ManageUpsell: React.FC<ManageUpsellProps> = ({
   upsells,
+  totalData,
+  numberOfActive,
   selectAll,
   handleSelectAll,
   handleRowCheckboxChange,
@@ -53,8 +58,8 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
     <div className="container mx-auto ">
       <div className="flex flex-col">
         <div className="-my-2 overflow-hidden sm:-mr-10 sm:-ml-7">
-          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-1">
-            <div className="overflow-y-scroll gap-20 max-h-[70vh] rounded-md">
+          <div className="py-4 align-middle inline-block min-w-full sm:px-4 lg:px-1">
+            <div className="gap-20 max-h-[70vh] rounded-md">
               <table
                 className="w-full bg-transparent"
                 style={{
@@ -74,21 +79,21 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                         onChange={handleSelectAll}
                       />
                     </th>
-                    <th className="py-1 text-start text-sm text-black">
+                    <th className="py-1 text-start text-sm text-black w-44">
                       Title
                     </th>
-                    <th className=" py-1 text-start text-sm text-black">
+                    <th className=" py-1 text-start text-sm text-black w-36">
                       Price
                     </th>
-                    <th className=" py-1 text-start text-sm text-black">
+                    <th className=" py-1 text-start text-sm text-black w-52">
                       Period
                     </th>
                     <th className=" py-1 text-start text-sm text-black">
                       Availability
                     </th>
-                    {/* <th className=" py-1 text-start text-blue-500">
+                    <th className=" py-1 text-start text-sm text-black">
                       Active Properties
-                    </th> */}
+                    </th>
                     <th className=" py-1 text-start text-sm text-black">
                       Status
                     </th>
@@ -110,7 +115,8 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                         } ${expandedRows.includes(index) ? "bg-gray-100" : ""}`}
                         style={{ position: "relative" }}
                       >
-                        <td className="pl-5 whitespace-nowrap p-2">
+                        <td className="flex items-center gap-1 pl-1 whitespace-nowrap p-2">
+                          <ListBulletIcon className="h-5 w-5" />
                           <input
                             type="checkbox"
                             className="form-checkbox h-4 w-4 text-blue-500"
@@ -133,7 +139,9 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                         <td className=" text-sm text-gray-700 font-semibold">
                           {upsell.availability}
                         </td>
-                        {/* <td className=" py-3 text-sm">{upsell.isActive}</td> */}
+                        <td className=" py-3 text-sm font-medium text-blue-400">
+                          {numberOfActive}/{totalData}
+                        </td>
                         <td className="whitespace-nowrap">
                           <Switch
                             checked={upsell.status === 1}
