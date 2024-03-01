@@ -9,7 +9,7 @@ import {
   ChevronUpIcon,
 } from "@heroicons/react/20/solid";
 
-import { Upsell } from "../upsellview/upselldashboard";
+import { Upsell } from "../upsellView/upselldashboard";
 import UpSellListing from "./upSellListing";
 import { useRouter } from "next/navigation";
 import Pagination from "@/components/commonPagination";

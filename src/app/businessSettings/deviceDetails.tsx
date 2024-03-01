@@ -335,7 +335,7 @@ const DeviceDetails = (props: any) => {
                                 <p className="px-2 text-sm">
                                     {/* Include your booking access code details here */}
                                     Booking access codes are automatically generated on booking confirmation. Codes are activated 2 hours before check-in and
-                                    are deactivated 2 hours after check-out or when the guest cancels. Please check the booking panal to view a guest's booking access code.
+                                    are deactivated 2 hours after check-out or when the guest cancels. Please check the booking panal to view the booking access code.
                                 </p>
                             )}
                         </div>

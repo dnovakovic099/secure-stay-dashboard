@@ -32,12 +32,14 @@ const DeviceList = ({ children }: any) => {
   const getSifelyLocks = async () => {
     const accessToken = localStorage.getItem("sifely_access_token");
 
-    if (!accessToken || accessToken == "") {
+    if (!accessToken || accessToken == "" || accessToken == "undefined") {
       setSifelyLocks(null);
       return;
     }
 
     setIsLoading(true);
+
+    console.log({ accessToken })
 
     const apiUrl = `${envConfig.backendUrl}/device/sifely/locklist`;
     const result = await axios.post(apiUrl, {
@@ -98,10 +100,12 @@ const DeviceList = ({ children }: any) => {
       <CommonPopup
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        children={<Form closeModal={closeModal} getSifelyLocks={getSifelyLocks}/>}
+        // children={<Form closeModal={closeModal} getSifelyLocks={getSifelyLocks}/>}
         disableCloseIcon={false}
         heightwidth="100rem"
-      />
+      >
+        <Form closeModal={closeModal} getSifelyLocks={getSifelyLocks}/>
+      </CommonPopup>
 
       <div className="flex flex-row gap-[0.05rem] h-[100%] overflow-x-hidden">
         {/* column 1 */}
@@ -178,6 +182,7 @@ const DeviceList = ({ children }: any) => {
                     }
                     {sifelyLocks?.map((lock: any) => (
                       <li
+                        key={'asdf'}
                         onClick={() => handleClick(lock.lockId)}
                         className="py-4  font-normal text-sm text-justify hover:bg-[#f1f3f4] flex items-center gap-4 justify-between border-b  cursor-pointer transition-all duration-300"
                       >
