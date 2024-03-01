@@ -1,14 +1,12 @@
 "use client";
-import Head from "next/head";
-import { useState, Fragment, useEffect } from "react";
+
+import { useState, Fragment } from "react";
 import { Switch } from "@headlessui/react";
 import { LinkIcon, XCircleIcon } from "@heroicons/react/20/solid";
 import { Popover, Transition } from "@headlessui/react";
-import { envConfig } from "@/utility/environment";
-import handleApiCallFetch from "@/components/handleApiCallFetch";
-import toast from "react-hot-toast";
 import Pagination from "@/components/commonPagination";
-import { Property } from "./createUpsells";
+import { Property } from "./page";
+
 
 interface ToggleSwitchCardProps {
   property: Property;
