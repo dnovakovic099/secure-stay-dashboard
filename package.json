@@ -11,13 +11,19 @@
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
+    "@minchat/react-chat-ui": "^0.16.2",
+    "@minchat/reactui": "^2.12.0",
     "@seamapi/react": "^2.8.5",
+    "@supabase/supabase-js": "^2.39.6",
     "@tailwindcss/forms": "^0.5.7",
+    "mdb-react-ui-kit": "^7.2.0",
     "next": "14.0.4",
     "next-compose-plugins": "^2.2.1",
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
+    "react-international-phone": "^4.2.5",
+    "react-multi-carousel": "^2.8.4",
     "seam": "^0.10.0"
   },
   "devDependencies": {

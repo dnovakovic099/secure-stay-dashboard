@@ -1,10 +1,10 @@
+import { supabase } from '@/utility/supabase';
 import { EnvelopeIcon, CloudIcon } from '@heroicons/react/20/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-//seam commponents
-import { SeamProvider } from "@seamapi/react"
+import toast, { Toaster } from 'react-hot-toast';
 
 const Login = () => {
 
@@ -28,7 +28,7 @@ const Login = () => {
         setIsValidEmail(isValid);
     };
 
-    const handlePasswordChange = (event:any) => {
+    const handlePasswordChange = (event: any) => {
         event.preventDefault();
         const enteredPassword = event.target.value;
         setPassword(enteredPassword);
@@ -39,15 +39,41 @@ const Login = () => {
 
         setIsValidPassword(isValid);
     };
-    const handleSubmit = (event: { preventDefault: () => void; }) => {
+
+    const handleSubmit = async (event: { preventDefault: () => void; }) => {
+
         event.preventDefault();
         console.log("login");
-        router.replace("/dashboard");
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email ? email : '',
+            password: password ? password : '',
+        });
+        // console.log("userdata", data)
+        const user = data && data.user;
+        if (user && user.id) {
+            const name = user.user_metadata ?
+                (user.user_metadata.firstName ? user.user_metadata.firstName : '') + (user.user_metadata.lastName ? ' ' + user.user_metadata.lastName : '') : '';
+            localStorage.setItem("userName", name);
+            localStorage.setItem("uid", user.id);
+            localStorage.setItem('authToken', data.session.access_token);
+            localStorage.setItem('email', email);
+            
+            toast.success("Signed in successfully");
+            const pm = false;
+            if(pm){
+                router.push("/messages");
+            }else{
+                router.push("/connectPM");
+            }
+        }
+        else if (error) {
+            toast.error("Please check your email and password!");
+        }
     }
 
     return (
         <div className='flex h-screen w-full'>
-
+            <Toaster />
             {/* column 1 - login image*/}
             <div className='flex flex-1 justify-center items-center h-[100%]'>
                 <div className='flex justify-center items-center h-[100%]'>
@@ -235,8 +261,6 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-
-
         </div>
     )
 }

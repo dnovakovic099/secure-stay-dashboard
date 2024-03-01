@@ -1,3 +1,3 @@
 export const envConfig={
-    backendUrl:"http://localhost:5173",
+    backendUrl: process.env.NEXT_PUBLIC_API_URL,
 }
