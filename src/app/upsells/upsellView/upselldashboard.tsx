@@ -58,7 +58,7 @@ const UpsellDashboard: React.FC = () => {
   const [dialogAction, setDialogAction] = useState<(() => void) | null>(null);
   const [dialogMessage, setDialogMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [numberOfActive, setNumberOfActive] = useState(20);
+  const [numberOfActive, setNumberOfActive] = useState(0);
 
   useEffect(() => {
     fetchData(currentPage, limit, title);
@@ -89,22 +89,13 @@ const UpsellDashboard: React.FC = () => {
       // Handle successful data fetch
       setUpsells(result.data);
       setTotalData(result.length);
+      setNumberOfActive(result.totalActive);
     } catch (error) {
       setIsLoading(false);
       toast.error("Error occured");
       // Handle error
     }
   };
-
-  useEffect(() => {
-    if (upsells?.length > 0) {
-      for (const upsell of upsells) {
-        // if (upsell.isActive) {
-        setNumberOfActive(numberOfActive + 1);
-        // }
-      }
-    }
-  }, [upsells]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -185,12 +176,12 @@ const UpsellDashboard: React.FC = () => {
 
     console.log(updatedUpsells);
 
-    // updatedUpsells[index].status = updatedUpsells[index].status === 1 ? 0 : 1;
-    // setUpsells(updatedUpsells);
-    // handleRequest("PUT", "upsell/update-multiple-status", {
-    //   upSellId: [index],
-    //   status: upsellStatus,
-    // });
+    updatedUpsells[index].status = updatedUpsells[index].status === 1 ? 0 : 1;
+    setUpsells(updatedUpsells);
+    handleRequest("PUT", "upsell/update-multiple-status", {
+      upSellId: [index],
+      status: upsellStatus,
+    });
 
     openDialog(
       () =>

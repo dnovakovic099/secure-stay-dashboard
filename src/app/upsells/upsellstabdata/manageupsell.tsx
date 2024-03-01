@@ -59,7 +59,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
       <div className="flex flex-col">
         <div className="-my-2 overflow-hidden sm:-mr-10 sm:-ml-7">
           <div className="py-4 align-middle inline-block min-w-full sm:px-4 lg:px-1">
-            <div className="gap-20 max-h-[70vh] rounded-md">
+            <div className="gap-20 max-h-[70vh] rounded-md overflow-y-scroll">
               <table
                 className="w-full bg-transparent"
                 style={{
