@@ -1,7 +1,7 @@
 "use client";
 import SideBarMain from "@/components/sidebar";
-import UpsellDashboard, { Upsell } from "./upsellview/upselldashboard";
-import { NavbarProvider } from "./upsellview/navbarContent";
+import UpsellDashboard, { Upsell } from "./upsellView/upselldashboard";
+import { NavbarProvider } from "./upsellView/navbarContent";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
