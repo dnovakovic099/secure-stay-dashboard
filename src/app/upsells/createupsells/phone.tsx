@@ -65,8 +65,7 @@ const PhoneStructure: React.FC<PhoneStructureProps> = ({
               )}
             </p>
             <button
-              // onClick={handleSubmit}
-              className="bg-indigo-700 text-white px-2 py-2 mt-5 w-full rounded-md hover:bg-blue-600 transition-all duration-300 border-2 border-blue-700"
+              className=" absolute bottom-6 bg-indigo-700 text-white px-2 py-2 mt-5 w-[14rem] rounded-md hover:bg-blue-600 transition-all duration-300 border-2 border-blue-700 "
             >
               Purchase
             </button>

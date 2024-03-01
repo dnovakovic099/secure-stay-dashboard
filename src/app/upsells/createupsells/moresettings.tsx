@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
-import ToggleBuujjjs from "./associateListing";
+import { ChevronRightIcon, ChevronDownIcon, ChevronLeftIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import AdditionalContent from "./associateListing";
-import { Property } from "./createUpsells";
+import { Property } from "./page";
 
 interface ChildProps {
   attachedProperties: Property[];
@@ -24,7 +23,7 @@ const MoreSettings: React.FC<ChildProps> = ({
   };
 
   const handleSettingClick = (settingIndex: any) => {
-    // Handle the click for each setting here
+    
     if (selectedSetting === settingIndex) {
       setSelectedSetting(null);
     } else {
@@ -46,9 +45,9 @@ const MoreSettings: React.FC<ChildProps> = ({
         onClick={toggleSettings}
       >
         {showSettings ? (
-          <ChevronUpIcon className="w-6 h-6 text-blue-700" />
+          <ChevronLeftIcon className="w-6 h-6 text-blue-700" />
         ) : (
-          <ChevronDownIcon className="w-6 h-6 text-blue-700" />
+          <ChevronRightIcon className="w-6 h-6 text-blue-700" />
         )}
         <h6 className="text-blue-700 ml-2">More Settings</h6>
       </div>
