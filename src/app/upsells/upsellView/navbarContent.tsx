@@ -72,7 +72,7 @@ export const NavbarProvider = ({
         {/* <button className="flex items-center px-5 py-2 text-white rounded-md focus:outline-none transition duration-300 ease-in-out bg-[#1F284D] hover:to-purple-800 focus:to-purple-800"> */}
         <Popover className=" ">
           {({ open, close }) => (
-            <div >
+            <div>
               <Popover.Button
                 className={`
 ${open ? "text-white" : "text-white/90"}

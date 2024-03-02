@@ -1,7 +1,6 @@
 "use client";
 import SideBarMain from "@/components/sidebar";
 
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -13,8 +12,8 @@ import { envConfig } from "@/utility/environment";
 import toast from "react-hot-toast";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
 import CommonDialog from "@/components/commonDailogBox";
-import { NavbarProvider } from "./upsellview/navbarContent";
-import UpsellDashboard, { Upsell } from "./upsellview/upselldashboard";
+import { NavbarProvider } from "./upsellView/navbarContent";
+import UpsellDashboard, { Upsell } from "./upsellView/upselldashboard";
 
 const Upsells = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -57,7 +56,7 @@ const Upsells = () => {
   useEffect(() => {
     setCurrentPage(1);
     // fetchData(currentPage, limit, title);
-  }, [ limit]);
+  }, [limit]);
 
   useEffect(() => {
     const delaySearch = setTimeout(() => {
@@ -90,7 +89,6 @@ const Upsells = () => {
 
       setUpsells(result.data);
       setTotalData(result.length);
-
     } catch (error) {
       toast.error("Error occured");
     }
@@ -246,7 +244,6 @@ const Upsells = () => {
 
     setSelectedRows(newSelectedRows);
   };
-
 
   return (
     <SideBarMain

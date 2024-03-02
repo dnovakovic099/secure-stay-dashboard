@@ -12,7 +12,7 @@ import {
 import UpSellListing from "./upSellListing";
 import { useRouter } from "next/navigation";
 import Pagination from "@/components/commonPagination";
-import { Upsell } from "../upsellview/upselldashboard";
+import { Upsell } from "../upsellView/upselldashboard";
 
 interface ManageUpsellProps {
   upsells: Upsell[];
@@ -379,13 +379,12 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                 <tbody className="bg-white mt-2">{renderUpSell}</tbody>
               </table>
               <div className="flex justify-end px-10">
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={onPageChange}
-              />
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={onPageChange}
+                />
               </div>
-           
             </div>
           </div>
         </div>
