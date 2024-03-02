@@ -9,10 +9,10 @@ import {
   ChevronUpIcon,
 } from "@heroicons/react/20/solid";
 
-import { Upsell } from "../upsellView/upselldashboard";
 import UpSellListing from "./upSellListing";
 import { useRouter } from "next/navigation";
 import Pagination from "@/components/commonPagination";
+import { Upsell } from "../upsellview/upselldashboard";
 
 interface ManageUpsellProps {
   upsells: Upsell[];
@@ -128,19 +128,19 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
             checked={selectedRows.includes(upsell.upSellId)}
             onChange={() => handleRowCheckboxChange(upsell.upSellId)}
           />
-          <p className="text-sm text-gray-700 font-semibold">{upsell.title}</p>
+          <p className="text-sm text-gray-700 font-[500]">{upsell.title}</p>
         </td>
 
-        <td className="col-span-1 text-sm text-gray-700 font-semibold">
+        <td className="col-span-1 text-sm text-gray-700 font-[500]">
           {upsell.price}
         </td>
-        <td className="col-span-2 text-sm text-gray-700 font-semibold">
+        <td className="col-span-2 text-sm text-gray-700 font-[500]">
           {upsell.timePeriod}
         </td>
-        <td className="col-span-2 text-sm text-gray-700 font-semibold">
+        <td className="col-span-2 text-sm text-gray-700 font-[500]">
           {upsell.availability}
         </td>
-        <td className="col-span-2 text-sm text-blue-500 font-semibold">6/17</td>
+        <td className="col-span-2 text-sm text-blue-500 font-[500]">6/17</td>
         {/* <td className=" py-3 text-sm">{upsell.isActive}</td> */}
         <td className="whitespace-nowrap col-span-1">
           <Switch
@@ -326,7 +326,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
       </tr>
       {expandedRows.includes(index) && (
         <tr key={upsell.upSellId}>
-          <td colSpan={7} className="w-full pl-10">
+          <td colSpan={7} className="w-full pl-10 pr-10">
             <UpSellListing upsellid={upsell.upSellId} />
           </td>
         </tr>
@@ -350,40 +350,33 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                         checked={selectAll}
                         onChange={handleSelectAll}
                       />
-                      <p className="py-1 text-start text-sm text-black">
+                      <p className="py-1 text-start text-xs font-poppins font-bold text-black">
                         Title
                       </p>
                     </th>
 
-                    <th className="col-span-1 py-1 text-start text-sm text-black">
+                    <th className="col-span-1 py-1 text-start text-xs font-poppins font-bold text-black">
                       Price
                     </th>
-                    <th className="col-span-2 py-1 text-start text-sm text-black">
+                    <th className="col-span-2 py-1 text-start text-xs font-poppins font-bold text-black">
                       Period
                     </th>
-                    <th className="col-span-2 py-1 text-start text-sm text-black">
+                    <th className="col-span-2 py-1 text-start text-xs font-poppins font-bold text-black">
                       Availability
                     </th>
-                    <th className="col-span-2 py-1 text-start text-sm text-black">
+                    <th className="col-span-2 py-1 text-start text-xs font-poppins font-bold text-black">
                       Active Properties
                     </th>
-                    <th className="col-span-1 py-1 text-start text-sm text-black">
+                    <th className="col-span-1 py-1 text-start text-xs font-poppins font-bold text-black">
                       Status
                     </th>
-                    <th className="col-span-1 py-1 text-center  text-sm text-black">
+                    <th className="col-span-1 py-1 text-center  text-xs font-poppins font-bold text-black">
                       Action
                     </th>
                   </tr>
                 </thead>
 
                 <tbody className="bg-white mt-2">{renderUpSell}</tbody>
-                {/* <tfoot>
-                  <tr>
-                    <td className="cols-span-12">
-                     
-                    </td>
-                  </tr>
-                </tfoot> */}
               </table>
               <div className="flex justify-end px-10">
               <Pagination
