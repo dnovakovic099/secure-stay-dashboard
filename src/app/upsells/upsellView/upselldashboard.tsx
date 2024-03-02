@@ -77,6 +77,7 @@ const UpsellDashboard: React.FC<ManageUpsellProps> = ({
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />
+
       </div>
     );
     // if (activeTab === "manageUpsells") {
@@ -116,11 +117,11 @@ const UpsellDashboard: React.FC<ManageUpsellProps> = ({
           <div className="w-[100%] h-[64px] items-start bg-white px-5 py-3 rounded-md gap-10">
             <div className="flex items-center gap-10">
               <div>
-                <h1 className="font-poppins font-[600] text-[20px]">
+                <h1 className="font-poppins font-extrabold text-md">
                   Upsells - <span>{totalData}</span>
                 </h1>
               </div>
-              <div className="flex justify-center bg-gray-200 w-[600px] h-[40px] rounded-md">
+              <div className="flex justify-center bg-gray-200 w-[600px] h-[40px] rounded-md ">
                 {[
                   {
                     label: "Manage Upsells",
@@ -140,19 +141,15 @@ const UpsellDashboard: React.FC<ManageUpsellProps> = ({
                 ].map(({ label, icon, tab }) => (
                   <div
                     key={tab}
-                    className={`flex items-center justify-center w-full h-[40px] pl-5 pr-5 bg-gray-100 text-black cursor-pointer transition-transform gap-2 ${
+                    className={`flex items-center justify-center w-full h-[40px] pl-5 pr-5 bg-gray-100 text-gray-700 cursor-pointer transition-transform gap-2 ${
                       activeTab === tab
-                        ? "border-b-2 rounded-md bg-white text-black font-[400] shadow-md"
-                        : "hover:shadow-lg hover:scale-105 bg-[#F4F6F8]"
+                        ? "border-b-2 rounded-md bg-white text-black shadow-md"
+                        : "hover:shadow-lg hover:scale-105"
                     }`}
                     onClick={() => handleTabClick(tab)}
                   >
-                    <div className="flex items-center font-[400] text-black">
-                      {icon}
-                    </div>
-                    <h2 className="text-[14px] font-[400] text-black">
-                      {label}
-                    </h2>
+                    <div className="flex items-center">{icon}</div>
+                    <h2 className="text-xs font-bold">{label}</h2>
                   </div>
                 ))}
               </div>

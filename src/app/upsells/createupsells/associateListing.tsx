@@ -32,30 +32,30 @@ const ToggleSwitchCard: React.FC<ToggleSwitchCardProps> = ({
           onChange={() => handleToggle(property.id)}
           className={`${
             property.status === 1 ? "bg-green-500" : "bg-gray-400"
-          } relative inline-flex h-5 w-10 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
+          } relative inline-flex h-6 w-12 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
         >
           <span className="sr-only">Use setting</span>
           <span
             aria-hidden="true"
             className={`${
-              property.status === 1 ? "translate-x-5" : "translate-x-0"
-            } pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+              property.status === 1 ? "translate-x-6" : "translate-x-0"
+            } pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
           />
           <span
             className={`absolute inset-0 flex items-center justify-between text-xs ${
               property.status === 0 ? "text-white" : "text-white"
             }`}
           >
-          
+            ON
             <span className="text-xs">
-              {property.status === 1 ? "" : ""}
+              {property.status === 1 ? "" : "OFF"}
             </span>
           </span>
         </Switch>
       </div>
 
-      <div className="ml-4 mr-4 flex flex-col">
-        <h2 className="text-[13px] font-semibold">{property.name}</h2>
+      <div className="ml-4 flex flex-col">
+        <h2 className="text-sm font-semibold">{property.name}</h2>
         <p className="text-gray-500 text-xs">{property.id}</p>
         <p className="text-gray-500 text-xs">{property.address}</p>
       </div>
@@ -113,21 +113,21 @@ const AdditionalContent: React.FC<AdditionalContentProps> = ({
   return (
     <div className="container p-4 max-w-screen-xl">
       <>
-        <div className="mb-4 grid grid-cols-1 sm:grid sm:grid-cols-2 gap-10 space-x-2 ">
-          <div className="overflow-hidden ">
+        <div className="mb-4 grid grid-cols-1 sm:grid sm:grid-cols-2 gap-5 space-x-2 ">
+          <div className="overflow-hidden">
             <input
               type="text"
               placeholder="Search by name or id"
-              className="w-full  border border-gray-700 p-2 h-[35px] rounded-full focus:outline-none shadow-lg focus:border-blue-500 placeholder-gray-300"
+              className="w-full  border border-gray-700 p-2 rounded-full focus:outline-none shadow-lg focus:border-blue-500 placeholder-gray-300"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
 
-          <div className="flex flex-row gap-2 ">
+          <div className="flex flex-row gap-2">
             <button
               onClick={handleToggleAllOn}
-              className="bg-green-500 text-white px-2 py-1 rounded-md flex h-[35px]  gap-2 items-center space-x-1 text-xs"
+              className="bg-green-500 text-white px-2 py-1 rounded-md flex  gap-2 items-center space-x-1 text-xs"
             >
               <LinkIcon className="h-5 w-5 text-xs" />
               Attach All

@@ -34,9 +34,9 @@ const UpSellListing: React.FC<UpSellListingProps> = ({ upsellid }) => {
         key={data.id}
         className="grid grid-cols-12 bg-white border-b-2 py-2 px-4"
       >
-        <td className=" col-span-2 text-start text-[13px] ">#{data.id}</td>
-        <td className="col-span-8 text-start text-[13px]">{data.name}</td>
-        <td className="col-span-2 text-start text-[13px]">All Rentals</td>
+        <td className=" col-span-2 text-start text-gray-600">#{data.id}</td>
+        <td className="col-span-8 text-start">{data.name}</td>
+        <td className="col-span-2 text-start text-gray-600">All Rentals</td>
       </tr>
     );
   });
@@ -60,20 +60,14 @@ const UpSellListing: React.FC<UpSellListingProps> = ({ upsellid }) => {
         <Loader />
       ) : (
         <div className="overflow-auto">
-          <div className="rounded-md text-sm mt-2 px-2 border shadow-md">
+          <div className="rounded-md text-sm py-2 px-2 border shadow-md">
             <p className="font-semibold py-2 ">Attached rentals</p>
             <table className="min-w-full overflow-x-auto">
               <thead>
-                <tr className="grid grid-cols-12 px-4 py-1 bg-slate-200 rounded-md">
-                  <th className="col-span-2 text-sm text-start font-[500]">
-                    Property Id
-                  </th>
-                  <th className="col-span-8 text-sm text-start font-[500]">
-                    Property Name
-                  </th>
-                  <th className="col-span-2 text-sm text-start font-[500]">
-                    Rentals
-                  </th>
+                <tr className="grid grid-cols-12 px-4 py-2 bg-slate-200 rounded-md">
+                  <th className="col-span-2 text-start">Property Id</th>
+                  <th className="col-span-8 text-start">Property Name</th>
+                  <th className="col-span-2 text-start">Rentals</th>
                 </tr>
               </thead>
               <tbody className="text-sm">{renderUpSellListing}</tbody>
