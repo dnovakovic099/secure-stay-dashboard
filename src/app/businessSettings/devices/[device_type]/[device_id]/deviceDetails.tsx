@@ -69,7 +69,7 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
     const res = await axios.post(apiUrl, {
       deviceId: device_id,
       listingId: selectedListing[0] ? selectedListing[0] : null,
-      deviceType: device_type
+      deviceType: device_type,
     });
 
     if (res.status == 200) {
@@ -81,16 +81,13 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
       setSelection(false);
       getDeviceListings();
     }
-
   };
 
   const getDeviceListings = async () => {
-
     const apiUrl = `${envConfig.backendUrl}/device/getlistings/${device_id}`;
     const result = await axios.get(apiUrl);
 
     if (result.status == 200) {
-
       setConnectedListings(result.data);
       setFilteredListings(result.data);
 
@@ -113,18 +110,16 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
 
   const handleEditClick = async (e: any) => {
     e.stopPropagation();
-    setSelection((prev)=>!prev);
-    
+    setSelection((prev) => !prev);
   };
 
-  useEffect(()=>{
-    if(selection){
+  useEffect(() => {
+    if (selection) {
       setFilteredListings(listings);
-    }else{
-      setFilteredListings(connectedListings)
+    } else {
+      setFilteredListings(connectedListings);
     }
-  },[selection])
-
+  }, [selection]);
 
   return (
     <div className="bg-white rounded-md  p-4">
@@ -160,52 +155,55 @@ const DeviceInfo = ({ device_type, device_id }: any) => {
           className="px-6 w-[91%] mx-auto bg-gray-100 mb-2 py-3 rounded-md cursor-pointer select-none flex justify-between items-center transition duration-300 ease-in-out transform"
         >
           <p className="text-gray-700 font-semibold text-sm">
-            Connected Listings <span className="text-slate-400">({connectedListings?.length})</span >
+            Connected Listings{" "}
+            <span className="text-slate-400">
+              ({connectedListings?.length})
+            </span>
           </p>
           <div className="">
             <button
               onClick={(e) => handleEditClick(e)}
-              className="outline outline-2 outline-indigo-600  bg-white p-1 rounded-md"><PencilSquareIcon className="text-indigo-800  h-4 w-5" /></button>
-            <>
-            </>
+              className="outline outline-2 outline-indigo-600  bg-white p-1 rounded-md"
+            >
+              <PencilSquareIcon className="text-indigo-800  h-4 w-5" />
+            </button>
+            <></>
           </div>
         </div>
 
         <div>
-          {
-            filteredListings?.map((listing: listing) => (
-              <div
-                key={listing.listingId}
-                className="flex items-center gap-4 p-3  w-[90%] mx-auto cursor-pointer select-none border-b hover:bg-[#f1f3f4] rounded-md  bg-white  transition-transform transform"
-              >
-                {
-                  selection &&
-                  <input
-                    type="checkbox"
-                    onChange={() => handleChange(listing.listingId)}
-                    checked={selectedListing?.includes(listing.listingId)}
-                    className="size-4 border rounded cursor-pointer focus:ring focus:border-indigo-300"
-                  />
-                }
-                <div className=" overflow-hidden">
-                  <img
-                    src={listing.images[0].url}
-                    alt={listing.name}
-                    height={40}
-                    width={80}
-                    className="rounded-md h-12"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <h5 className="font-semibold text-sm ">
-                    {listing?.name.substring(0, 30) + "..."}
-                  </h5>
-                  <small className="text-xs text-gray-600">
-                    {listing?.address.substring(0, 30) + "..."}
-                  </small>
-                </div>
+          {filteredListings?.map((listing: listing) => (
+            <div
+              key={listing.listingId}
+              className="flex items-center gap-4 p-3  w-[90%] mx-auto cursor-pointer select-none border-b hover:bg-[#f1f3f4] rounded-md  bg-white  transition-transform transform"
+            >
+              {selection && (
+                <input
+                  type="checkbox"
+                  onChange={() => handleChange(listing.listingId)}
+                  checked={selectedListing?.includes(listing.listingId)}
+                  className="size-4 border rounded cursor-pointer focus:ring focus:border-indigo-300"
+                />
+              )}
+              <div className=" overflow-hidden">
+                <img
+                  src={listing.images[0].url}
+                  alt={listing.name}
+                  height={40}
+                  width={80}
+                  className="rounded-md h-12"
+                />
               </div>
-            ))}
+              <div className="flex flex-col">
+                <h5 className="font-semibold text-sm ">
+                  {listing?.name.substring(0, 30) + "..."}
+                </h5>
+                <small className="text-xs text-gray-600">
+                  {listing?.address.substring(0, 30) + "..."}
+                </small>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
