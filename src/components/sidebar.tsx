@@ -153,7 +153,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
                           <p
                             className={classNames(
                               item.current
-                                ? "text-indigo-700 font-bold"
+                                ? "text-[#7000FF] font-sm font-[500]"
                                 : "text-gray-600"
                             )}
                           >

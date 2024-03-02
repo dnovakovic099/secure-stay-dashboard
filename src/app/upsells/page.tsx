@@ -1,7 +1,7 @@
 "use client";
 import SideBarMain from "@/components/sidebar";
-import UpsellDashboard, { Upsell } from "./upsellView/upselldashboard";
-import { NavbarProvider } from "./upsellView/navbarContent";
+
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -13,6 +13,8 @@ import { envConfig } from "@/utility/environment";
 import toast from "react-hot-toast";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
 import CommonDialog from "@/components/commonDailogBox";
+import { NavbarProvider } from "./upsellview/navbarContent";
+import UpsellDashboard, { Upsell } from "./upsellview/upselldashboard";
 
 const Upsells = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
