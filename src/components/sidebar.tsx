@@ -87,9 +87,8 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
             />
           ) : (
             <div className="w-9 h-9 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-2xl leading-none mr-2 ">
-            {firstLetter}
-          </div>
-          
+              {firstLetter}
+            </div>
           )}
         </div>
         <div>
