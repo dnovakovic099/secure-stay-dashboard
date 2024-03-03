@@ -42,7 +42,7 @@ const UpsellSettings = ({ children }: any) => {
     return (
       <div className="flex items-center px-4 w-full h-[60px]">
         <div className="flex items-center justify-between p-2 bg-[#F5F7F8] rounded-lg w-full">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
             <div className="w-9 h-9 rounded-full">
               <img
                 src="https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_1280.png"
@@ -202,9 +202,9 @@ const UpsellSettings = ({ children }: any) => {
   ];
 
   return (
-    <div className="flex flex-col sm:flex-row gap-0 h-[90vh] w-full bg-[#F4F6F8]">
+    <div className="flex flex-col sm:flex-row gap-0 h-[90vh] w-[1440px] bg-[#F4F6F8]">
       {/* Column 1 - Setting nav */}
-      <div className="flex flex-col flex-grow pt-6 pb-4 bg-white h-[90vh] w-[220px]">
+      <div className="flex flex-col pt-6 pb-4 bg-white h-[90vh] w-[220px]">
         <div className="">
           <ul className="flex flex-col gap-[10px] py-4 cursor-pointer text-[#72767A] font-normal text-base">
             {menuList.map((menu) => (
@@ -245,7 +245,7 @@ const UpsellSettings = ({ children }: any) => {
         </div>
       </div>
       {/* Column 2 - page components */}
-      <div className="sm:w-4/5 h-[100%] overflow-hidden">
+      <div className="w-[1220px] h-[100%] overflow-hidden">
         {returnSelectedComponent(selectedMenu)}
       </div>
     </div>

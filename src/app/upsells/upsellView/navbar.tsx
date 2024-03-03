@@ -245,25 +245,53 @@ const NavBar = () => {
   ];
 
   return (
-    <div className="flex items-center bg-[#141B37] h-12">
-      <div className="flex justify-between items-center w-full">
-        <div className="flex items-center sm:w-1/5 border-r border-white pl-3 h-6">
+    <div className="flex items-center bg-[#141B37] h-[60px] w-[1440px]">
+      <div className="flex justify-between items-center w-full px-5 py-2">
+        <div className="flex items-center justify-between w-[200px]">
           <img
             src="/assets/securestay.png "
-            className="flex items-center h-10"
+            className="flex items-center h-11"
           />
+          <svg
+            width="1"
+            height="24"
+            viewBox="0 0 1 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="0.5"
+              y1="2.3677e-08"
+              x2="0.499999"
+              y2="24"
+              stroke="#1F284D"
+            />
+          </svg>
         </div>
 
-        <div className="flex items-center justify-between py-1 px-5 w-4/5 h-10">
-          <div className="flex items-center bg-[#1F284D] px-1 rounded-md">
-            <MagnifyingGlassIcon className="h-4 text-gray-300" />
-            <input
-              type="text"
-              className="px-3 py-2 h-8 bg-[#1F284D] text-gray-300 text-sm rounded-md focus:outline-none focus:border-blue-500 transition duration-300 placeholder-gray-300"
-              placeholder="Search upsells here"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
+        <div className="flex items-center justify-between flex-grow pl-5 py-[2px]">
+          <div className="flex items-center justify-between bg-[#1F284D] w-[400px] h-10 px-3 py-[10px] rounded-lg">
+            <div className="flex items-center gap-2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.0258 13.8473L18.5947 17.4162L17.4162 18.5947L13.8473 15.0258C12.564 16.0525 10.9366 16.6666 9.16663 16.6666C5.02663 16.6666 1.66663 13.3066 1.66663 9.16663C1.66663 5.02663 5.02663 1.66663 9.16663 1.66663C13.3066 1.66663 16.6666 5.02663 16.6666 9.16663C16.6666 10.9366 16.0525 12.564 15.0258 13.8473ZM13.3539 13.229C14.3729 12.1788 15 10.7463 15 9.16663C15 5.94371 12.3895 3.33329 9.16663 3.33329C5.94371 3.33329 3.33329 5.94371 3.33329 9.16663C3.33329 12.3895 5.94371 15 9.16663 15C10.7463 15 12.1788 14.3729 13.229 13.3539L13.3539 13.229Z"
+                  fill="#DBD4E5"
+                />
+              </svg>
+              <input
+                type="text"
+                className="h-5 bg-[#1F284D] text-[#DBD4E5] text-sm rounded-md focus:outline-none"
+                placeholder="Search upsells here"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
             <svg
               width="20"
               height="20"
@@ -276,29 +304,92 @@ const NavBar = () => {
                 fill="#DBD4E5"
               />
             </svg>
-
-            {/* <Bars3BottomRightIcon className="h-4 text-gray-300" /> */}
           </div>
 
-          <div className="flex items-center gap-5 ml-auto">
-            <div className="flex items-center gap-5 ml-auto">
+          <div className="flex items-center ml-auto h-10">
+            <div className="flex items-center gap-[10px] ml-auto">
               <button
-                className="text-white px-4 py-1 rounded-md hover:bg-blue-600 transition-all duration-300 flex items-center gap-2 bg-gradient-to-r from-purple-600 to-purple-800"
+                className="flex items-center gap-[10px] px-5 py-[10px] h-10 text-white rounded-lg hover:bg-blue-600 transition-all duration-300 bg-gradient-to-r from-[#9E49F2] to-[#7000FF]"
                 onClick={handleOpenPopup}
               >
-                <PlusIcon className="ml-2 w-4 h-4 font-extrabold" /> Create
-                Upsell
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clipPath="url(#clip0_9473_1844)">
+                    <path
+                      d="M10 4.16663V15.8333"
+                      stroke="white"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M4.16675 10H15.8334"
+                      stroke="white"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_9473_1844">
+                      <rect width="20" height="20" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                Create Upsell
               </button>
-              <div>
-                <Popover className="relative">
+              <div className="flex items-center h-10">
+                <Popover className="relative h-10">
                   {({ open, close }) => (
                     <>
-                      <Popover.Button
-                        className={`
-                          ${open ? "text-white" : "text-white/90"}
-                          group inline-flex items-center justify-center rounded-md bg-[#212d5a] w-8 h-8 text-base font-bold hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
-                      >
-                        <EllipsisVerticalIcon className="text-white h-5" />
+                      <Popover.Button>
+                        <svg
+                          width="40"
+                          height="40"
+                          viewBox="0 0 40 40"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect width="40" height="40" rx="8" fill="#1F284D" />
+                          <g clipPath="url(#clip0_9473_1818)">
+                            <path
+                              d="M19.3333 20C19.3333 20.1769 19.4035 20.3464 19.5285 20.4714C19.6535 20.5965 19.8231 20.6667 19.9999 20.6667C20.1767 20.6667 20.3463 20.5965 20.4713 20.4714C20.5963 20.3464 20.6666 20.1769 20.6666 20C20.6666 19.8232 20.5963 19.6537 20.4713 19.5286C20.3463 19.4036 20.1767 19.3334 19.9999 19.3334C19.8231 19.3334 19.6535 19.4036 19.5285 19.5286C19.4035 19.6537 19.3333 19.8232 19.3333 20Z"
+                              stroke="white"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M19.3333 24.6667C19.3333 24.8435 19.4035 25.013 19.5285 25.1381C19.6535 25.2631 19.8231 25.3333 19.9999 25.3333C20.1767 25.3333 20.3463 25.2631 20.4713 25.1381C20.5963 25.013 20.6666 24.8435 20.6666 24.6667C20.6666 24.4899 20.5963 24.3203 20.4713 24.1953C20.3463 24.0702 20.1767 24 19.9999 24C19.8231 24 19.6535 24.0702 19.5285 24.1953C19.4035 24.3203 19.3333 24.4899 19.3333 24.6667Z"
+                              stroke="white"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M19.3333 15.3333C19.3333 15.5101 19.4035 15.6797 19.5285 15.8047C19.6535 15.9297 19.8231 16 19.9999 16C20.1767 16 20.3463 15.9297 20.4713 15.8047C20.5963 15.6797 20.6666 15.5101 20.6666 15.3333C20.6666 15.1565 20.5963 14.9869 20.4713 14.8619C20.3463 14.7369 20.1767 14.6666 19.9999 14.6666C19.8231 14.6666 19.6535 14.7369 19.5285 14.8619C19.4035 14.9869 19.3333 15.1565 19.3333 15.3333Z"
+                              stroke="white"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_9473_1818">
+                              <rect
+                                width="16"
+                                height="16"
+                                fill="white"
+                                transform="translate(12 12)"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
                       </Popover.Button>
 
                       <Transition
