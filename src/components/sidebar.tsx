@@ -11,6 +11,7 @@ import {
   BriefcaseIcon,
   ShoppingCartIcon,
   ChevronRightIcon,
+  LockClosedIcon,
 } from "@heroicons/react/20/solid";
 import { Toaster } from "react-hot-toast";
 
@@ -57,6 +58,12 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
       title: "Upsells",
       current: false,
     },
+    {
+      href: "/locks",
+      icon: LockClosedIcon,
+      title: "Locks",
+      current: false,
+    }
   ];
 
   var nav = navigation.forEach((item) => {
