@@ -255,16 +255,29 @@ const NavBar = () => {
         </div>
 
         <div className="flex items-center justify-between py-1 px-5 w-4/5 h-10">
-          <div className="flex items-center bg-[#212d5a] px-1 rounded-md">
+          <div className="flex items-center bg-[#1F284D] px-1 rounded-md">
             <MagnifyingGlassIcon className="h-4 text-gray-300" />
             <input
               type="text"
-              className="px-3 py-2 h-8 bg-[#212d5a] text-gray-300 text-sm rounded-md focus:outline-none focus:border-blue-500 transition duration-300 placeholder-gray-300"
+              className="px-3 py-2 h-8 bg-[#1F284D] text-gray-300 text-sm rounded-md focus:outline-none focus:border-blue-500 transition duration-300 placeholder-gray-300"
               placeholder="Search upsells here"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            <Bars3BottomRightIcon className="h-4 text-gray-300" />
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M8.33333 15H11.6667V13.3333H8.33333V15ZM2.5 5V6.66667H17.5V5H2.5ZM5 10.8333H15V9.16667H5V10.8333Z"
+                fill="#DBD4E5"
+              />
+            </svg>
+
+            {/* <Bars3BottomRightIcon className="h-4 text-gray-300" /> */}
           </div>
 
           <div className="flex items-center gap-5 ml-auto">

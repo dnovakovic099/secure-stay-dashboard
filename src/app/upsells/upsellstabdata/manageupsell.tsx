@@ -70,14 +70,16 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
               >
                 <thead className="bg-white text-black lg:table-header-group w-full sticky top-0 z-10">
                   {" "}
-                  <tr className=" text-black  bg-white items-center p-5 ">
-                    <th className="pl-5 py-2 text-start ">
-                      <input
-                        type="checkbox"
-                        className="form-checkbox h-4 w-4 text-black"
-                        checked={selectAll}
-                        onChange={handleSelectAll}
-                      />
+                  <tr className=" text-black  bg-white items-center p-5">
+                    <th className="rounded-l-md">
+                      <div className="flex items-center justify-end px-2 py-2">
+                        <input
+                          type="checkbox"
+                          className="form-checkbox h-4 w-4 text-black"
+                          checked={selectAll}
+                          onChange={handleSelectAll}
+                        />
+                      </div>
                     </th>
                     <th className="py-1 text-start text-sm text-black w-44">
                       Title
@@ -97,34 +99,36 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                     <th className=" py-1 text-start text-sm text-black">
                       Status
                     </th>
-                    <th className=" py-1 text-start text-sm text-black">
+                    <th className=" py-1 text-start text-sm text-black rounded-r-md">
                       Action
                     </th>
                   </tr>
                 </thead>
 
-                <tbody className="bg-white divide-ymt-2">
+                <tbody className="bg-white divide-y mt-2">
                   {upsells?.map((upsell, index) => (
                     <>
                       <tr
-                        key={upsell.title}
-                        className={`transition-all duration-300 ease-in-out mb-1 rounded-md hover:bg-indigo-100 overflow-hidden shadow-md md:table-row lg:table-row ${
+                        key={upsell.upSellId}
+                        className={`transition-all duration-300 ease-in-out mb-1 hover:bg-indigo-100 overflow-hidden md:table-row lg:table-row ${
                           selectedRows.includes(upsell.upSellId)
                             ? "bg-indigo-100"
                             : ""
                         } ${expandedRows.includes(index) ? "bg-gray-100" : ""}`}
                         style={{ position: "relative" }}
                       >
-                        <td className="flex items-center gap-1 pl-1 whitespace-nowrap p-2">
-                          <ListBulletIcon className="h-5 w-5" />
-                          <input
-                            type="checkbox"
-                            className="form-checkbox h-4 w-4 text-blue-500"
-                            checked={selectedRows.includes(upsell.upSellId)}
-                            onChange={() =>
-                              handleRowCheckboxChange(upsell.upSellId)
-                            }
-                          />
+                        <td className="rounded-l-md">
+                          <div className="flex justify-between items-center px-2">
+                            <ListBulletIcon className="h-5 w-5" />
+                            <input
+                              type="checkbox"
+                              className="form-checkbox h-4 w-4 text-blue-500"
+                              checked={selectedRows.includes(upsell.upSellId)}
+                              onChange={() =>
+                                handleRowCheckboxChange(upsell.upSellId)
+                              }
+                            />
+                          </div>
                         </td>
 
                         <td className="text-sm text-gray-700 font-semibold">
@@ -178,7 +182,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                           </Switch>
                         </td>
 
-                        <td>
+                        <td className="rounded-r-md">
                           <button
                             className="text-gray-700 hover:text-indigo-800 focus:outline-none transition-all duration-300 text-3xl"
                             onClick={() => {
