@@ -1,18 +1,10 @@
-'use client'
-import SideBarMain from '@/components/sidebar'
+"use client";
 
-import React from 'react'
-import BusinessSettings from '../businessSetings'
-import Users from './users'
+import React from "react";
+import Users from "./users";
 
 const UserPage = () => {
-    return (
-        <SideBarMain>
-            <BusinessSettings>
-                <Users />
-            </BusinessSettings>
-        </SideBarMain>
-    )
-}
+  return <Users />;
+};
 
-export default UserPage
+export default UserPage;

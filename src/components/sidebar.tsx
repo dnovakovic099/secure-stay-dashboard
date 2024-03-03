@@ -1,4 +1,4 @@
-"use client"; //This is client component
+"use client";
 import React, { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import {
@@ -10,6 +10,7 @@ import {
   ShoppingCartIcon,
   ChevronRightIcon,
   LockClosedIcon,
+  ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/20/solid";
 import { Toaster } from "react-hot-toast";
 import Link from "next/link";
@@ -79,7 +80,12 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
       title: "Chat",
       current: false,
     },
-    { href: "", icon: UserGroupIcon, title: "Users", current: false },
+    {
+      href: "/businessSettings/users",
+      icon: UserGroupIcon,
+      title: "Users",
+      current: false,
+    },
     {
       href: "/businessSettings",
       icon: BriefcaseIcon,
@@ -145,6 +151,10 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
     requiredText: "Developer",
   };
   const currentPath = usePathname();
+
+  const handleLogOut = () => {
+    console.log("log out");
+  };
 
   return (
     <>
@@ -215,14 +225,21 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
             </div>
           </div>
 
-          <div className="flex flex-col h-[100%] w-full">
+          <div className="flex flex-col  h-[100%] w-full">
             {children && (
               <main className="h-[100%] bg-gray-100 rounded-md">
                 <div className="h-[100%]">
-                  <div className=" flex justify-start items-center gap-5 bg-[#141B37] h-[50px] pl-5 ">
+                  <div className=" flex justify-end items-center gap-5 bg-[#141B37] h-[50px] pl-5 ">
                     {NavbarContent && (
-                      <div className="w-[100%] pr-10 ">{NavbarContent}</div>
+                      <div className="w-[100%] pr-1">{NavbarContent}</div>
                     )}
+
+                    <button
+                      className="flex items-center px-2 py-2 mr-1 h-[40px] text-white rounded-md focus:outline-none hover:w-[100px]  transition duration-300 ease-in-out bg-[#141B37]"
+                      onClick={handleLogOut}
+                    >
+                      <ArrowRightStartOnRectangleIcon className="w-4 h-4 mr-2" />
+                    </button>
                   </div>
                   <div className="h-[93vh] overflow-y-scroll">{children}</div>
                 </div>
