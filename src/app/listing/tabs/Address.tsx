@@ -8,9 +8,9 @@ import { IoLockOpenOutline } from 'react-icons/io5';
 
 const Address = ({ selectedItem }: any) => {
   return (
-    <div className="flex mt-4 text-gray-900">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 w-full">
-        <div className="h-20 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
+    <div className="w-full flex my-10  text-gray-900">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-10 w-full">
+        <div className="h-22 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
           <div className="flex flex-col">
             <p className="text-sm text-gray-600 font-light mb-1">Street</p>
             <p className="text-md text-gray-800 font-semibold">
@@ -19,7 +19,7 @@ const Address = ({ selectedItem }: any) => {
           </div>
         </div>
 
-        <div className="h-20 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
+        <div className="h-22 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
           <div className="flex flex-col">
             <p className="text-sm text-gray-600 font-light mb-1">City</p>
             <p className="text-md text-gray-800 font-semibold">
@@ -28,7 +28,7 @@ const Address = ({ selectedItem }: any) => {
           </div>
         </div>
 
-        <div className="h-20 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
+        <div className="h-22 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
           <div className="flex flex-col">
             <p className="text-sm text-gray-600 font-light mb-1">State</p>
             <p className="text-md text-gray-800 font-semibold">
@@ -37,7 +37,7 @@ const Address = ({ selectedItem }: any) => {
           </div>
         </div>
 
-        <div className="h-20 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
+        <div className="h-22 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
           <div className="flex flex-col">
             <p className="text-sm text-gray-600 font-light mb-1">Country</p>
             <p className="text-md text-gray-800 font-semibold">
@@ -46,7 +46,7 @@ const Address = ({ selectedItem }: any) => {
           </div>
         </div>
 
-        <div className="h-20 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
+        <div className="h-22 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
           <div className="flex flex-col">
             <p className="text-sm text-gray-600 font-light mb-1">
               Country Code
@@ -57,7 +57,7 @@ const Address = ({ selectedItem }: any) => {
           </div>
         </div>
 
-        <div className="h-20 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
+        <div className="h-22 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
           <div className="flex flex-col">
             <p className="text-sm text-gray-600 font-light mb-1">Zip Code</p>
             <p className="text-md text-gray-800 font-semibold">
@@ -66,7 +66,7 @@ const Address = ({ selectedItem }: any) => {
           </div>
         </div>
 
-        <div className="h-20 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
+        <div className="h-22 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
           <div className="flex flex-col">
             <p className="text-sm text-gray-600 font-light mb-1">Latitude</p>
             <p className="text-md text-gray-800 font-semibold">
@@ -75,7 +75,7 @@ const Address = ({ selectedItem }: any) => {
           </div>
         </div>
 
-        <div className="h-20 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
+        <div className="h-22 border-b flex items-center gap-4 px-5 bg-white hover:bg-gray-50 transition duration-300">
           <div className="flex flex-col">
             <p className="text-sm text-gray-600 font-light mb-1">Longitude</p>
             <p className="text-md text-gray-800 font-semibold">

@@ -146,7 +146,7 @@ const Automated = ({ isToggle }: any) => {
   }
 
   return (
-    <div className="flex flex-col my-3">
+    <div className="flex flex-col my-8 max-md:mt-8 max-md:max-w-full">
       {isToggle ? (
         AUTOMATED_MESSAGE.map(
           ({ id, title, subtitle }: AutomatedMessage, index: number) => (

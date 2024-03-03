@@ -2,7 +2,7 @@ import { PlusIcon } from '@heroicons/react/20/solid';
 
 const Policies = () => {
   return (
-    <div className="flex flex-col w-full mt-2">
+    <div className="flex flex-col mt-2">
       {/* Description Section */}
       <div className="text-sm font-medium text-gray-700 mb-2">Description</div>
       <p className="text-sm text-gray-600">

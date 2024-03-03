@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const Photos = ({ selectedItem }: any) => {
   return (
-    <div className="grid grid-cols-3 gap-2 h-[400px] overflow-y-auto">
+    <div className="my-6 grid grid-cols-3 gap-2 max-h-[450px] overflow-y-auto">
       {selectedItem.images.map((image: any) => (
         <div key={image.id} className="w-full">
           <Image
