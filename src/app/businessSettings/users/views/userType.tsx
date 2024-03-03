@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { UserIcon, UserGroupIcon, UsersIcon, UserCircleIcon } from "@heroicons/react/20/solid";
 
 interface UserTypeProps {
@@ -38,7 +38,7 @@ const UserType = ({ handleChange, selectedRole, setSelectedRole }: UserTypeProps
 
     return (
         <div className='py-3'>
-            <p className='text-indigo-900 font-semibold py-2 text-left'>User Type</p>
+            <p className='text-balck font-semibold py-2 text-left'>User Type</p>
             <div className='grid grid-cols-2 gap-4 '>
                 {userType?.map(data => {
                     return (
