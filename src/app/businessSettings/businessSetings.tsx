@@ -24,8 +24,6 @@ const BusinessSettings = ({ children }: any) => {
         return router.push("/businessSettings/users");;
       case "Billing":
         return null;
-      case "devices":
-        return router.push("/businessSettings/devices");
       case "Reports":
         return null;
       default:
@@ -49,14 +47,6 @@ const BusinessSettings = ({ children }: any) => {
             } hover:bg-slate-200 p-3 rounded-md`}
             onClick={() => handleMenuClick("users")}>Users </li>
             <li className="hover:bg-indigo-100 p-3 rounded-md">Billing </li>
-            <li
-              className={`${
-                selectedMenu == "devices" ? "bg-slate-200" : ""
-              } hover:bg-indigo-100 p-3 rounded-md`}
-              onClick={() => handleMenuClick("devices")}
-            >
-              Devices
-            </li>
             <li className="hover:bg-indigo-100 p-3 rounded-md">Reports </li>
           </ul>
         </div>
