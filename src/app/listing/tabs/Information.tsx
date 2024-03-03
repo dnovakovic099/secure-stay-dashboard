@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from 'react';
-import { IoLockOpenOutline } from 'react-icons/io5';
-import { HiPencil } from 'react-icons/hi';
-import { PiBuildingsLight } from 'react-icons/pi';
-import { BsCurrencyDollar } from 'react-icons/bs';
-import { GoPeople } from 'react-icons/go';
-import { IoWifi } from 'react-icons/io5';
+import React, { useState } from "react";
+import { IoLockOpenOutline } from "react-icons/io5";
+import { HiPencil } from "react-icons/hi";
+import { PiBuildingsLight } from "react-icons/pi";
+import { BsCurrencyDollar } from "react-icons/bs";
+import { GoPeople } from "react-icons/go";
+import { IoWifi } from "react-icons/io5";
 
 const Information = ({ selectedItem }: any) => {
   const [open, setOpen] = useState(false);
@@ -137,8 +137,8 @@ const Information = ({ selectedItem }: any) => {
           <div className="flex flex-col flex-1 self-start">
             <div className="text-xs leading-4 text-zinc-500">Wifi Password</div>
             <div className="mt-3 text-sm font-medium tracking-normal leading-7 text-neutral-800">
-              {selectedItem.wifiUsername === ''
-                ? '(NO WIFI)'
+              {selectedItem.wifiUsername === ""
+                ? "(NO WIFI)"
                 : selectedItem.wifiUsername}
             </div>
           </div>
@@ -150,8 +150,8 @@ const Information = ({ selectedItem }: any) => {
           <div className="flex flex-col flex-1 self-start">
             <div className="text-xs leading-4 text-zinc-500">Wifi Password</div>
             <div className="mt-3 text-sm font-medium tracking-normal leading-7 text-neutral-800">
-              {selectedItem.wifiPassword === ''
-                ? '(NO PASSWORD)'
+              {selectedItem.wifiPassword === ""
+                ? "(NO PASSWORD)"
                 : selectedItem.wifiPassword}
             </div>
           </div>

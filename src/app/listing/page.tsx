@@ -19,6 +19,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { GoPeople } from "react-icons/go";
 import Link from "next/link";
+import { FiLock } from "react-icons/fi";
 import {
   ChevronRightIcon,
   HomeIcon,
@@ -57,7 +58,7 @@ function Sidebar() {
     },
     {
       href: "/locks",
-      icon: LockClosedIcon,
+      icon: FiLock,
       title: "Locks",
       current: false,
     },

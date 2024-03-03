@@ -1,12 +1,11 @@
-import React, { ReactNode } from 'react';
-import { Inter } from 'next/font/google';
-import { SideBarMain } from '@/components/sidebar';
-import '../../styles/globals.css';
+import React, { ReactNode } from "react";
+import { Inter } from "next/font/google";
+import "../../styles/globals.css";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'Lock App',
+  title: "Lock App",
 };
 
 // do not cache this layout

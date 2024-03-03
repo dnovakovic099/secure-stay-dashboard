@@ -53,7 +53,7 @@ export default function HotelDetail({ selectedItem }: any) {
                   Hotel
                 </div>
                 <div className="mt-5 text-2xl font-semibold tracking-tight leading-6 text-white max-md:mr-1">
-                  Sunset Splendor Hotel & Villas
+                  {selectedItem?.name}
                 </div>
                 <div className="flex gap-1.5 justify-between mt-2 text-white max-md:mr-1">
                   <img
@@ -63,7 +63,7 @@ export default function HotelDetail({ selectedItem }: any) {
                     alt="icon"
                   />
                   <div className="flex-auto font-normal text-[14px]">
-                    123 Sunset Boulevard, Serenity Cove, Paradise Island
+                    {selectedItem?.address}
                   </div>
                 </div>
                 <div className="flex gap-5 items-center justify-between mt-4 w-full text-sm">
@@ -77,7 +77,7 @@ export default function HotelDetail({ selectedItem }: any) {
                       className="w-3.5 aspect-square"
                       alt="icon"
                     />
-                    <div className="my-auto">14</div>
+                    <div className="my-auto">{selectedItem?.guests}</div>
                   </div>
                 </div>
               </div>
