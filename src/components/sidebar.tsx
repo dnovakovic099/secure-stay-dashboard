@@ -9,19 +9,50 @@ import {
   BriefcaseIcon,
   ShoppingCartIcon,
   ChevronRightIcon,
+  LockClosedIcon,
   ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/20/solid";
 import { Toaster } from "react-hot-toast";
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import Link from "next/link";
+import classNames from "classnames";
 
 interface SideBarMainProps {
   children: ReactNode;
   NavbarContent?: ReactNode;
   isHideSidebar?: Boolean;
 }
+
+// {
+//   href: "/listing",
+//   title: "Listing",
+//   icon: BiBuildingHouse,
+//   current: false,
+// },
+// {
+//   href: "/upsells",
+//   title: "Upsells",
+//   icon: MdOutlineSell,
+//   current: false,
+// },
+// {
+//   href: "/messages",
+//   title: "Chat",
+//   icon: HiOutlineChatBubbleLeftRight,
+//   current: false,
+// },
+// { href: "guestes", title: "Guestes", icon: GoPeople, current: false },
+// {
+//   href: "/businessSettings",
+//   title: "Workplaces",
+//   icon: HiOutlineBriefcase,
+//   current: false,
+// },
+// {
+//   href: "/locks",
+//   icon: LockClosedIcon,
+//   title: "Locks",
+//   current: false,
+// },
 
 const SideBarMain: React.FC<SideBarMainProps> = ({
   children,
@@ -35,6 +66,12 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
       href: "/listing",
       icon: BuildingOffice2Icon,
       title: "Listing",
+      current: false,
+    },
+    {
+      href: "/upsells",
+      icon: ShoppingCartIcon,
+      title: "Upsells",
       current: false,
     },
     {
@@ -56,12 +93,21 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
       current: false,
     },
     {
-      href: "/upsells",
-      icon: ShoppingCartIcon,
-      title: "Upsells",
+      href: "/locks",
+      icon: LockClosedIcon,
+      title: "Locks",
       current: false,
     },
   ];
+
+  const updatedNavigation = navigation.map((item) => ({
+    ...item,
+    current: item.href === currentPage,
+  }));
+
+  // var nav = navigation.forEach((item) => {
+  //   item.current = item.href === currentPage;
+  // });
 
   interface AvatarProps {
     imageUrl?: string;
@@ -104,6 +150,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
     profileName: "Grand Abode",
     requiredText: "Developer",
   };
+  const currentPath = usePathname();
 
   const handleLogOut = () => {
     console.log("log out");
@@ -135,34 +182,38 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
                     role="list"
                     className="flex flex-col gap-1 py-4 cursor-pointer"
                   >
-                    {navigation.map((item, index) => (
+                    {updatedNavigation.map((item, index) => (
                       <li
+                        className="flex items-center gap-2 text-zinc-400 text-base m-0"
                         key={index}
-                        className="hover:bg-indigo-100 p-3 rounded-md flex items-center space-x-2"
                       >
-                        <a
+                        <Link
                           href={item.href}
-                          className="flex items-center space-x-2 w-full"
+                          className={classNames({
+                            "w-full px-3 py-2 flex items-center gap-2": true,
+                            "border-l-4 border-white hover:border-indigo-500":
+                              currentPath !== item.href,
+                            "text-indigo-500 border-l-4 border-indigo-500":
+                              currentPath === item.href,
+                          })}
                         >
                           <item.icon
                             className={classNames(
-                              item.current
-                                ? "text-indigo-700"
-                                : "text-gray-600",
-                              "w-6 h-6 shrink-0"
+                              "h-6 w-6 shrink-0 text-gray-500",
+                              {
+                                "text-indigo-500": currentPath === item.href,
+                              }
                             )}
                             aria-hidden="true"
                           />
                           <p
-                            className={classNames(
-                              item.current
-                                ? "text-[#7000FF] font-sm font-[500]"
-                                : "text-gray-600"
-                            )}
+                            className={classNames("text-gray-500 grow", {
+                              "text-indigo-500": currentPath === item.href,
+                            })}
                           >
                             {item.title}
                           </p>
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
