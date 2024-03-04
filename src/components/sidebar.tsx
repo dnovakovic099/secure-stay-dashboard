@@ -235,7 +235,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
                     )}
 
                     <button
-                      className="flex items-center px-2 py-2 mr-1 h-[40px] text-white rounded-md focus:outline-none hover:w-[100px]  transition duration-300 ease-in-out bg-[#141B37]"
+                      className="flex items-center px-2 py-2 mr-1 h-[40px] text-white rounded-md focus:outline-none  transition duration-300 ease-in-out bg-[#141B37]"
                       onClick={handleLogOut}
                     >
                       <ArrowRightStartOnRectangleIcon className="w-4 h-4 mr-2" />
