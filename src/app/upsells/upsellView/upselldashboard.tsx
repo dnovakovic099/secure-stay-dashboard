@@ -198,7 +198,7 @@ const UpsellDashboard: React.FC = () => {
   const renderTabContent = () => {
     if (activeTab === "manageUpsells") {
       return (
-        <div>
+        <div className="p-5 pt-4 bg-[#F4F6F8]">
           <ManageUpsell
             upsells={upsells}
             totalData={totalData}
@@ -210,7 +210,7 @@ const UpsellDashboard: React.FC = () => {
             selectedRows={selectedRows}
           />
 
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center">
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -253,16 +253,15 @@ const UpsellDashboard: React.FC = () => {
       ) : (
         <div className="flex flex-col items-center justify-center  mr-auto bg-gray-100">
           <Toaster position="top-center" reverseOrder={false} />
-          <div className="w-[100%] bg-white px-5 py-2 gap-10">
-            <div className="w-full mb-2 mt-2 flex justify-between items-center">
-              <div className="w-[65%] flex justify-between items-center">
-                <div className="w-1/4">
-                  <h1 className="text-2xl font-semibold">
+          <div className="w-[100%] h-16 bg-white px-5 py-3">
+            <div className="w-full flex justify-between items-center">
+              <div className="w-[671px] flex justify-between items-center">
+                <div className="w-[119px]">
+                  <h1 className="text-xl leading-5 font-medium">
                     Upsells - <span>{totalData}</span>
                   </h1>
                 </div>
-
-                <div className="flex space-x-1 bg-gray-100 w-[70%] p-1 rounded-md">
+                <div className="flex bg-[#F4F6F8] w-[492px] h-10 p-[3px] rounded-lg">
                   {[
                     {
                       label: "Manage Upsells",
@@ -282,34 +281,113 @@ const UpsellDashboard: React.FC = () => {
                   ].map(({ label, tab }) => (
                     <div
                       key={tab}
-                      className={`flex items-center justify-center w-full h-10 bg-gray-100 rounded-md cursor-pointer transition-transform ${
+                      className={`flex items-center justify-center w-full rounded-md cursor-pointer transition-transform ${
                         activeTab === tab
-                          ? "bg-white text-black shadow-md"
-                          : "hover:shadow-lg hover:scale-105 text-gray-500"
+                          ? "bg-white text-black drop-shadow-sm"
+                          : "text-[#72767A]"
                       }`}
                       onClick={() => handleTabClick(tab)}
                     >
-                      <div className="flex items-center space-x-2">
-                        {/* {icon} */}
-                        <h2 className="text-xs font-semibold">{label}</h2>
-                      </div>
+                      <h2 className="text-sm font-normal">{label}</h2>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4">
-                {/* Search Bar */}
-
+              <div className="flex items-center">
                 {/* Filter Icon */}
-                <div className="relative sm:mt-0 sm:ml-4 bg-gray-100 rounded-md py-1 px-3">
+                <div className="relative">
                   <div className="relative">
                     <button
-                      className="flex justify-between items-center gap-2 h-10 text-black rounded-md leading-tight focus:outline-none"
+                      className="flex justify-between items-center gap-2 px-5 py-[11px] text-[#222222] bg-[#F4F6F8] border border-[#E9ECF3] text-sm font-medium rounded-lg leading-tight focus:outline-none"
                       onClick={handleClick}
                     >
-                      <ArrowDownOnSquareStackIcon className="w-5 h-5 text-black" />
-                      <span className="text-black">customize</span>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g clipPath="url(#clip0_9473_2200)">
+                          <path
+                            d="M8 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V3.33333C2 2.97971 2.14048 2.64057 2.39052 2.39052C2.64057 2.14048 2.97971 2 3.33333 2H12.6667C13.0203 2 13.3594 2.14048 13.6095 2.39052C13.8595 2.64057 14 2.97971 14 3.33333V8"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M2 6.66663H14"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M6.66675 2V14"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M11.334 12.6667C11.334 13.0203 11.4745 13.3595 11.7245 13.6095C11.9746 13.8596 12.3137 14 12.6673 14C13.0209 14 13.3601 13.8596 13.6101 13.6095C13.8602 13.3595 14.0007 13.0203 14.0007 12.6667C14.0007 12.3131 13.8602 11.9739 13.6101 11.7239C13.3601 11.4739 13.0209 11.3334 12.6673 11.3334C12.3137 11.3334 11.9746 11.4739 11.7245 11.7239C11.4745 11.9739 11.334 12.3131 11.334 12.6667Z"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M12.6672 10.3334V11.3334"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M12.6672 14V15"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M14.688 11.5L13.822 12"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M11.5134 13.3334L10.6467 13.8334"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M10.6467 11.5L11.5134 12"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M13.822 13.3334L14.6887 13.8334"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_9473_2200">
+                            <rect width="16" height="16" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <span className="text-black">Customize</span>
                     </button>
                     {showOptions && (
                       <ul className="absolute top-full left-0 z-20 bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden">
@@ -330,11 +408,7 @@ const UpsellDashboard: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="w-[100%] rounded-lg px-5">
-            <div className="col-span-2 mt-1 ml-2 mr-2">
-              {renderTabContent()}
-            </div>
-          </div>
+          <div className="w-[100%]">{renderTabContent()}</div>
         </div>
       )}
     </div>
