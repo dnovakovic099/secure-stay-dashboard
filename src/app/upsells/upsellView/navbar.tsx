@@ -3,19 +3,9 @@
 import { useState, Fragment, useEffect } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
-import {
-  PlusIcon,
-  TrashIcon,
-  LinkIcon,
-  XCircleIcon,
-  EllipsisVerticalIcon,
-} from "@heroicons/react/20/solid";
-import {
-  MagnifyingGlassIcon,
-  Bars3BottomRightIcon,
-} from "@heroicons/react/24/outline";
+import { TrashIcon, LinkIcon, XCircleIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { envConfig } from "@/utility/environment";
 import { CommonDialog } from "@/components/commonDailogBox";
 import { useRouter } from "next/navigation";
@@ -240,14 +230,24 @@ const NavBar = () => {
   const sampleDescription = "Lorem ipsum ";
 
   const data: any[] = [
-    // { imageUrl: 'https://placekitten.com/300/200', title: 'Card 1', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: Math.random() * 100 },
-    // { imageUrl: 'https://placehouse.com/300/200', title: 'Card 2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: Math.random() * 100 },
+    {
+      imageUrl: "https://placekitten.com/300/200",
+      title: "Card 1",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      price: Math.random() * 100,
+    },
+    {
+      imageUrl: "https://placehouse.com/300/200",
+      title: "Card 2",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      price: Math.random() * 100,
+    },
   ];
 
   return (
-    <div className="flex items-center bg-[#141B37] h-[60px] w-[1440px]">
+    <div className="flex items-center bg-[#141B37] h-[60px] min-w-[1440px]">
       <div className="flex justify-between items-center w-full px-5 py-2">
-        <div className="flex items-center justify-between w-[200px]">
+        <div className="flex items-center justify-between min-w-[200px]">
           <img
             src="/assets/securestay.png "
             className="flex items-center h-11"

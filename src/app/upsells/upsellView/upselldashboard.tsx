@@ -1,16 +1,10 @@
 "use client";
 
 import { useState, Fragment, useEffect } from "react";
-import { Popover, Transition } from "@headlessui/react";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
 import {
-  PlusIcon,
   Bars4Icon,
   ArrowRightIcon,
-  TrashIcon,
-  LinkIcon,
-  XCircleIcon,
-  ArrowDownOnSquareStackIcon,
   ArrowPathRoundedSquareIcon,
 } from "@heroicons/react/20/solid";
 import axios from "axios";
@@ -22,8 +16,6 @@ import { envConfig } from "@/utility/environment";
 import { CommonDialog } from "@/components/commonDailogBox";
 import Loader from "../loading";
 import { useRouter } from "next/navigation";
-import CommonPopup from "@/components/commonPopup";
-import { Card } from "../createupsells/cardComponent";
 
 export interface Upsell {
   availability: string;
@@ -167,21 +159,13 @@ const UpsellDashboard: React.FC = () => {
 
   const handleToggle = (index: number) => {
     let upsellStatus: any;
-    const updatedUpsells = [...upsells];
-    updatedUpsells.map((upsell, i) => {
+
+    for (const upsell of upsells) {
       if (upsell.upSellId === index) {
-        upsellStatus = !upsell.status;
+        upsellStatus = upsell.status === 1 ? 0 : 1;
+        break;
       }
-    });
-
-    console.log(updatedUpsells);
-
-    updatedUpsells[index].status = updatedUpsells[index].status === 1 ? 0 : 1;
-    setUpsells(updatedUpsells);
-    handleRequest("PUT", "upsell/update-multiple-status", {
-      upSellId: [index],
-      status: upsellStatus,
-    });
+    }
 
     openDialog(
       () =>
@@ -411,6 +395,16 @@ const UpsellDashboard: React.FC = () => {
           <div className="w-[100%]">{renderTabContent()}</div>
         </div>
       )}
+      <CommonDialog
+        isOpen={isDialogOpen}
+        onClose={() => {
+          setDialogOpen(false);
+          setDialogAction(null);
+          setDialogMessage("");
+        }}
+        onYes={handleDialogAction}
+        message={dialogMessage}
+      />
     </div>
   );
 };

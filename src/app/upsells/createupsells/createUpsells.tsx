@@ -214,40 +214,40 @@ const CreateUpsell: React.FC = () => {
           >
             <div className="md:col-span-2">
               <div className="flex items-center gap-8 mt-4">
-                {/* <div className="w-40 h-25 overflow-hidden">
-              {selectedImage ? (
-                <img
-                  src={URL.createObjectURL(selectedImage)}
-                  alt="Selected"
-                  className="w-full h-full object-cover rounded-md"
-                />
-              ) : (
-                <div className="flex items-center justify-center w-full h-full bg-gray-100 rounded-md">
-                  <CameraIcon className="h-12 w-12 text-gray-400" />
+                <div className="w-40 h-25 overflow-hidden">
+                  {selectedImage ? (
+                    <img
+                      src={URL.createObjectURL(selectedImage)}
+                      alt="Selected"
+                      className="w-full h-full object-cover rounded-md"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center w-full h-full bg-gray-100 rounded-md">
+                      <CameraIcon className="h-12 w-12 text-gray-400" />
+                    </div>
+                  )}
                 </div>
-              )}
-            </div> */}
-                {/* <div>
-              <h3 className="text-lg font-bold text-gray-800 mb-2">
-                Product Image
-              </h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Only image files are allowed to be uploaded here.
-              </p>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-                id="imageInput"
-              />
-              <label
-                htmlFor="imageInput"
-                className="bg-blue-700 border-2 border-blue-700 text-white px-4 py-1 rounded-lg hover:bg-transparent hover:text-blue-700 transition-all duration-300 mt-2 cursor-pointer"
-              >
-                Upload Image
-              </label>
-            </div> */}
+                <div>
+                  <h3 className="text-lg font-bold text-gray-800 mb-2">
+                    Product Image
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Only image files are allowed to be uploaded here.
+                  </p>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    id="imageInput"
+                  />
+                  <label
+                    htmlFor="imageInput"
+                    className="bg-blue-700 border-2 border-blue-700 text-white px-4 py-1 rounded-lg hover:bg-transparent hover:text-blue-700 transition-all duration-300 mt-2 cursor-pointer"
+                  >
+                    Upload Image
+                  </label>
+                </div>
               </div>
               <div className="mb-2 col-span-full">
                 <label htmlFor="title" className="block text-gray-700 mb-2">
@@ -311,21 +311,21 @@ const CreateUpsell: React.FC = () => {
                 }}
               />
             </div>
-            {/* <div className="mb-2 col-span-full">
-          <label
-            htmlFor="shortDescription"
-            className="block text-gray-700 mb-2"
-          >
-            Pricing Model
-          </label>
-          <div className="relative inline-block text-left w-full">
+            <div className="mb-2 col-span-full">
+              <label
+                htmlFor="shortDescription"
+                className="block text-gray-700 mb-2"
+              >
+                Pricing Model
+              </label>
+              {/* <div className="relative inline-block text-left w-full">
             <CommonDropdown
               menuItems={myMenuItems}
               onClick={handlePricingModel}
               className="w-full"
             />
-          </div>
-        </div> */}
+          </div> */}
+            </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-6xl p-5 rounded-b-md bg-white">
             <div className="md:col-span-1"></div>
