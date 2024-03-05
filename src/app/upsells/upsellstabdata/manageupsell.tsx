@@ -105,8 +105,10 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
             <>
               <tr
                 key={upsell.upSellId}
-                className={`transition-all h-[54px] duration-300 ease-in-out mb-1 hover:bg-indigo-100 overflow-hidden md:table-row lg:table-row ${
-                  selectedRows.includes(upsell.upSellId) ? "bg-indigo-100" : ""
+                className={`transition-all h-[54px] duration-300 ease-in-out mb-1 hover:bg-[#FBF9FF] overflow-hidden md:table-row lg:table-row ${
+                  selectedRows.includes(upsell.upSellId) || !upsell.status
+                    ? "bg-[#FBF9FF]"
+                    : ""
                 } ${expandedRows.includes(index) ? "bg-gray-100" : ""}`}
                 style={{ position: "relative" }}
               >
