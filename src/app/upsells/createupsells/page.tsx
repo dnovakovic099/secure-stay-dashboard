@@ -17,12 +17,14 @@ const CreateUpsellPage = () => {
   // const { upsell_id } = router.query || {};
 
   return (
-    <SideBarMain>
-      <NavBar/>
+    // <SideBarMain>
+    <div>
+      <NavBar />
       <div className="flex bg-gray-100">
         {searchParams.has("upsell_id") ? <EditUpsell /> : <CreateUpsell />}
       </div>
-    </SideBarMain>
+    </div>
+    // </SideBarMain>
   );
 };
 export default CreateUpsellPage;

@@ -1,16 +1,10 @@
 "use client";
 
 import { useState, Fragment, useEffect } from "react";
-import { Popover, Transition } from "@headlessui/react";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
 import {
-  PlusIcon,
   Bars4Icon,
   ArrowRightIcon,
-  TrashIcon,
-  LinkIcon,
-  XCircleIcon,
-  CircleStackIcon,
   ArrowPathRoundedSquareIcon,
 } from "@heroicons/react/20/solid";
 import axios from "axios";
@@ -22,8 +16,6 @@ import { envConfig } from "@/utility/environment";
 import { CommonDialog } from "@/components/commonDailogBox";
 import Loader from "../loading";
 import { useRouter } from "next/navigation";
-import CommonPopup from "@/components/commonPopup";
-import { Card } from "../createupsells/cardComponent";
 
 export interface Upsell {
   availability: string;
@@ -37,9 +29,14 @@ export interface Upsell {
   upSellId: number;
 }
 
+interface Option {
+  value: number;
+  label: string;
+}
+
 const UpsellDashboard: React.FC = () => {
   const router = useRouter();
-  const [totalData, setTotalData] = useState(10);
+  const [totalData, setTotalData] = useState(14);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(totalData / limit);
@@ -53,32 +50,14 @@ const UpsellDashboard: React.FC = () => {
   const [dialogAction, setDialogAction] = useState<(() => void) | null>(null);
   const [dialogMessage, setDialogMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const [isPopupOpen, setPopupOpen] = useState(false);
-
-  // Handler to open the popup
-  const handleOpenPopup = () => {
-    setPopupOpen(true);
-  };
-
-  // Handler to close the popup
-  const handleClosePopup = () => {
-    setPopupOpen(false);
-  };
+  const [numberOfActive, setNumberOfActive] = useState(0);
 
   useEffect(() => {
     fetchData(currentPage, limit, title);
   }, [currentPage, limit]);
 
   useEffect(() => {
-    const delaySearch = setTimeout(() => {
-      fetchDataSearch(currentPage, limit, title);
-    }, 300);
-    return () => clearTimeout(delaySearch);
-}, [title]);
-
-  useEffect(() => {
-    if (totalData > 10) {
+    if (totalData > 14) {
       setTotalPages(Math.ceil(totalData / limit));
     }
   }, [totalData, limit]);
@@ -102,6 +81,7 @@ const UpsellDashboard: React.FC = () => {
       // Handle successful data fetch
       setUpsells(result.data);
       setTotalData(result.length);
+      setNumberOfActive(result.totalActive);
     } catch (error) {
       setIsLoading(false);
       toast.error("Error occured");
@@ -111,14 +91,6 @@ const UpsellDashboard: React.FC = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  };
-
-  const handleCardClick = (item: any) => {
-    router.push("/upsells/createupsells?template_id=${item.title}", item);
-  };
-
-  const handleCreateUpsell = () => {
-    router.push("/upsells/createupsells");
   };
 
   const handleRequest = async (method: string, uri: string, data?: any) => {
@@ -162,71 +134,6 @@ const UpsellDashboard: React.FC = () => {
     setDialogOpen(true);
   };
 
-  const handleDelete = () => {
-    if (selectedRows.length === 0 || selectedRows === null) {
-      toast.error("Please select upsells");
-      return;
-    }
-
-    openDialog(
-      () =>
-        handleRequest("POST", `upsell/delete-multiple`, {
-          upSellIds: selectedRows,
-        }),
-      "Are you sure you want to delete all selected upsells?"
-    );
-  };
-
-  const handleActivate = () => {
-    if (selectedRows.length === 0 || selectedRows === null) {
-      toast.error("Please select upsells");
-      return;
-    }
-
-    openDialog(
-      () =>
-        handleRequest("PUT", "upsell/update-multiple-status", {
-          upSellId: selectedRows,
-          status: 1,
-        }),
-      "Are you sure you want to activate all selected upsells?"
-    );
-  };
-
-  const handleDeactivate = () => {
-    if (selectedRows.length === 0 || selectedRows === null) {
-      toast.error("Please select upsells");
-      return;
-    }
-
-    openDialog(
-      () =>
-        handleRequest("PUT", "upsell/update-multiple-status", {
-          upSellId: selectedRows,
-          status: 0,
-        }),
-      "Are you sure you want to deactivate all selected upsells?"
-    );
-  };
-
-  const solutions = [
-    {
-      name: "Delete Upsell",
-      icon: TrashIcon,
-      onclick: handleDelete,
-    },
-    {
-      name: "Activate Upsell",
-      icon: LinkIcon,
-      onclick: handleActivate,
-    },
-    {
-      name: "Deactivate Upsell",
-      icon: XCircleIcon,
-      onclick: handleDeactivate,
-    },
-  ];
-
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
@@ -252,21 +159,13 @@ const UpsellDashboard: React.FC = () => {
 
   const handleToggle = (index: number) => {
     let upsellStatus: any;
-    const updatedUpsells = [...upsells];
-    updatedUpsells.map((upsell, i) => {
+
+    for (const upsell of upsells) {
       if (upsell.upSellId === index) {
-        upsellStatus = !upsell.status;
+        upsellStatus = upsell.status === 1 ? 0 : 1;
+        break;
       }
-    });
-
-    console.log(updatedUpsells);
-
-    // updatedUpsells[index].status = updatedUpsells[index].status === 1 ? 0 : 1;
-    // setUpsells(updatedUpsells);
-    // handleRequest("PUT", "upsell/update-multiple-status", {
-    //   upSellId: [index],
-    //   status: upsellStatus,
-    // });
+    }
 
     openDialog(
       () =>
@@ -283,9 +182,11 @@ const UpsellDashboard: React.FC = () => {
   const renderTabContent = () => {
     if (activeTab === "manageUpsells") {
       return (
-        <div>
+        <div className="p-5 pt-4 bg-[#F4F6F8]">
           <ManageUpsell
             upsells={upsells}
+            totalData={totalData}
+            numberOfActive={numberOfActive}
             selectAll={selectAll}
             handleSelectAll={handleSelectAll}
             handleRowCheckboxChange={handleRowCheckboxChange}
@@ -293,7 +194,7 @@ const UpsellDashboard: React.FC = () => {
             selectedRows={selectedRows}
           />
 
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center">
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -311,202 +212,189 @@ const UpsellDashboard: React.FC = () => {
     return null;
   };
 
-  const fetchDataSearch = async (
-    currentPage: number,
-    limit: number,
-    title: string
-  ) => {
-    try {
-      const apiUrl = `${envConfig.backendUrl}/upsell/upsellList?page=${currentPage}&limit=${limit}&title=${title}`; // Replace with your API endpoint
-      const params = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
- 
-      const result: any = await handleApiCallFetch(apiUrl, params);
-      // Handle successful data fetch
-      setUpsells(result.data);
-      setTotalData(result.length);
-    } catch (error) {
-      setIsLoading(false);
-      toast.error("Error occured");
-      // Handle error
-    }
+  const [showOptions, setShowOptions] = useState(false);
+
+  const handleClick = () => {
+    setShowOptions(!showOptions);
   };
 
-  const sampleImageUrl =
-    "https://placehold.co/200x400/?text=Build+your%0Aown+upsells";
-
-  const sampleTitle = "Start from Blank";
-  const sampleDescription =
-    "Lorem ipsum ";
-
-  const data: any[] = [
-    // { imageUrl: 'https://placekitten.com/300/200', title: 'Card 1', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: Math.random() * 100 },
-    // { imageUrl: 'https://placehouse.com/300/200', title: 'Card 2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: Math.random() * 100 },
+  const options: Option[] = [
+    { value: 10, label: "10" },
+    { value: 20, label: "20" },
+    { value: 100, label: "100" },
+    { value: 500, label: "500" },
   ];
+
+  const handleChange = (value: number) => {
+    setLimit(value);
+    setShowOptions(false);
+  };
 
   return (
     <div>
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="flex flex-col items-center justify-center rounded-md  mr-auto bg-gray-100">
+        <div className="flex flex-col items-center justify-center  mr-auto bg-gray-100">
           <Toaster position="top-center" reverseOrder={false} />
-          <div className="w-[100%] bg-white px-5 py-2 rounded-md  gap-10">
-            <div className="mb-2 mt-2 flex justify-between items-center">
-              <div>
-                <h1 className="text-2xl font-extrabold">
-                  Upsells - <span className="text-indigo-700">{totalData}</span>
-                </h1>
+          <div className="w-[100%] h-16 bg-white px-5 py-3">
+            <div className="w-full flex justify-between items-center">
+              <div className="w-[671px] flex justify-between items-center">
+                <div className="w-[119px]">
+                  <h1 className="text-xl leading-5 font-medium">
+                    Upsells - <span>{totalData}</span>
+                  </h1>
+                </div>
+                <div className="flex bg-[#F4F6F8] w-[492px] h-10 p-[3px] rounded-lg">
+                  {[
+                    {
+                      label: "Manage Upsells",
+                      icon: <Bars4Icon className="w-4 h-4" />,
+                      tab: "manageUpsells",
+                    },
+                    {
+                      label: "Upsell Orders",
+                      icon: <ArrowRightIcon className="w-3 h-3" />,
+                      tab: "upsellOrders",
+                    },
+                    {
+                      label: "Upsell Request",
+                      icon: <ArrowPathRoundedSquareIcon className="w-3 h-3" />,
+                      tab: "upsellRequest",
+                    },
+                  ].map(({ label, tab }) => (
+                    <div
+                      key={tab}
+                      className={`flex items-center justify-center w-full rounded-md cursor-pointer transition-transform ${
+                        activeTab === tab
+                          ? "bg-white text-black drop-shadow-sm"
+                          : "text-[#72767A]"
+                      }`}
+                      onClick={() => handleTabClick(tab)}
+                    >
+                      <h2 className="text-sm font-normal">{label}</h2>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <div className="flex items-center space-x-4">
-                {/* Search Bar */}
-                <input
-                  type="text"
-                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 placeholder-gray-500"
-                  placeholder="Search..."
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-
+              <div className="flex items-center">
                 {/* Filter Icon */}
-                <div className="relative sm:mt-0 sm:ml-4">
-                  <label className="flex justify-items-center relative">
-                    <select
-                      className="block appearance-none w-full sm:w-32border-2 border-black text-black py-2 px-2 pr-8 rounded-md leading-tight focus:outline-none focus:border-blue-500"
-                      data-te-select-init
-                      data-te-select-clear-button="true"
-                      value={limit}
-                      onChange={(e) => setLimit(parseInt(e.target.value, 10))}
+                <div className="relative">
+                  <div className="relative">
+                    <button
+                      className="flex justify-between items-center gap-2 px-5 py-[11px] text-[#222222] bg-[#F4F6F8] border border-[#E9ECF3] text-sm font-medium rounded-lg leading-tight focus:outline-none"
+                      onClick={handleClick}
                     >
-                      <option value="10">10</option>
-                      <option value="20">25</option>
-                      <option value="100">50</option>
-                      <option value="500">100</option>
-                    </select>
-                    <CircleStackIcon className="w-5 h-5 text-gray-500 absolute top-1/2 right-3 transform -translate-y-1/2" />
-                  </label>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g clipPath="url(#clip0_9473_2200)">
+                          <path
+                            d="M8 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V3.33333C2 2.97971 2.14048 2.64057 2.39052 2.39052C2.64057 2.14048 2.97971 2 3.33333 2H12.6667C13.0203 2 13.3594 2.14048 13.6095 2.39052C13.8595 2.64057 14 2.97971 14 3.33333V8"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M2 6.66663H14"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M6.66675 2V14"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M11.334 12.6667C11.334 13.0203 11.4745 13.3595 11.7245 13.6095C11.9746 13.8596 12.3137 14 12.6673 14C13.0209 14 13.3601 13.8596 13.6101 13.6095C13.8602 13.3595 14.0007 13.0203 14.0007 12.6667C14.0007 12.3131 13.8602 11.9739 13.6101 11.7239C13.3601 11.4739 13.0209 11.3334 12.6673 11.3334C12.3137 11.3334 11.9746 11.4739 11.7245 11.7239C11.4745 11.9739 11.334 12.3131 11.334 12.6667Z"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M12.6672 10.3334V11.3334"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M12.6672 14V15"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M14.688 11.5L13.822 12"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M11.5134 13.3334L10.6467 13.8334"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M10.6467 11.5L11.5134 12"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M13.822 13.3334L14.6887 13.8334"
+                            stroke="#222222"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_9473_2200">
+                            <rect width="16" height="16" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <span className="text-black">Customize</span>
+                    </button>
+                    {showOptions && (
+                      <ul className="absolute top-full left-0 z-20 bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden">
+                        {options.map((option) => (
+                          <li
+                            key={option.value}
+                            className="block px-4 py-2 hover:bg-gray-100"
+                          >
+                            <button onClick={() => handleChange(option.value)}>
+                              {option.label}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="flex flex-row  justify-between w-[100%] bg-white px-5 py-2 ">
-              <div className="flex justify-start space-x-1 w-[50%] mt-1">
-                {[
-                  {
-                    label: "Manage Upsells",
-                    icon: <Bars4Icon className="w-4 h-4" />,
-                    tab: "manageUpsells",
-                  },
-                  {
-                    label: "Upsell Orders",
-                    icon: <ArrowRightIcon className="w-3 h-3" />,
-                    tab: "upsellOrders",
-                  },
-                  {
-                    label: "Upsell Request",
-                    icon: <ArrowPathRoundedSquareIcon className="w-3 h-3" />,
-                    tab: "upsellRequest",
-                  },
-                ].map(({ label, icon, tab }) => (
-                  <div
-                    key={tab}
-                    className={`flex items-center justify-center w-full h-10 bg-gray-200 text-gray-700 rounded-md cursor-pointer transition-transform ${
-                      activeTab === tab
-                        ? "border-b-2 border-indigo-700 bg-white text-black shadow-md"
-                        : "hover:shadow-lg hover:scale-105"
-                    }`}
-                    onClick={() => handleTabClick(tab)}
-                  >
-                    <div className="flex items-center space-x-2">
-                      {icon}
-                      <h2 className="text-xs font-bold">{label}</h2>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div>
-                {activeTab === "manageUpsells" && (
-                  <div className="flex justify-start items-center mt-2 gap-5 ml-auto">
-                    <button
-                      className="text-white px-4 py-1 rounded-full hover:bg-blue-600 transition-all duration-300 flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-indigo-700"
-                      onClick={handleOpenPopup}
-                    >
-                      <PlusIcon className="ml-2 w-4 h-4 font-extrabold" />{" "}
-                      Create Upsell
-                    </button>
-                    <div>
-                      <Popover className="relative">
-                        {({ open, close }) => (
-                          <>
-                            <Popover.Button
-                              className={`
-                          ${open ? "text-white" : "text-white/90"}
-                          group inline-flex items-center justify-center rounded-full bg-gray-400 w-8 h-8 text-base font-bold hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
-                              style={{ borderRadius: "50%" }}
-                            >
-                              <span className="mb-2">...</span>
-                            </Popover.Button>
-
-                            <Transition
-                              as={Fragment}
-                              enter="transition ease-out duration-200"
-                              enterFrom="opacity-0 translate-y-1"
-                              enterTo="opacity-100 translate-y-0"
-                              leave="transition ease-in duration-150"
-                              leaveFrom="opacity-100 translate-y-0"
-                              leaveTo="opacity-0 translate-y-5"
-                            >
-                              <Popover.Panel className="absolute right-1 z-20 mt-2 w-screen max-w-sm translate-x-1 transform px-4 sm:px-0 lg:max-w-sm">
-                                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
-                                  <div className="relative grid gap-1 bg-white p-2 lg:grid-cols-1">
-                                    {solutions.map((item) => (
-                                      <button
-                                        key={item.name}
-                                        className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
-                                        onClick={() => {
-                                          item.onclick();
-                                          close(); // Close the Popover after the button is clicked
-                                        }}
-                                      >
-                                        <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
-                                          <item.icon
-                                            aria-hidden="true"
-                                            className="w-8 h-8 text-red-700"
-                                          />
-                                        </div>
-                                        <div className="ml-2">
-                                          <p className="text-sm font-medium text-gray-900">
-                                            {item.name}
-                                          </p>
-                                        </div>
-                                      </button>
-                                    ))}
-                                  </div>
-                                </div>
-                              </Popover.Panel>
-                            </Transition>
-                          </>
-                        )}
-                      </Popover>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
           </div>
-          <div className="w-[100%] rounded-lg px-5">
-            <div className="col-span-2 mt-1 ml-2 mr-2">
-              {renderTabContent()}
-            </div>
-          </div>
+          <div className="w-[100%]">{renderTabContent()}</div>
         </div>
       )}
-
       <CommonDialog
         isOpen={isDialogOpen}
         onClose={() => {
@@ -517,33 +405,6 @@ const UpsellDashboard: React.FC = () => {
         onYes={handleDialogAction}
         message={dialogMessage}
       />
-
-      <CommonPopup
-        isOpen={isPopupOpen}
-        onClose={handleClosePopup}
-        title="Create Upsell"
-        disableCloseIcon={false}
-        heightwidth="max-w-[100%] max-h-[100%]"
-      >
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1">
-          <div key={0} onClick={() => handleCreateUpsell()}>
-
-            <Card
-              imageUrl={sampleImageUrl}
-              title={sampleTitle}
-              description={sampleDescription}
-            />
-          </div>
-
-          {data.map((item, index) => (
-            <div key={index} onClick={() => handleCardClick(item)}>
-              <Card {...item} />
-            </div>
-          ))}
-        </div>
-
-      </CommonPopup>
-
     </div>
   );
 };
