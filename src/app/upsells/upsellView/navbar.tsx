@@ -512,7 +512,7 @@ const NavBar = () => {
       >
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-2">
           <div key={0} onClick={() => handleCreateUpsell()}>
-            <div className="w-[126px] items-center">
+            <div className="w-[126px] items-center cursor-pointer">
               <div className="flex flex-col justify-center items-center gap-2 w-[126px] h-40 px-6 border border-[#6E3FF3] rounded-lg bg-gradient-to-r from-[#FFFFFF99] to-[#7000FF20]">
                 <svg
                   width="24"
