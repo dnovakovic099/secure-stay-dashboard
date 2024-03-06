@@ -10,7 +10,7 @@ export const Card: React.FC<CardProps> = ({ imageUrl, title, description }) => {
   return (
     <div className="w-[126px] items-center text-xs mb-2">
       <img
-        className="w-[126px] h-40 object-cover rounded-lg"
+        className="w-[126px] h-40 object-cover rounded-lg cursor-pointer"
         src={imageUrl}
         alt={title}
       />

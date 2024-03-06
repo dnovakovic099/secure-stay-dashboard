@@ -69,11 +69,58 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
             <th className="rounded-l w-[59px]">
               <div className="flex items-center justify-end pl-[5px] gap-[6px] pr-2">
                 <input
+                  id="checkAll"
                   type="checkbox"
-                  className="form-checkbox h-5 w-5 text-black"
+                  className="hidden form-checkbox h-5 w-5 text-black"
                   checked={selectAll}
                   onChange={handleSelectAll}
                 />
+                <label htmlFor="checkAll">
+                  {selectAll ? (
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g clipPath="url(#clip0_9473_462)">
+                        <path
+                          d="M15.2776 1.66663C16.9109 1.66663 18.2442 2.94746 18.3292 4.55996L18.3334 4.72246V15.2775C18.3334 16.9108 17.0526 18.2441 15.4401 18.3291L15.2776 18.3333H4.72258C3.94023 18.3333 3.18766 18.0333 2.61992 17.495C2.05218 16.9567 1.71252 16.2212 1.67091 15.44L1.66675 15.2775V4.72246C1.66675 3.08913 2.94758 1.75579 4.56008 1.67079L4.72258 1.66663H15.2776ZM13.0892 7.74413C12.933 7.5879 12.7211 7.50014 12.5001 7.50014C12.2791 7.50014 12.0672 7.5879 11.9109 7.74413L9.16675 10.4875L8.08925 9.41079L8.01091 9.34163C7.84342 9.21212 7.63291 9.15122 7.42214 9.17129C7.21137 9.19137 7.01615 9.29092 6.87612 9.44973C6.73609 9.60853 6.66176 9.81468 6.66822 10.0263C6.67469 10.2379 6.76146 10.4392 6.91091 10.5891L8.57758 12.2558L8.65591 12.325C8.81625 12.4493 9.01646 12.5109 9.21898 12.4982C9.4215 12.4855 9.61242 12.3993 9.75591 12.2558L13.0892 8.92246L13.1584 8.84413C13.2828 8.68379 13.3444 8.48358 13.3317 8.28106C13.3189 8.07854 13.2327 7.88762 13.0892 7.74413Z"
+                          fill="#7000FF"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_9473_462">
+                          <rect width="20" height="20" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  ) : (
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g opacity="0.5" clipPath="url(#clip0_9473_1902)">
+                        <path
+                          d="M2.5 4.16667C2.5 3.72464 2.67559 3.30072 2.98816 2.98816C3.30072 2.67559 3.72464 2.5 4.16667 2.5H15.8333C16.2754 2.5 16.6993 2.67559 17.0118 2.98816C17.3244 3.30072 17.5 3.72464 17.5 4.16667V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V4.16667Z"
+                          stroke="#72767A"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_9473_1902">
+                          <rect width="20" height="20" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  )}
+                </label>
               </div>
             </th>
             <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] w-60">
@@ -173,11 +220,58 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                     </svg>
 
                     <input
+                      id={`check${upsell.upSellId}`}
                       type="checkbox"
-                      className="form-checkbox h-5 w-5 text-blue-500"
+                      className="hidden form-checkbox h-5 w-5 text-blue-500"
                       checked={selectedRows.includes(upsell.upSellId)}
                       onChange={() => handleRowCheckboxChange(upsell.upSellId)}
                     />
+                    <label htmlFor={`check${upsell.upSellId}`}>
+                      {selectedRows.includes(upsell.upSellId) ? (
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clipPath="url(#clip0_9473_462)">
+                            <path
+                              d="M15.2776 1.66663C16.9109 1.66663 18.2442 2.94746 18.3292 4.55996L18.3334 4.72246V15.2775C18.3334 16.9108 17.0526 18.2441 15.4401 18.3291L15.2776 18.3333H4.72258C3.94023 18.3333 3.18766 18.0333 2.61992 17.495C2.05218 16.9567 1.71252 16.2212 1.67091 15.44L1.66675 15.2775V4.72246C1.66675 3.08913 2.94758 1.75579 4.56008 1.67079L4.72258 1.66663H15.2776ZM13.0892 7.74413C12.933 7.5879 12.7211 7.50014 12.5001 7.50014C12.2791 7.50014 12.0672 7.5879 11.9109 7.74413L9.16675 10.4875L8.08925 9.41079L8.01091 9.34163C7.84342 9.21212 7.63291 9.15122 7.42214 9.17129C7.21137 9.19137 7.01615 9.29092 6.87612 9.44973C6.73609 9.60853 6.66176 9.81468 6.66822 10.0263C6.67469 10.2379 6.76146 10.4392 6.91091 10.5891L8.57758 12.2558L8.65591 12.325C8.81625 12.4493 9.01646 12.5109 9.21898 12.4982C9.4215 12.4855 9.61242 12.3993 9.75591 12.2558L13.0892 8.92246L13.1584 8.84413C13.2828 8.68379 13.3444 8.48358 13.3317 8.28106C13.3189 8.07854 13.2327 7.88762 13.0892 7.74413Z"
+                              fill="#7000FF"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_9473_462">
+                              <rect width="20" height="20" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      ) : (
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g opacity="0.5" clip-path="url(#clip0_9473_1902)">
+                            <path
+                              d="M2.5 4.16667C2.5 3.72464 2.67559 3.30072 2.98816 2.98816C3.30072 2.67559 3.72464 2.5 4.16667 2.5H15.8333C16.2754 2.5 16.6993 2.67559 17.0118 2.98816C17.3244 3.30072 17.5 3.72464 17.5 4.16667V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V4.16667Z"
+                              stroke="#72767A"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_9473_1902">
+                              <rect width="20" height="20" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      )}
+                    </label>
                   </div>
                 </td>
 
@@ -230,7 +324,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <g clip-path="url(#clip0_9473_1883)">
+                      <g clipPath="url(#clip0_9473_1883)">
                         <path
                           d="M3.33325 16.6666H6.66659L15.4166 7.91663C15.6355 7.69776 15.8091 7.43793 15.9275 7.15196C16.046 6.86599 16.1069 6.5595 16.1069 6.24997C16.1069 5.94044 16.046 5.63394 15.9275 5.34797C15.8091 5.06201 15.6355 4.80217 15.4166 4.5833C15.1977 4.36443 14.9379 4.19081 14.6519 4.07236C14.3659 3.95391 14.0594 3.89294 13.7499 3.89294C13.4404 3.89294 13.1339 3.95391 12.8479 4.07236C12.562 4.19081 12.3021 4.36443 12.0833 4.5833L3.33325 13.3333V16.6666Z"
                           stroke="#828282"
@@ -270,7 +364,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <g opacity="0.8" clip-path="url(#clip0_9473_1860)">
+                        <g opacity="0.8" clipPath="url(#clip0_9473_1860)">
                           <path
                             d="M4.5 6.75L9 11.25L13.5 6.75"
                             stroke="#222222"
