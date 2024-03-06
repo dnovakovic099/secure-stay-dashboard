@@ -27,13 +27,6 @@ const PhoneStructure: React.FC<PhoneStructureProps> = ({
             Available Add-on service
           </div>
           <div>
-            {/* <img
-              src={image || "path_to_default_image.jpg"}
-              alt="Mobile Image"
-              className={`w-full h-32 rounded-md${
-                image ? "" : " border-2 border-gray-300"
-              }`}
-            /> */}
             {image ? (
               <img
                 src={image}

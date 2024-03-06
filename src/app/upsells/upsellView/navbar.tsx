@@ -11,28 +11,45 @@ import { CommonDialog } from "@/components/commonDailogBox";
 import { useRouter } from "next/navigation";
 import CommonPopup from "@/components/commonPopup";
 import { Card } from "../createupsells/cardComponent";
+import { Upsell } from "../page";
 
-export interface Upsell {
-  availability: string;
-  description: string;
-  image: string | null;
-  isActive: boolean;
-  price: string;
-  status: number;
-  timePeriod: string;
-  title: string;
-  upSellId: number;
+// export interface Upsell {
+//   availability: string;
+//   description: string;
+//   image: string | null;
+//   isActive: boolean;
+//   price: string;
+//   status: number;
+//   timePeriod: string;
+//   title: string;
+//   upSellId: number;
+// }
+
+interface navBarProps {
+  upsells: Upsell[];
+  setUpsells: any;
+  selectedRows: number[];
+  setSelectedRows: any;
+  totalData: number;
+  setTotalData: any;
 }
 
-const NavBar = () => {
+const NavBar: React.FC<navBarProps> = ({
+  upsells,
+  setUpsells,
+  selectedRows,
+  setSelectedRows,
+  totalData,
+  setTotalData,
+}) => {
   const router = useRouter();
-  const [totalData, setTotalData] = useState(14);
+  // const [totalData, setTotalData] = useState(14);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
   const [selectAll, setSelectAll] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<number[]>([]);
-  const [upsells, setUpsells] = useState<Upsell[]>([]);
+  // const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  // const [upsells, setUpsells] = useState<Upsell[]>([]);
   const [title, setTitle] = useState("");
   const [activeTab, setActiveTab] = useState("manageUpsells");
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -222,12 +239,6 @@ const NavBar = () => {
     }, 300);
     return () => clearTimeout(delaySearch);
   }, [title]);
-
-  const sampleImageUrl =
-    "https://placehold.co/200x400/?text=Build+your%0Aown+upsells";
-
-  const sampleTitle = "Start from Blank";
-  const sampleDescription = "Lorem ipsum ";
 
   const data: any[] = [
     {

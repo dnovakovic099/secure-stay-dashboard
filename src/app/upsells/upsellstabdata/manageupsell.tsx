@@ -9,9 +9,10 @@ import {
   ChevronUpIcon,
 } from "@heroicons/react/20/solid";
 import { ListBulletIcon } from "@heroicons/react/24/outline";
-import { Upsell } from "../upsellView/upselldashboard";
+// import { Upsell } from "../upsellView/upselldashboard";
 import UpSellListing from "./upSellListing";
 import { useRouter } from "next/navigation";
+import { Upsell } from "../page";
 
 interface ManageUpsellProps {
   upsells: Upsell[];

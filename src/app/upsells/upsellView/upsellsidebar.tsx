@@ -2,8 +2,28 @@
 import { useState } from "react";
 
 import UpsellDashboard from "./upselldashboard";
+import { Upsell } from "../page";
 
-const UpsellSettings = ({ children }: any) => {
+interface upsellSettingsProps {
+  upsells: Upsell[];
+  setUpsells: any;
+  selectedRows: number[];
+  setSelectedRows: any;
+  handleRowCheckboxChange: (index: number) => void;
+  totalData: number;
+  setTotalData: any;
+}
+
+const UpsellSettings: React.FC<upsellSettingsProps> = ({
+  upsells,
+  setUpsells,
+  selectedRows,
+  setSelectedRows,
+  handleRowCheckboxChange,
+  totalData,
+  setTotalData,
+  children,
+}: any) => {
   const [selectedMenu, setSelectedMenu] = useState("Upsells");
 
   const handleMenuClick = (menu: string) => {
@@ -17,7 +37,17 @@ const UpsellSettings = ({ children }: any) => {
       case "Listing":
         return null;
       case "Upsells":
-        return <UpsellDashboard />;
+        return (
+          <UpsellDashboard
+            upsells={upsells}
+            setUpsells={setUpsells}
+            selectedRows={selectedRows}
+            setSelectedRows={setSelectedRows}
+            handleRowCheckboxChange={handleRowCheckboxChange}
+            totalData={totalData}
+            setTotalData={setTotalData}
+          />
+        );
       case "Chat":
         return null;
       case "Guests":
@@ -25,7 +55,17 @@ const UpsellSettings = ({ children }: any) => {
       case "Workplace":
         return null;
       default:
-        return <UpsellDashboard />;
+        return (
+          <UpsellDashboard
+            upsells={upsells}
+            setUpsells={setUpsells}
+            selectedRows={selectedRows}
+            setSelectedRows={setSelectedRows}
+            handleRowCheckboxChange={handleRowCheckboxChange}
+            totalData={totalData}
+            setTotalData={setTotalData}
+          />
+        );
     }
   };
   interface AvatarProps {
