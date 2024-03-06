@@ -219,7 +219,9 @@ export default function HotelDetail({ selectedItem }: any) {
             {activeTab === "C&C" && (
               <CheckInandOut selectedItem={selectedItem} />
             )}
-            {activeTab === "guidebook" && <GuideBook />}
+            {activeTab === "guidebook" && (
+              <GuideBook selectedItem={selectedItem} />
+            )}
             {/* {activeTab === 'images' && <Photos selectedItem={selectedItem} />} */}
             {activeTab === "P&C" && <Policies />}
           </div>

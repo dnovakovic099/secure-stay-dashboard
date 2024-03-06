@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Switch } from '@headlessui/react';
-import { FaUser } from 'react-icons/fa';
+import React, { useState } from "react";
+import { Switch } from "@headlessui/react";
+import { FaUser } from "react-icons/fa";
 
 interface AutomatedMessage {
   id: number;
@@ -11,39 +11,39 @@ interface AutomatedMessage {
 const AUTOMATED_MESSAGE: AutomatedMessage[] = [
   {
     id: 1,
-    title: 'Confirmed Booking',
-    subtitle: 'Booking Confirmation',
+    title: "Confirmed Booking",
+    subtitle: "Booking Confirmation",
   },
   {
     id: 2,
-    title: 'Pre Check-in',
-    subtitle: 'Verification is Approved',
+    title: "Pre Check-in",
+    subtitle: "Verification is Approved",
   },
   {
     id: 3,
-    title: 'Check-in',
-    subtitle: 'Pre-checkin',
+    title: "Check-in",
+    subtitle: "Pre-checkin",
   },
   {
     id: 4,
-    title: 'Check-up',
-    subtitle: 'Check-up',
+    title: "Check-up",
+    subtitle: "Check-up",
   },
   {
     id: 5,
-    title: 'Check-out',
-    subtitle: 'Check-out one day before check-out, 5PM',
+    title: "Check-out",
+    subtitle: "Check-out one day before check-out, 5PM",
   },
   {
     id: 6,
-    title: 'Post Stay',
-    subtitle: 'Dynamic Review (casual)',
+    title: "Post Stay",
+    subtitle: "Dynamic Review (casual)",
   },
 ];
 
 const Automated = ({ isToggle }: any) => {
   const [switchStates, setSwitchStates] = useState<boolean[]>(
-    new Array(AUTOMATED_MESSAGE.length).fill(true),
+    new Array(AUTOMATED_MESSAGE.length).fill(true)
   );
 
   const [popup, setPopup] = useState<boolean>(false);
@@ -163,7 +163,7 @@ const Automated = ({ isToggle }: any) => {
                 </div>
                 <div
                   className={`flex items-center p-1 rounded-full ${
-                    switchStates[index] ? 'bg-indigo-500' : 'bg-gray-300'
+                    switchStates[index] ? "bg-indigo-500" : "bg-gray-300"
                   }`}
                 >
                   <Switch
@@ -174,15 +174,15 @@ const Automated = ({ isToggle }: any) => {
                     <span
                       className={`absolute left-0 w-4 h-4 bg-white rounded-full shadow-md transition-transform ${
                         switchStates[index]
-                          ? 'translate-x-full'
-                          : 'translate-x-0 bg-white'
+                          ? "translate-x-full"
+                          : "translate-x-0 bg-white"
                       }`}
                     />
                   </Switch>
                 </div>
               </div>
             </div>
-          ),
+          )
         )
       ) : (
         <h1 className="flex justify-center bg-slate-200">No Expreiences</h1>
