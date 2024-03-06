@@ -140,6 +140,7 @@ function SearchBar() {
       const data = await response.json();
       toast.success(data.message);
       setIsLoading(false);
+      window.location.reload();
     } catch (error) {
       setIsLoading(false);
       console.log(error);

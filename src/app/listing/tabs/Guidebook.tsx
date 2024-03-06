@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { PlusIcon } from '@heroicons/react/20/solid';
-import { envConfig } from '@/utility/environment'; // Importing envConfig
+import React, { useState } from "react";
+import { PlusIcon } from "@heroicons/react/20/solid";
+import { envConfig } from "@/utility/environment"; // Importing envConfig
 
-const GuideBook = () => {
+const GuideBook = ({ selectedItem }: any) => {
+  console.log(selectedItem);
+
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    photo: '',
-  });
+  const [image, setImage] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleOpen = () => {
     setOpen(true);
@@ -19,36 +19,42 @@ const GuideBook = () => {
   };
 
   const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setImage(e.target.files[0]);
   };
 
-  const handleSubmitForm = (e: any) => {
+  const handleChange1 = (e: any) => {
+    setTitle(e.target.value);
+  };
+
+  const handleChange2 = (e: any) => {
+    setDescription(e.target.value);
+  };
+
+  const handleSubmitForm = async (e: any) => {
     e.preventDefault();
 
-    fetch(`${envConfig.backendUrl}/guides/addGuides`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
+    const formData = new FormData();
+    formData.append("photo", image);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("listingId", selectedItem.listingId);
+
+    try {
+      const response = await fetch(`${envConfig.backendUrl}/guides/addGuides`, {
+        method: "POST",
+        body: formData,
       });
 
-    setFormData({
-      title: '',
-      description: '',
-      photo: '',
-    });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data, "----->>>");
+      } else {
+        console.error("Error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
     handleClose();
   };
 
@@ -83,11 +89,14 @@ const GuideBook = () => {
                 </button>
               </div>
 
-              {/* Image Upload */}
-              <form onSubmit={handleSubmitForm} className="mb-6">
+              <form
+                onSubmit={handleSubmitForm}
+                className="mb-6"
+                encType="multipart/form-data"
+              >
                 <div>
                   <label
-                    htmlFor="image"
+                    htmlFor="photo"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Upload Image
@@ -95,14 +104,13 @@ const GuideBook = () => {
                   <input
                     type="file"
                     id="image"
-                    name="image"
+                    name="photo"
                     accept="image/*"
                     className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     onChange={handleChange}
                   />
                 </div>
 
-                {/* Title */}
                 <div className="mt-4">
                   <label
                     htmlFor="title"
@@ -114,13 +122,12 @@ const GuideBook = () => {
                     type="text"
                     id="title"
                     name="title"
-                    value={formData.title}
-                    onChange={handleChange}
+                    value={title}
+                    onChange={handleChange1}
                     className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
 
-                {/* Description */}
                 <div className="mt-4">
                   <label
                     htmlFor="description"
@@ -131,14 +138,13 @@ const GuideBook = () => {
                   <textarea
                     id="description"
                     name="description"
-                    value={formData.description}
-                    onChange={handleChange}
+                    value={description}
+                    onChange={handleChange2}
                     rows={3}
                     className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   ></textarea>
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   className="mt-6 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
