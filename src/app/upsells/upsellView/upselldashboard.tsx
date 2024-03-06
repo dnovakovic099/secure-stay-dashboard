@@ -16,34 +16,53 @@ import { envConfig } from "@/utility/environment";
 import { CommonDialog } from "@/components/commonDailogBox";
 import Loader from "../loading";
 import { useRouter } from "next/navigation";
+import { Upsell } from "../page";
 
-export interface Upsell {
-  availability: string;
-  description: string;
-  image: string | null;
-  isActive: boolean;
-  price: string;
-  status: number;
-  timePeriod: string;
-  title: string;
-  upSellId: number;
-}
+// export interface Upsell {
+//   availability: string;
+//   description: string;
+//   image: string | null;
+//   isActive: boolean;
+//   price: string;
+//   status: number;
+//   timePeriod: string;
+//   title: string;
+//   upSellId: number;
+// }
 
 interface Option {
   value: number;
   label: string;
 }
 
-const UpsellDashboard: React.FC = () => {
+interface upsellDashboardProps {
+  upsells: Upsell[];
+  setUpsells: any;
+  selectedRows: number[];
+  setSelectedRows: any;
+  handleRowCheckboxChange: (index: number) => void;
+  totalData: number;
+  setTotalData: any;
+}
+
+const UpsellDashboard: React.FC<upsellDashboardProps> = ({
+  upsells,
+  setUpsells,
+  selectedRows,
+  setSelectedRows,
+  handleRowCheckboxChange,
+  totalData,
+  setTotalData,
+}) => {
   const router = useRouter();
-  const [totalData, setTotalData] = useState(14);
+  // const [totalData, setTotalData] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [totalPages, setTotalPages] = useState(totalData / limit);
+  const [totalPages, setTotalPages] = useState(1);
 
   const [selectAll, setSelectAll] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<number[]>([]);
-  const [upsells, setUpsells] = useState<Upsell[]>([]);
+  // const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  // const [upsells, setUpsells] = useState<Upsell[]>([]);
   const [title, setTitle] = useState("");
   const [activeTab, setActiveTab] = useState("manageUpsells");
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -57,8 +76,10 @@ const UpsellDashboard: React.FC = () => {
   }, [currentPage, limit]);
 
   useEffect(() => {
-    if (totalData > 14) {
+    if (totalData > limit) {
       setTotalPages(Math.ceil(totalData / limit));
+    } else {
+      setTotalPages(1);
     }
   }, [totalData, limit]);
 
@@ -144,18 +165,18 @@ const UpsellDashboard: React.FC = () => {
     setSelectedRows(selectAll ? [] : allRows);
   };
 
-  const handleRowCheckboxChange = (index: number) => {
-    const newSelectedRows = [...selectedRows]; // Copy the array
-    const selectedIndex = newSelectedRows.indexOf(index);
+  // const handleRowCheckboxChange = (index: number) => {
+  //   const newSelectedRows = [...selectedRows]; // Copy the array
+  //   const selectedIndex = newSelectedRows.indexOf(index);
 
-    if (selectedIndex !== -1) {
-      newSelectedRows.splice(selectedIndex, 1); // Remove the index if it exists
-    } else {
-      newSelectedRows.push(index); // Add the index if it doesn't exist
-    }
+  //   if (selectedIndex !== -1) {
+  //     newSelectedRows.splice(selectedIndex, 1); // Remove the index if it exists
+  //   } else {
+  //     newSelectedRows.push(index); // Add the index if it doesn't exist
+  //   }
 
-    setSelectedRows(newSelectedRows);
-  };
+  //   setSelectedRows(newSelectedRows);
+  // };
 
   const handleToggle = (index: number) => {
     let upsellStatus: any;
