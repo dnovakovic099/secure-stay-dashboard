@@ -1,15 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Switch } from "@headlessui/react";
-import {
-  PencilIcon,
-  ArrowUpIcon,
-  ArrowDownIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from "@heroicons/react/20/solid";
-import { ListBulletIcon } from "@heroicons/react/24/outline";
-// import { Upsell } from "../upsellView/upselldashboard";
+import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import UpSellListing from "./upSellListing";
 import { useRouter } from "next/navigation";
 import { Upsell } from "../page";
@@ -34,12 +26,10 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
   handleRowCheckboxChange,
   handleToggle,
   selectedRows,
-  //   ...otherProps
 }) => {
   const router = useRouter();
 
   const handleEditUpsell = (data: any) => {
-    // Navigate to the desired screen in a new tab
     router.push(`/upsells/createupsells?upsell_id=${data}`);
   };
 
@@ -56,16 +46,15 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
   };
 
   return (
-    <div className="max-h-[65vh] rounded-md overflow-y-scroll">
+    <div className="h-[65vh] rounded-md overflow-y-scroll">
       <table
         className="w-full bg-transparent border-separate"
         style={{
-          borderSpacing: "0 4px",
+          borderSpacing: "0 2px",
           alignItems: "baseline",
         }}
       >
         <thead className="h-[39px] bg-white text-black lg:table-header-group w-full sticky top-0 z-10">
-          {" "}
           <tr className=" text-black items-center">
             <th className="rounded-l w-[59px]">
               <div className="flex items-center justify-end pl-[5px] gap-[6px] pr-2">
@@ -148,7 +137,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
           </tr>
         </thead>
 
-        <tbody className="bg-white divide-y">
+        <tbody className="bg-white divide-y before:content-[''] before:block">
           {upsells?.map((upsell, index) => (
             <>
               <tr
@@ -256,7 +245,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
                         >
-                          <g opacity="0.5" clip-path="url(#clip0_9473_1902)">
+                          <g opacity="0.5" clipPath="url(#clip0_9473_1902)">
                             <path
                               d="M2.5 4.16667C2.5 3.72464 2.67559 3.30072 2.98816 2.98816C3.30072 2.67559 3.72464 2.5 4.16667 2.5H15.8333C16.2754 2.5 16.6993 2.67559 17.0118 2.98816C17.3244 3.30072 17.5 3.72464 17.5 4.16667V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V4.16667Z"
                               stroke="#72767A"
@@ -355,7 +344,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                   >
                     {expandedRows.includes(index) ? (
                       /* Arrow pointing upwards when expanded */
-                      <ChevronUpIcon className="w-4 h-4 text-black font-black" />
+                      <ChevronUpIcon className="w-[18px] h-[18px] text-black font-black" />
                     ) : (
                       /* Arrow pointing downwards when collapsed */
                       <svg
@@ -384,10 +373,9 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                   </button>
                 </td>
               </tr>
-              <tr className="lg:hidden md:hidden">
+              {/* <tr className="md:hidden">
                 <td colSpan={7}>
                   <div className="bg-gradient-to-r from-indigo-100 to-purple-200 rounded-md  shadow-md mb-2 relative">
-                    {/* Card Content */}
                     <div>
                       <button
                         style={{
@@ -459,12 +447,12 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                               </p>
                             </div>
                             <div className="mt-1">
-                              {/* <p className="text-sm  text-black ">
-                                        Active Properties
-                                      </p>
-                                      <p className="text-md font-bold text-black">
-                                        {upsell.isActive}
-                                      </p> */}
+                              <p className="text-sm  text-black ">
+                                Active Properties
+                              </p>
+                              <p className="text-md font-bold text-black">
+                                {upsell.isActive}
+                              </p>
                             </div>
                           </div>
                           <div>
@@ -518,15 +506,14 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                             </div>
                           </div>
                         </div>
-                        {/* Include other details as needed */}
                       </div>
                     </div>
                   </div>
                 </td>
-              </tr>
+              </tr> */}
               {expandedRows.includes(index) && (
                 <tr>
-                  <td colSpan={7} className="w-full pl-10">
+                  <td colSpan={8} className="p-2">
                     <UpSellListing upsellid={upsell.upSellId} />
                   </td>
                 </tr>

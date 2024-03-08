@@ -11,52 +11,38 @@ import { CommonDialog } from "@/components/commonDailogBox";
 import { useRouter } from "next/navigation";
 import CommonPopup from "@/components/commonPopup";
 import { Card } from "../createupsells/cardComponent";
-import { Upsell } from "../page";
-
-// export interface Upsell {
-//   availability: string;
-//   description: string;
-//   image: string | null;
-//   isActive: boolean;
-//   price: string;
-//   status: number;
-//   timePeriod: string;
-//   title: string;
-//   upSellId: number;
-// }
 
 interface navBarProps {
-  upsells: Upsell[];
   setUpsells: any;
+  title: string;
+  setTitle: any;
   selectedRows: number[];
   setSelectedRows: any;
-  totalData: number;
   setTotalData: any;
+  setSelectAll: any;
+  limit: number;
+  currentPage: number;
+  setCurrentPage: any;
+  setIsLoading: any;
 }
 
 const NavBar: React.FC<navBarProps> = ({
-  upsells,
   setUpsells,
+  title,
+  setTitle,
   selectedRows,
   setSelectedRows,
-  totalData,
   setTotalData,
+  setSelectAll,
+  limit,
+  currentPage,
+  setCurrentPage,
+  setIsLoading,
 }) => {
   const router = useRouter();
-  // const [totalData, setTotalData] = useState(14);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-
-  const [selectAll, setSelectAll] = useState(false);
-  // const [selectedRows, setSelectedRows] = useState<number[]>([]);
-  // const [upsells, setUpsells] = useState<Upsell[]>([]);
-  const [title, setTitle] = useState("");
-  const [activeTab, setActiveTab] = useState("manageUpsells");
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [dialogAction, setDialogAction] = useState<(() => void) | null>(null);
   const [dialogMessage, setDialogMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-
   const [isPopupOpen, setPopupOpen] = useState(false);
 
   const handleOpenPopup = () => {
@@ -69,7 +55,7 @@ const NavBar: React.FC<navBarProps> = ({
   };
 
   const handleCardClick = (item: any) => {
-    router.push("/upsells/createupsells?template_id=${item.title}", item);
+    router.push(`/upsells/createupsells?template_id=${item.title}`, item);
   };
 
   const handleCreateUpsell = () => {
@@ -226,6 +212,11 @@ const NavBar: React.FC<navBarProps> = ({
       // Handle successful data fetch
       setUpsells(result.data);
       setTotalData(result.length);
+      title.length === 0
+        ? setCurrentPage(
+            parseInt(localStorage.getItem("lastCurrentPage") || "1")
+          )
+        : setCurrentPage(1);
     } catch (error) {
       setIsLoading(false);
       toast.error("Error occured");
@@ -234,8 +225,13 @@ const NavBar: React.FC<navBarProps> = ({
   };
 
   useEffect(() => {
+    if (title.length === 0)
+      localStorage.setItem("lastCurrentPage", currentPage.toString());
+
+    const lastCurrentPage = currentPage;
+    const page: number = title.length === 0 ? lastCurrentPage : 1;
     const delaySearch = setTimeout(() => {
-      fetchDataSearch(currentPage, limit, title);
+      fetchDataSearch(page, limit, title);
     }, 300);
     return () => clearTimeout(delaySearch);
   }, [title]);
