@@ -7,21 +7,39 @@ import { Upsell } from "../page";
 interface upsellSettingsProps {
   upsells: Upsell[];
   setUpsells: any;
+  title: string;
   selectedRows: number[];
   setSelectedRows: any;
   handleRowCheckboxChange: (index: number) => void;
   totalData: number;
   setTotalData: any;
+  selectAll: boolean;
+  setSelectAll: any;
+  limit: number;
+  setLimit: any;
+  currentPage: number;
+  setCurrentPage: any;
+  isLoading: boolean;
+  setIsLoading: any;
 }
 
 const UpsellSettings: React.FC<upsellSettingsProps> = ({
   upsells,
   setUpsells,
+  title,
   selectedRows,
   setSelectedRows,
   handleRowCheckboxChange,
   totalData,
   setTotalData,
+  selectAll,
+  setSelectAll,
+  limit,
+  setLimit,
+  currentPage,
+  setCurrentPage,
+  isLoading,
+  setIsLoading,
   children,
 }: any) => {
   const [selectedMenu, setSelectedMenu] = useState("Upsells");
@@ -41,11 +59,20 @@ const UpsellSettings: React.FC<upsellSettingsProps> = ({
           <UpsellDashboard
             upsells={upsells}
             setUpsells={setUpsells}
+            title={title}
             selectedRows={selectedRows}
             setSelectedRows={setSelectedRows}
             handleRowCheckboxChange={handleRowCheckboxChange}
             totalData={totalData}
             setTotalData={setTotalData}
+            selectAll={selectAll}
+            setSelectAll={setSelectAll}
+            limit={limit}
+            setLimit={setLimit}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         );
       case "Chat":
@@ -59,11 +86,20 @@ const UpsellSettings: React.FC<upsellSettingsProps> = ({
           <UpsellDashboard
             upsells={upsells}
             setUpsells={setUpsells}
+            title={title}
             selectedRows={selectedRows}
             setSelectedRows={setSelectedRows}
             handleRowCheckboxChange={handleRowCheckboxChange}
             totalData={totalData}
             setTotalData={setTotalData}
+            selectAll={selectAll}
+            setSelectAll={setSelectAll}
+            limit={limit}
+            setLimit={setLimit}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         );
     }

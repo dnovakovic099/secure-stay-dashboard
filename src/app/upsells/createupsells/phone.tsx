@@ -31,7 +31,7 @@ const PhoneStructure: React.FC<PhoneStructureProps> = ({
               <img
                 src={image}
                 alt="Selected"
-                className="w-full h-full object-cover rounded-md"
+                className="w-full h-[120px] object-cover rounded-md"
               />
             ) : (
               <div className="border border-dashed border-[#E9ECF3] p-[5px] rounded-lg">

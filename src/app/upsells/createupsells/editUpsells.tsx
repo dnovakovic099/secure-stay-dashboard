@@ -228,7 +228,7 @@ const EditUpsell: React.FC = () => {
         <div className="flex justify-between items-center w-full px-5 py-2">
           <div className="flex items-center justify-between min-w-[200px]">
             <img
-              src="/assets/securestay.png "
+              src="/assets/securestay.png"
               className="flex items-center h-11"
             />
           </div>
@@ -364,11 +364,11 @@ const EditUpsell: React.FC = () => {
                 </div>
               </div>
               <div
-                className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-8 min-w-[1200px] max-w-7xl bg-gradient-to-r from-[#FFFFFF] to-[#F4EBFF] shadow-md pr-10 pl-8 rounded-b-lg"
+                className="grid grid-cols-3 gap-10 pb-8 min-w-[1200px] max-w-7xl bg-gradient-to-r from-[#FFFFFF] to-[#F4EBFF] shadow-md pr-10 pl-8 rounded-b-lg"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
               >
-                <div className="md:col-span-2">
+                <div className="col-span-2">
                   <div className="flex items-center gap-10 mt-4 mb-5">
                     <div className="w-[240px] h-[120px] overflow-hidden">
                       {selectedImage ? (
@@ -548,7 +548,7 @@ const EditUpsell: React.FC = () => {
                     fetchListingData={fetchListingData}
                   />
                 </div>
-                <div className="md:col-span-1">
+                <div className="col-span-1">
                   <PhoneStructure
                     image={
                       selectedImage ? URL.createObjectURL(selectedImage) : ""

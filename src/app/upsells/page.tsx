@@ -18,8 +18,13 @@ export interface Upsell {
 
 const Upsells = () => {
   const [upsells, setUpsells] = useState<Upsell[]>([]);
+  const [title, setTitle] = useState("");
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [totalData, setTotalData] = useState(0);
+  const [selectAll, setSelectAll] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRowCheckboxChange = (index: number) => {
     const newSelectedRows = [...selectedRows]; // Copy the array
@@ -39,21 +44,35 @@ const Upsells = () => {
       <div className="min-w-full">
         <Suspense fallback={<Loader />}>
           <Navbar
-            upsells={upsells}
             setUpsells={setUpsells}
+            title={title}
+            setTitle={setTitle}
             selectedRows={selectedRows}
             setSelectedRows={setSelectedRows}
-            totalData={totalData}
             setTotalData={setTotalData}
+            setSelectAll={setSelectAll}
+            limit={limit}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            setIsLoading={setIsLoading}
           />
           <UpsellSettings
             upsells={upsells}
             setUpsells={setUpsells}
+            title={title}
             selectedRows={selectedRows}
             setSelectedRows={setSelectedRows}
             handleRowCheckboxChange={handleRowCheckboxChange}
             totalData={totalData}
             setTotalData={setTotalData}
+            selectAll={selectAll}
+            setSelectAll={setSelectAll}
+            limit={limit}
+            setLimit={setLimit}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         </Suspense>
       </div>

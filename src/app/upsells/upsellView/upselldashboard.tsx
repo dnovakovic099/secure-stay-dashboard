@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Fragment, useEffect } from "react";
+import { useState, useEffect } from "react";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
 import {
   Bars4Icon,
@@ -15,20 +15,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { envConfig } from "@/utility/environment";
 import { CommonDialog } from "@/components/commonDailogBox";
 import Loader from "../loading";
-import { useRouter } from "next/navigation";
 import { Upsell } from "../page";
-
-// export interface Upsell {
-//   availability: string;
-//   description: string;
-//   image: string | null;
-//   isActive: boolean;
-//   price: string;
-//   status: number;
-//   timePeriod: string;
-//   title: string;
-//   upSellId: number;
-// }
 
 interface Option {
   value: number;
@@ -38,38 +25,47 @@ interface Option {
 interface upsellDashboardProps {
   upsells: Upsell[];
   setUpsells: any;
+  title: string;
   selectedRows: number[];
   setSelectedRows: any;
   handleRowCheckboxChange: (index: number) => void;
   totalData: number;
   setTotalData: any;
+  selectAll: boolean;
+  setSelectAll: any;
+  limit: number;
+  setLimit: any;
+  currentPage: number;
+  setCurrentPage: any;
+  isLoading: number;
+  setIsLoading: any;
 }
 
 const UpsellDashboard: React.FC<upsellDashboardProps> = ({
   upsells,
   setUpsells,
+  title,
   selectedRows,
   setSelectedRows,
   handleRowCheckboxChange,
   totalData,
   setTotalData,
+  selectAll,
+  setSelectAll,
+  limit,
+  setLimit,
+  currentPage,
+  setCurrentPage,
+  isLoading,
+  setIsLoading,
 }) => {
-  const router = useRouter();
-  // const [totalData, setTotalData] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
-
-  const [selectAll, setSelectAll] = useState(false);
-  // const [selectedRows, setSelectedRows] = useState<number[]>([]);
-  // const [upsells, setUpsells] = useState<Upsell[]>([]);
-  const [title, setTitle] = useState("");
   const [activeTab, setActiveTab] = useState("manageUpsells");
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [dialogAction, setDialogAction] = useState<(() => void) | null>(null);
   const [dialogMessage, setDialogMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [numberOfActive, setNumberOfActive] = useState(0);
+  const [showOptions, setShowOptions] = useState(false);
 
   useEffect(() => {
     fetchData(currentPage, limit, title);
@@ -165,19 +161,6 @@ const UpsellDashboard: React.FC<upsellDashboardProps> = ({
     setSelectedRows(selectAll ? [] : allRows);
   };
 
-  // const handleRowCheckboxChange = (index: number) => {
-  //   const newSelectedRows = [...selectedRows]; // Copy the array
-  //   const selectedIndex = newSelectedRows.indexOf(index);
-
-  //   if (selectedIndex !== -1) {
-  //     newSelectedRows.splice(selectedIndex, 1); // Remove the index if it exists
-  //   } else {
-  //     newSelectedRows.push(index); // Add the index if it doesn't exist
-  //   }
-
-  //   setSelectedRows(newSelectedRows);
-  // };
-
   const handleToggle = (index: number) => {
     let upsellStatus: any;
 
@@ -232,8 +215,6 @@ const UpsellDashboard: React.FC<upsellDashboardProps> = ({
 
     return null;
   };
-
-  const [showOptions, setShowOptions] = useState(false);
 
   const handleClick = () => {
     setShowOptions(!showOptions);

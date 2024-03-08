@@ -3,6 +3,7 @@ import handleApiCallFetch from "@/components/handleApiCallFetch";
 import { envConfig } from "@/utility/environment";
 import { useEffect, useState } from "react";
 import Loader from "../loading";
+
 interface UpSellListingProps {
   upsellid: number; // Assuming upsellid is a string, adjust the type accordingly
 }
