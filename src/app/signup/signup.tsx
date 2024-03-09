@@ -99,6 +99,7 @@ const Signup = () => {
                 setIsloading(false);
             } else {
                 if (data && data.user && data.user.id) {
+                    toast.success("Please check email and verify email.")
                     toast.success("Signed up successfully");
                     router.push("/login");
                     setIsloading(false);

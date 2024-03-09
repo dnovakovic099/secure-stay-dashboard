@@ -12,9 +12,11 @@ import {
   LockClosedIcon,
   ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/20/solid";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 import classNames from "classnames";
+import { logoutUser } from "@/auth/auth";
+import { Router } from "next/router";
 
 interface SideBarMainProps {
   children: ReactNode;
@@ -153,7 +155,10 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
   const currentPath = usePathname();
 
   const handleLogOut = () => {
-    console.log("log out");
+    localStorage.clear();
+    logoutUser();
+    toast.success('Logut successfully!!!');
+    window.location.href = '/login'
   };
 
   return (
@@ -236,7 +241,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
 
                     <button
                       className="flex items-center px-2 py-2 mr-1 h-[40px] text-white rounded-md focus:outline-none  transition duration-300 ease-in-out bg-[#141B37]"
-                      onClick={handleLogOut}
+                      onClick={() => handleLogOut()}
                     >
                       <ArrowRightStartOnRectangleIcon className="w-4 h-4 mr-2" />
                     </button>
