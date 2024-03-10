@@ -95,14 +95,12 @@ const UpsellDashboard: React.FC<upsellDashboardProps> = ({
       setIsLoading(true);
       const result: any = await handleApiCallFetch(apiUrl, params);
       setIsLoading(false);
-      // Handle successful data fetch
       setUpsells(result.data);
       setTotalData(result.length);
       setNumberOfActive(result.totalActive);
     } catch (error) {
       setIsLoading(false);
       toast.error("Error occured");
-      // Handle error
     }
   };
 
@@ -123,7 +121,6 @@ const UpsellDashboard: React.FC<upsellDashboardProps> = ({
           "Content-Type": "application/json",
         },
       });
-      // Handle the successful response here
       fetchData(currentPage, limit, title);
       setIsLoading(false);
       setSelectAll(false);
@@ -131,7 +128,6 @@ const UpsellDashboard: React.FC<upsellDashboardProps> = ({
     } catch (error: any) {
       setIsLoading(false);
       toast.error(error.message);
-      // Handle errors here
       console.error("Error making request:", error.message);
     }
   };
@@ -228,18 +224,19 @@ const UpsellDashboard: React.FC<upsellDashboardProps> = ({
   ];
 
   const handleChange = (value: number) => {
+    setCurrentPage(1);
     setLimit(value);
     setShowOptions(false);
   };
 
   return (
-    <div>
+    <div className="w-full h-[90vh]">
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="flex flex-col items-center justify-center  mr-auto bg-gray-100">
+        <div className="w-full flex flex-col">
           <Toaster position="top-center" reverseOrder={false} />
-          <div className="w-[100%] h-16 bg-white px-5 py-3">
+          <div className="w-full h-16 bg-white px-5 py-3">
             <div className="w-full flex justify-between items-center">
               <div className="w-[671px] flex justify-between items-center">
                 <div className="w-[119px]">
@@ -394,7 +391,7 @@ const UpsellDashboard: React.FC<upsellDashboardProps> = ({
               </div>
             </div>
           </div>
-          <div className="w-[100%]">{renderTabContent()}</div>
+          <div className="w-full">{renderTabContent()}</div>
         </div>
       )}
       <CommonDialog

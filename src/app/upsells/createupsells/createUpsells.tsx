@@ -1,10 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
 import { Toaster, toast } from "react-hot-toast";
-import { CameraIcon } from "@heroicons/react/20/solid";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 import { envConfig } from "@/utility/environment";
 import axios from "axios";
@@ -13,7 +9,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
 import PhoneStructure from "./phone";
 import Loader from "../loading";
-import CommonDropdown from "@/components/commonDropdown";
 
 export interface Property {
   listingId: number;
@@ -39,8 +34,7 @@ const CreateUpsell: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const searchParams = useSearchParams();
   const template_id = searchParams.get("template_id");
-
-  const [pricingModel, setPricingModel] = useState("");
+  const [templateImageUrl, seTemplateImageUrl] = useState("");
 
   const goBack = () => {
     router.push("/upsells");
@@ -50,7 +44,7 @@ const CreateUpsell: React.FC = () => {
     if (template_id) {
       fetchData();
     }
-  });
+  }, []);
 
   useEffect(() => {
     fetchListingData();
@@ -58,7 +52,7 @@ const CreateUpsell: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const apiUrl = `${envConfig.backendUrl}/upsell/:${template_id}`; // Replace with your API endpoint
+      const apiUrl = `${envConfig.backendUrl}/upsell?upSellId=${template_id}`; // Replace with your API endpoint
       const params = {
         method: "GET",
         headers: {
@@ -73,6 +67,7 @@ const CreateUpsell: React.FC = () => {
       setTitle(responseData.title);
       setShortDescription(responseData.description);
       setPrice(responseData.price);
+      seTemplateImageUrl(responseData.image);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -124,7 +119,8 @@ const CreateUpsell: React.FC = () => {
     }
 
     const formData = new FormData();
-    // formData.append("image", selectedImage!);
+    if (selectedImage) formData.append("photo", selectedImage!);
+    if (templateImageUrl) formData.append("image", templateImageUrl);
     formData.append("title", title);
     formData.append("description", shortDescription);
     formData.append("price", price);
@@ -177,9 +173,6 @@ const CreateUpsell: React.FC = () => {
 
       const result: any = await handleApiCallFetch(apiUrl, params);
 
-      // Handle successful data fetch
-      console.log(result);
-
       setAttachedProperties(
         result.listings?.map((property: any) => ({ ...property, status: 0 }))
       );
@@ -191,12 +184,13 @@ const CreateUpsell: React.FC = () => {
 
   return (
     <div>
-      <div className="flex items-center bg-[#141B37] h-[60px] min-w-[1440px]">
+      <div className="flex items-center bg-[#141B37] h-[60px] min-w-[1200px]">
         <div className="flex justify-between items-center w-full px-5 py-2">
           <div className="flex items-center justify-between min-w-[200px]">
             <img
               src="/assets/securestay.png"
               className="flex items-center h-11"
+              alt="securestay"
             />
           </div>
           <div className="flex gap-3 py-[2px]">
@@ -222,12 +216,12 @@ const CreateUpsell: React.FC = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="flex min-w-[1440px] bg-[#E9ECF3]">
-          <div className="flex flex-col items-center justify-start h-[90vh] min-w-[1440px] py-5 overflow-y-scroll">
+        <div className="flex justify-center min-w-[1200px] bg-[#E9ECF3]">
+          <div className="flex flex-col items-center justify-start h-[90vh] min-w-[1200px] py-5 overflow-y-scroll">
             <Toaster position="top-center" reverseOrder={false} />
             <div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-w-[1200px] max-w-7xl px-8 pt-8 bg-gradient-to-r from-[#FFFFFF] to-[#F4EBFF] shadow-md rounded-t-lg">
-                <div className="md:col-span-1">
+              <div className="grid grid-cols-3 gap-4 px-8 pt-8 bg-gradient-to-r from-[#FFFFFF] to-[#F4EBFF] shadow-md rounded-t-lg">
+                <div className="col-span-1">
                   <div className="text-xl leading-5 font-semibold text-[#222222] mb-1">
                     Create Upsells
                   </div>
@@ -238,7 +232,7 @@ const CreateUpsell: React.FC = () => {
               </div>
 
               <div
-                className="grid grid-cols-3 gap-10 pb-8 min-w-[1200px] max-w-7xl bg-gradient-to-r from-[#FFFFFF] to-[#F4EBFF] shadow-md pr-10 pl-8 rounded-b-lg"
+                className="grid grid-cols-3 gap-10 pb-8 bg-gradient-to-r from-[#FFFFFF] to-[#F4EBFF] shadow-md pr-10 pl-8 rounded-b-lg"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
               >
@@ -248,6 +242,12 @@ const CreateUpsell: React.FC = () => {
                       {selectedImage ? (
                         <img
                           src={URL.createObjectURL(selectedImage)}
+                          alt="Selected"
+                          className="w-full h-full object-cover rounded-md"
+                        />
+                      ) : templateImageUrl ? (
+                        <img
+                          src={`${envConfig.backendUrl}/${templateImageUrl}`}
                           alt="Selected"
                           className="w-full h-full object-cover rounded-md"
                         />
@@ -427,7 +427,11 @@ const CreateUpsell: React.FC = () => {
                 <div className="col-span-1">
                   <PhoneStructure
                     image={
-                      selectedImage ? URL.createObjectURL(selectedImage) : ""
+                      selectedImage
+                        ? URL.createObjectURL(selectedImage)
+                        : templateImageUrl
+                        ? `${envConfig.backendUrl}/${templateImageUrl}`
+                        : ""
                     }
                     textContent={{
                       title: title,

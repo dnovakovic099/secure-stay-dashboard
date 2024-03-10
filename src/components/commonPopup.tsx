@@ -37,7 +37,7 @@ const CommonPopup = ({
             <div className="fixed inset-0 bg-[#141B37] bg-opacity-40 transition-opacity" />
           </Transition.Child>
 
-          <div className="fixed inset-0 top-7 bottom-7 z-10 overflow-y-auto">
+          <div className="fixed inset-0 top-3 z-10 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
               <Transition.Child
                 as={Fragment}
@@ -56,12 +56,12 @@ const CommonPopup = ({
                 >
                   <div className="sm:flex sm:items-start w-full">
                     <div className="text-center sm:mt-0 sm:text-left w-full">
-                      <Dialog.Title className="text-lg font-semibold leading-6 text-gray-900 p-6 border-b border-[#E9ECF3]">
+                      <Dialog.Title className="text-lg font-semibold leading-6 text-gray-900 p-5 border-b border-[#E9ECF3]">
                         <div className="flex justify-between">
                           <span className="text-[#222222] text-xl not-italic font-medium leading-5">
                             {title}
                           </span>
-                          <div className=" ">
+                          <div className="cursor-pointer">
                             {!disableCloseIcon && (
                               <XMarkIcon
                                 className="h-6 w-6 border-none rounded-md"
@@ -73,7 +73,7 @@ const CommonPopup = ({
                         </div>
                         <div className="text-sm">{subtitle}</div>
                       </Dialog.Title>
-                      <div className="p-6">{children}</div>
+                      <div className="p-5">{children}</div>
                     </div>
                   </div>
                 </Dialog.Panel>

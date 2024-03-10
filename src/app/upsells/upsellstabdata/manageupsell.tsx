@@ -15,7 +15,6 @@ interface ManageUpsellProps {
   handleRowCheckboxChange: (index: number) => void;
   handleToggle: (index: number) => void;
   selectedRows: number[];
-  // Add other necessary props
 }
 const ManageUpsell: React.FC<ManageUpsellProps> = ({
   upsells,
@@ -46,9 +45,9 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
   };
 
   return (
-    <div className="h-[65vh] rounded-md overflow-y-scroll">
+    <div className="w-full h-[63vh] rounded-md overflow-y-scroll">
       <table
-        className="w-full bg-transparent border-separate"
+        className="bg-transparent border-separate w-full"
         style={{
           borderSpacing: "0 2px",
           alignItems: "baseline",
@@ -113,25 +112,25 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                 </label>
               </div>
             </th>
-            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] w-60">
+            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] min-w-48">
               Title
             </th>
-            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] w-36">
+            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] min-w-20">
               Price
             </th>
-            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] w-56">
+            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] min-w-48">
               Period
             </th>
-            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] w-36">
+            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] min-w-24">
               Availability
             </th>
-            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] w-40">
+            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] min-w-36">
               Active Properties
             </th>
-            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] w-28">
+            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] min-w-20">
               Status
             </th>
-            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] rounded-r">
+            <th className="text-start text-[10px] uppercase leading-[11px] font-bold text-[#222222] rounded-r min-w-20">
               Action
             </th>
           </tr>
