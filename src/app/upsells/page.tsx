@@ -27,13 +27,13 @@ const Upsells = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRowCheckboxChange = (index: number) => {
-    const newSelectedRows = [...selectedRows]; // Copy the array
+    const newSelectedRows = [...selectedRows];
     const selectedIndex = newSelectedRows.indexOf(index);
 
     if (selectedIndex !== -1) {
-      newSelectedRows.splice(selectedIndex, 1); // Remove the index if it exists
+      newSelectedRows.splice(selectedIndex, 1);
     } else {
-      newSelectedRows.push(index); // Add the index if it doesn't exist
+      newSelectedRows.push(index);
     }
 
     setSelectedRows(newSelectedRows);

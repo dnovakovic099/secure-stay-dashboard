@@ -18,8 +18,9 @@ const EditUpsell: React.FC = () => {
   const emptyProperties: Property[] = [];
   const [title, setTitle] = useState("");
   const [shortDescription, setShortDescription] = useState("");
-  const [price, setPrice] = useState<any>(null);
+  const [price, setPrice] = useState<any>(0);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imageToUpdateUrl, setImageToUpdateUrl] = useState("");
   const [attachedProperties, setAttachedProperties] = useState(emptyProperties);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -49,6 +50,7 @@ const EditUpsell: React.FC = () => {
         setTitle(responseData.title);
         setShortDescription(responseData.description);
         setPrice(responseData.price);
+        setImageToUpdateUrl(`${envConfig.backendUrl}/${responseData.image}`);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
@@ -58,8 +60,6 @@ const EditUpsell: React.FC = () => {
     };
 
     if (upsell_id) {
-      console.log(upsell_id);
-
       fetchData();
       fetchListingData();
     }
@@ -143,6 +143,7 @@ const EditUpsell: React.FC = () => {
   const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
+    selectedImage && formData.append("photo", selectedImage!);
     formData.append("upSellId", upsell_id!);
     formData.append("title", title);
     formData.append("description", shortDescription);
@@ -156,7 +157,6 @@ const EditUpsell: React.FC = () => {
 
     handleUpdateRequest(formData);
     // Add logic to handle form submission here
-    console.log("Form Updated");
   };
 
   const handleRequest = async (method: string, uri: string, data?: any) => {
@@ -224,12 +224,13 @@ const EditUpsell: React.FC = () => {
 
   return (
     <div>
-      <div className="flex items-center bg-[#141B37] h-[60px] min-w-[1440px]">
+      <div className="flex items-center bg-[#141B37] h-[60px] min-w-[1200px]">
         <div className="flex justify-between items-center w-full px-5 py-2">
           <div className="flex items-center justify-between min-w-[200px]">
             <img
               src="/assets/securestay.png"
               className="flex items-center h-11"
+              alt="secure-stay"
             />
           </div>
           <div className="flex gap-3 py-[2px]">
@@ -349,12 +350,12 @@ const EditUpsell: React.FC = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="flex min-w-[1440px] bg-[#E9ECF3]">
-          <div className="flex flex-col items-center justify-start h-[90vh] min-w-[1440px] py-5 overflow-y-scroll">
+        <div className="flex justify-center min-w-[1200px] bg-[#E9ECF3]">
+          <div className="flex flex-col items-center justify-start h-[90vh] min-w-[1200px] py-5 overflow-y-scroll">
             <Toaster position="top-center" reverseOrder={false} />
             <div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-w-[1200px] max-w-7xl px-8 pt-8 bg-gradient-to-r from-[#FFFFFF] to-[#F4EBFF] shadow-md rounded-t-lg">
-                <div className="md:col-span-1">
+              <div className="grid grid-cols-3 gap-4 px-8 pt-8 bg-gradient-to-r from-[#FFFFFF] to-[#F4EBFF] shadow-md rounded-t-lg">
+                <div className="col-span-1">
                   <div className="text-xl leading-5 font-semibold text-[#222222] mb-1">
                     Edit Upsells
                   </div>
@@ -364,7 +365,7 @@ const EditUpsell: React.FC = () => {
                 </div>
               </div>
               <div
-                className="grid grid-cols-3 gap-10 pb-8 min-w-[1200px] max-w-7xl bg-gradient-to-r from-[#FFFFFF] to-[#F4EBFF] shadow-md pr-10 pl-8 rounded-b-lg"
+                className="grid grid-cols-3 gap-10 pb-8 bg-gradient-to-r from-[#FFFFFF] to-[#F4EBFF] shadow-md pr-10 pl-8 rounded-b-lg"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
               >
@@ -378,72 +379,11 @@ const EditUpsell: React.FC = () => {
                           className="w-full h-full object-cover rounded-md"
                         />
                       ) : (
-                        <div className="border border-dashed border-[#E9ECF3] p-[5px] rounded-lg">
-                          <div className="flex items-center justify-center w-full h-full px-10 py-[26px] bg-[#E9ECF3] rounded-md">
-                            <div className="flex flex-col items-center gap-[10px]">
-                              <svg
-                                width="32"
-                                height="32"
-                                viewBox="0 0 32 32"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <g clipPath="url(#clip0_9473_795)">
-                                  <path
-                                    d="M20 10.6666H20.0133"
-                                    stroke="#6F6883"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                  <path
-                                    d="M16.6667 28H8C6.93913 28 5.92172 27.5786 5.17157 26.8284C4.42143 26.0783 4 25.0609 4 24V8C4 6.93913 4.42143 5.92172 5.17157 5.17157C5.92172 4.42143 6.93913 4 8 4H24C25.0609 4 26.0783 4.42143 26.8284 5.17157C27.5786 5.92172 28 6.93913 28 8V16.6667"
-                                    stroke="#6F6883"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                  <path
-                                    d="M4 21.3333L10.6667 14.6667C11.904 13.476 13.4293 13.476 14.6667 14.6667L20 20"
-                                    stroke="#6F6883"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                  <path
-                                    d="M18.6665 18.6666L19.9998 17.3333C20.8932 16.4746 21.9332 16.2346 22.9092 16.6133"
-                                    stroke="#6F6883"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                  <path
-                                    d="M21.3335 25.3334H29.3335"
-                                    stroke="#6F6883"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                  <path
-                                    d="M25.3335 21.3334V29.3334"
-                                    stroke="#6F6883"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </g>
-                                <defs>
-                                  <clipPath id="clip0_9473_795">
-                                    <rect width="32" height="32" fill="white" />
-                                  </clipPath>
-                                </defs>
-                              </svg>
-                              <span className="text-xs leading-[14px] font-medium text-[#222222]">
-                                jpeg or png upto 2024 KB
-                              </span>
-                            </div>
-                          </div>
-                        </div>
+                        <img
+                          src={imageToUpdateUrl}
+                          alt="test"
+                          className="w-full h-full object-cover rounded-md"
+                        />
                       )}
                     </div>
                     <div>
@@ -551,7 +491,9 @@ const EditUpsell: React.FC = () => {
                 <div className="col-span-1">
                   <PhoneStructure
                     image={
-                      selectedImage ? URL.createObjectURL(selectedImage) : ""
+                      selectedImage
+                        ? URL.createObjectURL(selectedImage)
+                        : imageToUpdateUrl
                     }
                     textContent={{
                       title: title,

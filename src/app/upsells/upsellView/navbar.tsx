@@ -11,6 +11,7 @@ import { CommonDialog } from "@/components/commonDailogBox";
 import { useRouter } from "next/navigation";
 import CommonPopup from "@/components/commonPopup";
 import { Card } from "../createupsells/cardComponent";
+import { Upsell } from "../page";
 
 interface navBarProps {
   setUpsells: any;
@@ -44,6 +45,11 @@ const NavBar: React.FC<navBarProps> = ({
   const [dialogAction, setDialogAction] = useState<(() => void) | null>(null);
   const [dialogMessage, setDialogMessage] = useState("");
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [upsellTemplates, setUpsellTemplates] = useState<Upsell[]>([]);
+
+  useEffect(() => {
+    fetchUpsellTemplatesData();
+  }, []);
 
   const handleOpenPopup = () => {
     setPopupOpen(true);
@@ -55,7 +61,7 @@ const NavBar: React.FC<navBarProps> = ({
   };
 
   const handleCardClick = (item: any) => {
-    router.push(`/upsells/createupsells?template_id=${item.title}`, item);
+    router.push(`/upsells/createupsells?template_id=${item.upSellId}`, item);
   };
 
   const handleCreateUpsell = () => {
@@ -78,13 +84,27 @@ const NavBar: React.FC<navBarProps> = ({
       setIsLoading(true);
       const result: any = await handleApiCallFetch(apiUrl, params);
       setIsLoading(false);
-      // Handle successful data fetch
       setUpsells(result.data);
       setTotalData(result.length);
     } catch (error) {
       setIsLoading(false);
       toast.error("Error occured");
-      // Handle error
+    }
+  };
+
+  const fetchUpsellTemplatesData = async () => {
+    try {
+      const apiUrl = `${envConfig.backendUrl}/upsell/upsellList?page=1&limit=11&title=`; // Replace with your API endpoint
+      const params = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const result: any = await handleApiCallFetch(apiUrl, params);
+      setUpsellTemplates(result.data);
+    } catch (error) {
+      toast.error("Error occured");
     }
   };
 
@@ -101,7 +121,6 @@ const NavBar: React.FC<navBarProps> = ({
           "Content-Type": "application/json",
         },
       });
-      // Handle the successful response here
       fetchData(currentPage, limit, title);
       setIsLoading(false);
       setSelectAll(false);
@@ -109,7 +128,6 @@ const NavBar: React.FC<navBarProps> = ({
     } catch (error: any) {
       setIsLoading(false);
       toast.error(error.message);
-      // Handle errors here
       console.error("Error making request:", error.message);
     }
   };
@@ -209,106 +227,26 @@ const NavBar: React.FC<navBarProps> = ({
       };
 
       const result: any = await handleApiCallFetch(apiUrl, params);
-      // Handle successful data fetch
       setUpsells(result.data);
       setTotalData(result.length);
-      title.length === 0
-        ? setCurrentPage(
-            parseInt(localStorage.getItem("lastCurrentPage") || "1")
-          )
-        : setCurrentPage(1);
+      setCurrentPage(1);
     } catch (error) {
       setIsLoading(false);
       toast.error("Error occured");
-      // Handle error
     }
   };
 
   useEffect(() => {
-    if (title.length === 0)
-      localStorage.setItem("lastCurrentPage", currentPage.toString());
-
-    const lastCurrentPage = currentPage;
-    const page: number = title.length === 0 ? lastCurrentPage : 1;
     const delaySearch = setTimeout(() => {
-      fetchDataSearch(page, limit, title);
+      fetchDataSearch(1, limit, title);
     }, 300);
     return () => clearTimeout(delaySearch);
   }, [title]);
 
-  const data: any[] = [
-    {
-      imageUrl: "https://placekitten.com/300/200",
-      title: "Card 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: Math.random() * 100,
-    },
-    {
-      imageUrl: "https://placekitten.com/96/140",
-      title: "Card 2",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: Math.random() * 100,
-    },
-    {
-      imageUrl: "https://placekitten.com/200/138",
-      title: "Card 3",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: Math.random() * 100,
-    },
-    {
-      imageUrl: "https://placekitten.com/96/139",
-      title: "Card 4",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: Math.random() * 100,
-    },
-    {
-      imageUrl: "https://placekitten.com/96/140",
-      title: "Card 5",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: Math.random() * 100,
-    },
-    {
-      imageUrl: "https://placekitten.com/300/200",
-      title: "Card 6",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: Math.random() * 100,
-    },
-    {
-      imageUrl: "https://placekitten.com/96/140",
-      title: "Card 7",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: Math.random() * 100,
-    },
-    {
-      imageUrl: "https://placekitten.com/200/139",
-      title: "Card 8",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: Math.random() * 100,
-    },
-    {
-      imageUrl: "https://placekitten.com/200/139",
-      title: "Card 9",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: Math.random() * 100,
-    },
-    {
-      imageUrl: "https://placekitten.com/408/287",
-      title: "Card 10",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: Math.random() * 100,
-    },
-    {
-      imageUrl: "https://placekitten.com/200/286",
-      title: "Card 11",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: Math.random() * 100,
-    },
-  ];
-
   return (
-    <div className="flex items-center bg-[#141B37] h-[60px] min-w-[1440px]">
+    <div className="flex items-center bg-[#141B37] h-[60px] min-w-[1200px]">
       <div className="flex justify-between items-center w-full px-5 py-2">
-        <div className="flex items-center justify-between min-w-[200px]">
+        <div className="flex items-center justify-between w-[200px]">
           <img
             src="/assets/securestay.png "
             className="flex items-center h-11"
@@ -519,8 +457,8 @@ const NavBar: React.FC<navBarProps> = ({
       >
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-2">
           <div key={0} onClick={() => handleCreateUpsell()}>
-            <div className="w-[126px] items-center cursor-pointer">
-              <div className="flex flex-col justify-center items-center gap-2 w-[126px] h-40 px-6 border border-[#6E3FF3] rounded-lg bg-gradient-to-r from-[#FFFFFF99] to-[#7000FF20]">
+            <div className="min-w-20 w-24 items-center cursor-pointer">
+              <div className="flex flex-col justify-center items-center gap-2 min-w-20 w-24 h-[120px] px-1 border border-[#6E3FF3] rounded-lg bg-gradient-to-r from-[#FFFFFF99] to-[#7000FF20]">
                 <svg
                   width="24"
                   height="24"
@@ -578,7 +516,7 @@ const NavBar: React.FC<navBarProps> = ({
             </div>
           </div>
 
-          {data.map((item, index) => (
+          {upsellTemplates?.map((item, index) => (
             <div key={index} onClick={() => handleCardClick(item)}>
               <Card {...item} />
             </div>
