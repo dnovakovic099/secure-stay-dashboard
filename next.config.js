@@ -1,34 +1,38 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: false
-}
+  reactStrictMode: false,
+};
 
 const redirects = {
-    async redirects() {
-        return [
-            {
-                source: "/",
-                destination: "/login",
-                permanent: false
-            }
-        ];
-    }
-}
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/login",
+        permanent: false,
+      },
+    ];
+  },
+};
 
 const imagesConfig = {
-    images: {
-        domains: ['images.unsplash.com',"hostaway-platform.s3.us-west-2.amazonaws.com"],
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'connect.getseam.com',
-                port: '',
-                pathname: '/assets/images/devices/schlage_sense-smart-deadbolt-with-camelot-trim_front.png',
-            },
-        ],
-    },
-}
+  images: {
+    domains: [
+      "images.unsplash.com",
+      "hostaway-platform.s3.us-west-2.amazonaws.com",
+    ],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "connect.getseam.com",
+        port: "",
+        pathname:
+          "/assets/images/devices/schlage_sense-smart-deadbolt-with-camelot-trim_front.png",
+      },
+    ],
+  },
+};
 
 const withPlugins = require("next-compose-plugins");
 
-module.exports = withPlugins([nextConfig, [redirects], imagesConfig])
+module.exports = withPlugins([nextConfig, [redirects], imagesConfig]);
