@@ -60,7 +60,7 @@ const GuideBook = ({ selectedItem }: any) => {
     e.preventDefault();
 
     const response = await fetch(
-      `${window.location.href}/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdefault.1c53a63f.jpg&w=3840&q=75`
+      `${window.location.protocol}//${window.location.host}/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdefault.1c53a63f.jpg&w=3840&q=75`
     );
     const blob = await response.blob();
     const jpgFile = new File([blob], "default.jpg", {
