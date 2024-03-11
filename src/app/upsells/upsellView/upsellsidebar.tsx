@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import UpsellDashboard from "./upselldashboard";
 import { Upsell } from "../page";
+import ListingMain from "@/app/listing/listingMain";
 
 interface upsellSettingsProps {
   upsells: Upsell[];
@@ -52,7 +53,7 @@ const UpsellSettings: React.FC<upsellSettingsProps> = ({
   const returnSelectedComponent = (menu: String) => {
     switch (menu) {
       case "Listing":
-        return null;
+        return <ListingMain />;
       case "Upsells":
         return (
           <UpsellDashboard
