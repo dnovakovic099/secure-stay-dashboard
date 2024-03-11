@@ -3,6 +3,7 @@ import Navbar from "./upsellView/navbar";
 import UpsellSettings from "./upsellView/upsellsidebar";
 import { Suspense, useState } from "react";
 import Loader from "./loading";
+import SideBarMain from "@/components/sidebar";
 
 export interface Upsell {
   availability: string;
@@ -40,43 +41,45 @@ const Upsells = () => {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-100 h-[100%]">
-      <div className="min-w-full">
-        <Suspense fallback={<Loader />}>
-          <Navbar
-            setUpsells={setUpsells}
-            title={title}
-            setTitle={setTitle}
-            selectedRows={selectedRows}
-            setSelectedRows={setSelectedRows}
-            setTotalData={setTotalData}
-            setSelectAll={setSelectAll}
-            limit={limit}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            setIsLoading={setIsLoading}
-          />
-          <UpsellSettings
-            upsells={upsells}
-            setUpsells={setUpsells}
-            title={title}
-            selectedRows={selectedRows}
-            setSelectedRows={setSelectedRows}
-            handleRowCheckboxChange={handleRowCheckboxChange}
-            totalData={totalData}
-            setTotalData={setTotalData}
-            selectAll={selectAll}
-            setSelectAll={setSelectAll}
-            limit={limit}
-            setLimit={setLimit}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-          />
-        </Suspense>
+    <SideBarMain>
+      <div className="flex items-center justify-center bg-gray-100 h-[100%]">
+        <div className="min-w-full">
+          <Suspense fallback={<Loader />}>
+            <Navbar
+              setUpsells={setUpsells}
+              title={title}
+              setTitle={setTitle}
+              selectedRows={selectedRows}
+              setSelectedRows={setSelectedRows}
+              setTotalData={setTotalData}
+              setSelectAll={setSelectAll}
+              limit={limit}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              setIsLoading={setIsLoading}
+            />
+            <UpsellSettings
+              upsells={upsells}
+              setUpsells={setUpsells}
+              title={title}
+              selectedRows={selectedRows}
+              setSelectedRows={setSelectedRows}
+              handleRowCheckboxChange={handleRowCheckboxChange}
+              totalData={totalData}
+              setTotalData={setTotalData}
+              selectAll={selectAll}
+              setSelectAll={setSelectAll}
+              limit={limit}
+              setLimit={setLimit}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+            />
+          </Suspense>
+        </div>
       </div>
-    </div>
+    </SideBarMain>
   );
 };
 

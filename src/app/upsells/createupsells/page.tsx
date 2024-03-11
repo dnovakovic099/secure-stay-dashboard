@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import EditUpsell from "./editUpsells";
 import { request } from "http";
 import { useSearchParams } from "next/navigation";
+import SideBarMain from "@/components/sidebar";
 
 const CreateUpsellPage = () => {
   const searchParams = useSearchParams();
@@ -11,9 +12,11 @@ const CreateUpsellPage = () => {
   // const { upsell_id } = router.query || {};
 
   return (
-    <div>
-      {searchParams.has("upsell_id") ? <EditUpsell /> : <CreateUpsell />}
-    </div>
+    <SideBarMain>
+      <div>
+        {searchParams.has("upsell_id") ? <EditUpsell /> : <CreateUpsell />}
+      </div>
+    </SideBarMain>
   );
 };
 export default CreateUpsellPage;
