@@ -5,6 +5,7 @@ import { envConfig } from "@/utility/environment";
 import axios from "axios";
 import toast from "react-hot-toast";
 import SifelyLockInfo from "./sifelyLockInfo";
+import axiosInstance from "@/auth/axiosInstance";
 
 interface listing {
   listingId: number;
@@ -59,7 +60,7 @@ const LockInfo = ({ lockType, lockId }: any) => {
 
   const getDeviceListings = async () => {
     const apiUrl = `${envConfig.backendUrl}/device/getlistings/${lockId}`;
-    const result = await axios.get(apiUrl);
+    const result = await axiosInstance.get(apiUrl);
 
     if (result.status == 200 && result.data?.success) {
       const arr = [result.data?.data];
@@ -72,7 +73,7 @@ const LockInfo = ({ lockType, lockId }: any) => {
   const fetchListings = async () => {
     try {
       const apiUrl = `${envConfig.backendUrl}/listing/getlistings`;
-      const res = await axios.get(apiUrl);
+      const res = await axiosInstance.get(apiUrl);
 
       if (res.status == 200) {
         const listings = res.data.listings;
@@ -88,7 +89,7 @@ const LockInfo = ({ lockType, lockId }: any) => {
 
     try {
       const apiUrl = `${envConfig.backendUrl}/device/savelocklistinginfo`;
-      const res = await axios.post(apiUrl, {
+      const res = await axiosInstance.post(apiUrl, {
         deviceId: lockId,
         listingId: selectedListing[0] ? selectedListing[0] : null,
         deviceType: lockType,

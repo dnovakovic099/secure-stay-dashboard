@@ -7,6 +7,7 @@ import { envConfig } from "@/utility/environment";
 import axios from "axios";
 import toast from "react-hot-toast";
 import SifelyLockAccessCodes from "./sifelyLockAccessCodes";
+import axiosInstance from "@/auth/axiosInstance";
 
 interface DeviceInfo {
   lockName: string;
@@ -46,7 +47,7 @@ const SifelyLockInfo = ({
   const getDeviceInfo = async () => {
     try {
       const apiUrl = `${envConfig.backendUrl}/device/sifely/lockinfo/${lockId}`;
-      const result = await axios.get(apiUrl);
+      const result = await axiosInstance.get(apiUrl);
 
       if (result.status == 200 && result.data?.success) {
         setDeviceInfo(result.data?.data);
@@ -59,7 +60,7 @@ const SifelyLockInfo = ({
   const fetchPassCodes = async () => {
     try {
       const apiUrl = `${envConfig.backendUrl}/device/sifely/getpasscodes?lockId=${lockId}&accessToken=${deviceInfo?.accessToken}`;
-      const result = await axios.get(apiUrl);
+      const result = await axiosInstance.get(apiUrl);
       if (result.status == 200 && result.data?.success) {
         setPassCodes(result.data?.data);
       }
