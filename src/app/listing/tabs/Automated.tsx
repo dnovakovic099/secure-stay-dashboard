@@ -88,7 +88,7 @@ const Automated = ({ isToggle }: any) => {
 
           <div className="flex gap-2 justify-between px-5 py-px w-full text-sm font-bold tracking-wide leading-5 text-center whitespace-nowrap border-b border-solid border-b-stone-300 max-w-[928px] text-stone-500 max-md:flex-wrap max-md:max-w-full"></div>
           <div className="flex gap-3 py-3  pr-40 mt-3 text-sm font-medium leading-5 text-stone-900 max-md:flex-wrap">
-            <div className="flex gap-2 px-2 py-1.5 bg-slate-50 rounded-2xl">
+            {/* <div className="flex gap-2 px-2 py-1.5 bg-slate-50 rounded-2xl">
               <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/3d06eed5b5adbf1ae7cc1c092fa7f72a1f8ff498e9f9504b95c8e77e498a7e75?"
@@ -134,7 +134,7 @@ const Automated = ({ isToggle }: any) => {
                 className="w-5 aspect-square"
                 alt="icon"
               />
-            </div>
+            </div> */}
           </div>
 
           <div className="h-[280px] overflow-y-auto">

@@ -12,7 +12,7 @@ import {
 import UpSellListing from "./upSellListing";
 import { useRouter } from "next/navigation";
 import Pagination from "@/components/commonPagination";
-import { Upsell } from "../upsellview/upselldashboard";
+import { Upsell } from "../upsellView/upselldashboard";
 
 interface ManageUpsellProps {
   upsells: Upsell[];
