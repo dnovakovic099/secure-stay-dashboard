@@ -219,7 +219,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
                       <ArrowRightStartOnRectangleIcon className="w-4 h-4 mr-2" />
                     </button>
                   </div>
-                  <div className="h-[93vh] overflow-y-scroll">{children}</div>
+                  <div className="h-[93vh]">{children}</div>
                 </div>
               </main>
             )}
