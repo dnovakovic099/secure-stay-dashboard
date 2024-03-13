@@ -138,12 +138,12 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
 
         <div className="flex flex-row overflow-hidden">
           <div
-            className={`sticky lg:flex-col w-[220px] min-w-[220px] h-[50px] ${
+            className={`sticky lg:flex-col w-[220px] min-w-[220px] h-[60px] ${
               isHideSidebar == true && "hidden"
             }`}
           >
             <div className={`flex flex-col min-h-screen`}>
-              <div className=" flex justify-start items-center gap-5 bg-[#141B37] h-[50px] pl-5 ">
+              <div className=" flex justify-start items-center gap-5 bg-[#141B37] h-[60px] pl-5 ">
                 <img
                   src={"/assets/securestay.png"}
                   alt="Logo"
@@ -207,7 +207,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
             {children && (
               <main className="h-[100%] bg-gray-100 rounded-md">
                 <div className="h-[100%]">
-                  <div className=" flex justify-end items-center gap-5 bg-[#141B37] h-[50px] pl-5 ">
+                  <div className=" flex justify-end items-center gap-5 bg-[#141B37] h-[60px] pl-5 ">
                     {NavbarContent && (
                       <div className="w-[100%] pr-1">{NavbarContent}</div>
                     )}
