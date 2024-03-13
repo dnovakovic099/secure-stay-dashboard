@@ -109,6 +109,7 @@
 // export default SearchBar;
 
 /* eslint-disable @next/next/no-img-element */
+import axiosInstance from "@/auth/axiosInstance";
 import { envConfig } from "@/utility/environment";
 import {
   BarsArrowDownIcon,
@@ -125,19 +126,23 @@ function SearchBar() {
   const synchostawaylistings = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(
+      const response = await axiosInstance.get<any>(
         `${envConfig.backendUrl}/listing/synchostawaylistings`,
         {
-          cache: "no-cache",
+          headers: {
+            "Cache-Control": "no-cache",
+          },
         }
       );
 
-      if (!response.ok) {
+      console.log(response);
+
+      if (!response.data.success) {
         setIsLoading(false);
         throw new Error("Network response was not ok");
       }
 
-      const data = await response.json();
+      const data: any = response.data;
       toast.success(data.message);
       setIsLoading(false);
       window.location.reload();
