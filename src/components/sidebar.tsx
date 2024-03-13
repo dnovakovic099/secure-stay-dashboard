@@ -2,16 +2,14 @@
 import React, { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import {
-  HomeIcon,
-  BuildingOffice2Icon,
-  ChatBubbleLeftRightIcon,
-  UserGroupIcon,
-  BriefcaseIcon,
-  ShoppingCartIcon,
   ChevronRightIcon,
-  LockClosedIcon,
   ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/20/solid";
+import { BiBuildingHouse } from "react-icons/bi";
+import { PiChatsBold, PiUsersThree } from "react-icons/pi";
+import { HiOutlineBriefcase } from "react-icons/hi";
+import { MdLockOutline, MdOutlineHome } from "react-icons/md";
+import { CiShoppingTag } from "react-icons/ci";
 import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 import classNames from "classnames";
@@ -24,38 +22,6 @@ interface SideBarMainProps {
   isHideSidebar?: Boolean;
 }
 
-// {
-//   href: "/listing",
-//   title: "Listing",
-//   icon: BiBuildingHouse,
-//   current: false,
-// },
-// {
-//   href: "/upsells",
-//   title: "Upsells",
-//   icon: MdOutlineSell,
-//   current: false,
-// },
-// {
-//   href: "/messages",
-//   title: "Chat",
-//   icon: HiOutlineChatBubbleLeftRight,
-//   current: false,
-// },
-// { href: "guestes", title: "Guestes", icon: GoPeople, current: false },
-// {
-//   href: "/businessSettings",
-//   title: "Workplaces",
-//   icon: HiOutlineBriefcase,
-//   current: false,
-// },
-// {
-//   href: "/locks",
-//   icon: LockClosedIcon,
-//   title: "Locks",
-//   current: false,
-// },
-
 const SideBarMain: React.FC<SideBarMainProps> = ({
   children,
   NavbarContent,
@@ -63,40 +29,45 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
 }) => {
   const currentPage = usePathname();
   const navigation = [
-    { href: "/dashboard", icon: HomeIcon, title: "Dashboard", current: false },
+    {
+      href: "/dashboard",
+      icon: MdOutlineHome,
+      title: "Dashboard",
+      current: false,
+    },
     {
       href: "/listing",
-      icon: BuildingOffice2Icon,
+      icon: BiBuildingHouse,
       title: "Listing",
       current: false,
     },
     {
       href: "/upsells",
-      icon: ShoppingCartIcon,
+      icon: CiShoppingTag,
       title: "Upsells",
       current: false,
     },
     {
       href: "/messages",
-      icon: ChatBubbleLeftRightIcon,
+      icon: PiChatsBold,
       title: "Chat",
       current: false,
     },
     {
       href: "/businessSettings/users",
-      icon: UserGroupIcon,
+      icon: PiUsersThree,
       title: "Users",
       current: false,
     },
     {
       href: "/businessSettings",
-      icon: BriefcaseIcon,
+      icon: HiOutlineBriefcase,
       title: "Workplace",
       current: false,
     },
     {
       href: "/locks",
-      icon: LockClosedIcon,
+      icon: MdLockOutline,
       title: "Locks",
       current: false,
     },
@@ -106,10 +77,6 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
     ...item,
     current: item.href === currentPage,
   }));
-
-  // var nav = navigation.forEach((item) => {
-  //   item.current = item.href === currentPage;
-  // });
 
   interface AvatarProps {
     imageUrl?: string;
@@ -125,25 +92,27 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
     const firstLetter = profileName.charAt(0).toUpperCase();
 
     return (
-      <div className="flex items-center space-x-4 w-[] shadow-md bg-gray-100 rounded-3xl px-2 ">
-        <div className="w-9 h-9 overflow-hidden rounded-full border-2 border-black">
+      <div className="flex items-center justify-between gap-2 shadow-md bg-gray-100 rounded-lg p-2">
+        <div className="flex items-center justify-center w-8 h-8 rounded-full">
           {imageUrl ? (
             <img
               src={imageUrl}
               alt={profileName}
-              className="w-10 h-10 rounded-full mr-2"
+              className="w-7 h-7 rounded-full mr-2"
             />
           ) : (
-            <div className="w-9 h-9 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-2xl leading-none mr-2 ">
+            <div className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-2xl leading-none">
               {firstLetter}
             </div>
           )}
         </div>
         <div>
-          <p className="text-xs font-semibold text-gray-800">{profileName}</p>
-          <p className="text-xs text-gray-500">{requiredText}</p>
+          <p className="text-sm font-medium text-[#222222]">{profileName}</p>
+          <p className="text-[11px] font-normal text-[#000000] opacity-40">
+            {requiredText}
+          </p>
         </div>
-        <ChevronRightIcon className="w-8 h-8 text-black mr-3" />
+        <ChevronRightIcon className="w-6 h-6 text-black" />
       </div>
     );
   };
@@ -169,7 +138,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
 
         <div className="flex flex-row overflow-hidden">
           <div
-            className={`sticky lg:flex-col w-[240px] h-[50px] ${
+            className={`sticky lg:flex-col w-[220px] min-w-[220px] h-[50px] ${
               isHideSidebar == true && "hidden"
             }`}
           >
@@ -182,49 +151,53 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
                 />
               </div>
               {isHideSidebar == false && (
-                <nav className="flex flex-1 flex-col px-2">
+                <nav className="flex flex-1 flex-col">
                   <ul
                     role="list"
-                    className="flex flex-col gap-1 py-4 cursor-pointer"
+                    className="flex flex-col gap-[10px] py-4 cursor-pointer text-[#72767A] font-normal text-base"
                   >
                     {updatedNavigation.map((item, index) => (
-                      <li
-                        className="flex items-center gap-2 text-zinc-400 text-base m-0"
-                        key={index}
-                      >
+                      <li className="flex items-center m-0" key={index}>
                         <Link
                           href={item.href}
                           className={classNames({
-                            "w-full px-3 py-2 flex items-center gap-2": true,
-                            "border-l-4 border-white hover:border-indigo-500":
-                              currentPath !== item.href,
-                            "text-indigo-500 border-l-4 border-indigo-500":
+                            "w-full py-2 flex items-center group": true,
+                            "pl-5 hover:pl-0": currentPath !== item.href,
+                            "text-[#7000FF] font-medium":
                               currentPath === item.href,
                           })}
                         >
-                          <item.icon
-                            className={classNames(
-                              "h-6 w-6 shrink-0 text-gray-500",
-                              {
-                                "text-indigo-500": currentPath === item.href,
-                              }
-                            )}
-                            aria-hidden="true"
-                          />
-                          <p
-                            className={classNames("text-gray-500 grow", {
-                              "text-indigo-500": currentPath === item.href,
+                          <div
+                            className={classNames({
+                              "w-5 hidden-div group-hover:block": true,
+                              hidden: currentPath !== item.href,
+                              block: currentPath === item.href,
                             })}
                           >
-                            {item.title}
-                          </p>
+                            <svg
+                              width="3"
+                              height="24"
+                              viewBox="0 0 3 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M0 0V0C1.65685 0 3 1.34315 3 3V21C3 22.6569 1.65685 24 0 24V24V0Z"
+                                fill="#7000FF"
+                              />
+                            </svg>
+                          </div>
+                          <div className="flex items-center gap-3 hover-trigger">
+                            <item.icon className={classNames("h-5 w-5")} />
+                            <p className={classNames("grow")}>{item.title}</p>
+                          </div>
                         </Link>
                       </li>
                     ))}
                   </ul>
                 </nav>
               )}
-              <div className=" mb-5 ml-2">
+              <div className="mb-5 mx-5">
                 <Avatar {...avatarProps} />
               </div>
             </div>
