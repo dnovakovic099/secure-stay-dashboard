@@ -1,12 +1,13 @@
-"use client"; //This is client component
+"use client";
+//This is client component
 //Component
-import ConnectPM from "./connectPM";
+import PMOptions from "./pmOptions";
 
-const MainConnectPM = () => {
+const ConnectPMPage = () => {
     return (
-        <div className="h-[100%]">
-            <ConnectPM />
+        <div className="container mx-auto md:px-40 py-10 xl:px-72">
+            <PMOptions />
         </div>
     )
 }
-export default MainConnectPM;
+export default ConnectPMPage;

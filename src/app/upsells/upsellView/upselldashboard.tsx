@@ -64,46 +64,44 @@ const UpsellDashboard: React.FC<ManageUpsellProps> = ({
   };
 
   const renderTabContent = () => {
-    return (
-      <div>
-        <ManageUpsell
-          upsells={upsells}
-          selectAll={selectAll}
-          handleSelectAll={handleSelectAll}
-          handleRowCheckboxChange={handleRowCheckboxChange}
-          handleToggle={handleToggle}
-          selectedRows={selectedRows}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-      </div>
-    );
-    // if (activeTab === "manageUpsells") {
-    //   return (
-    //     <div>
-    //       <ManageUpsell
-    //         upsells={upsells}
-    //         selectAll={selectAll}
-    //         handleSelectAll={handleSelectAll}
-    //         handleRowCheckboxChange={handleRowCheckboxChange}
-    //         handleToggle={handleToggle}
-    //         selectedRows={selectedRows}
-    //         currentPage={currentPage}
-    //         totalPages={totalPages}
-    //         onPageChange={handlePageChange}
-    //       />
+    // return (
+    //   <div>
+    //     <ManageUpsell
+    //       upsells={upsells}
+    //       selectAll={selectAll}
+    //       handleSelectAll={handleSelectAll}
+    //       handleRowCheckboxChange={handleRowCheckboxChange}
+    //       handleToggle={handleToggle}
+    //       selectedRows={selectedRows}
+    //       currentPage={currentPage}
+    //       totalPages={totalPages}
+    //       onPageChange={handlePageChange}
+    //     />
+    //   </div>
+    // );
+    if (activeTab === "manageUpsells") {
+      return (
+        <div className="p-5 pt-4 bg-[#F4F6F8]">
+          <ManageUpsell
+            upsells={upsells}
+            selectAll={selectAll}
+            handleSelectAll={handleSelectAll}
+            handleRowCheckboxChange={handleRowCheckboxChange}
+            handleToggle={handleToggle}
+            selectedRows={selectedRows}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      );
+    } else if (activeTab === "upsellOrders") {
+      return <div className="mt-5">This is the content for upsell orders</div>;
+    } else if (activeTab === "upsellRequest") {
+      return <div className="mt-5">This is the content for upsell request</div>;
+    }
 
-    //     </div>
-    //   );
-    // }
-    //  else if (activeTab === "upsellOrders") {
-    //   return;
-    // } else if (activeTab === "upsellRequest") {
-    //   return;
-    // }
-
-    // return null;
+    return null;
   };
 
   return (
@@ -111,16 +109,16 @@ const UpsellDashboard: React.FC<ManageUpsellProps> = ({
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="flex flex-col  justify-items-start rounded-md  bg-gray-100">
+        <div className="flex flex-col  justify-items-start">
           <Toaster position="top-center" reverseOrder={false} />
-          <div className="w-[100%] h-[64px] items-start bg-white px-5 py-3 rounded-md gap-10">
+          <div className="w-[100%] h-16 items-start bg-white px-5 py-3 gap-10">
             <div className="flex items-center gap-10">
               <div>
-                <h1 className="font-poppins font-[600] text-[20px]">
+                <h1 className="font-poppins text-xl leading-5 font-medium">
                   Upsells - <span>{totalData}</span>
                 </h1>
               </div>
-              <div className="flex justify-center bg-gray-200 w-[600px] h-[40px] rounded-md">
+              <div className="flex bg-[#F4F6F8] w-[492px] h-10 p-[3px] rounded-lg">
                 {[
                   {
                     label: "Manage Upsells",
@@ -140,26 +138,24 @@ const UpsellDashboard: React.FC<ManageUpsellProps> = ({
                 ].map(({ label, icon, tab }) => (
                   <div
                     key={tab}
-                    className={`flex items-center justify-center w-full h-[40px] pl-5 pr-5 bg-gray-100 text-black cursor-pointer transition-transform gap-2 ${
+                    className={`flex items-center justify-center w-full rounded-md cursor-pointer transition-transform ${
                       activeTab === tab
-                        ? "border-b-2 rounded-md bg-white text-black font-[400] shadow-md"
-                        : "hover:shadow-lg hover:scale-105 bg-[#F4F6F8]"
+                        ? "bg-white text-[#222222] drop-shadow-sm"
+                        : "text-[#72767A]"
                     }`}
                     onClick={() => handleTabClick(tab)}
                   >
-                    <div className="flex items-center font-[400] text-black">
+                    {/* <div className="flex items-center font-[400] text-black">
                       {icon}
-                    </div>
-                    <h2 className="text-[14px] font-[400] text-black">
-                      {label}
-                    </h2>
+                    </div> */}
+                    <h2 className="text-sm font-normal">{label}</h2>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-          <div className="w-[100%] rounded-lg px-5">
-            <div className="col-span-2 m-4">{renderTabContent()}</div>
+          <div className="w-[100%]">
+            <div className="col-span-2">{renderTabContent()}</div>
           </div>
         </div>
       )}

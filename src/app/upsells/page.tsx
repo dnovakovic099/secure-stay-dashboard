@@ -14,6 +14,7 @@ import handleApiCallFetch from "@/components/handleApiCallFetch";
 import CommonDialog from "@/components/commonDailogBox";
 import UpsellDashboard, { Upsell } from "./upsellview/upselldashboard";
 import { NavbarProvider } from "./upsellview/navbarContent";
+import axiosInstance from "@/auth/axiosInstance";
 
 const Upsells = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -106,7 +107,7 @@ const Upsells = () => {
     try {
       const apiUrl = `${envConfig.backendUrl}/${uri}`;
 
-      const response = await axios({
+      const response = await axiosInstance({
         method,
         url: apiUrl,
         data,

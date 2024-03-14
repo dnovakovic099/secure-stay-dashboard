@@ -4,7 +4,7 @@ import Signup from "./signup";
 
 const MainSignup = () => {
     return (
-        <div className="flex justify-center bg-gray-100">
+        <div className="flex  h-screen">
             <Signup />
         </div>
     )

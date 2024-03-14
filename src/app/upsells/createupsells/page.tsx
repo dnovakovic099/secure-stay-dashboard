@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { CreateUpsellNavbarProvider } from "./navbarContent";
 import CommonDialog from "@/components/commonDailogBox";
+import axiosInstance from "@/auth/axiosInstance";
 
 export interface Property {
   listingId: number;
@@ -94,7 +95,7 @@ const CreateUpsellPage = () => {
     try {
       const apiUrl = `${envConfig.backendUrl}/upsell/create`;
 
-      const response = await axios.post(apiUrl, postData, {
+      const response = await axiosInstance.post(apiUrl, postData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -205,7 +206,7 @@ const CreateUpsellPage = () => {
       const apiUrl = `${envConfig.backendUrl}/${uri}`;
 
       setIsLoading(true);
-      const response = await axios({
+      const response = await axiosInstance({
         method,
         url: apiUrl,
         data,
@@ -243,7 +244,7 @@ const CreateUpsellPage = () => {
     try {
       const apiUrl = `${envConfig.backendUrl}/upsell/update`;
       setIsLoading(true);
-      const response = await axios.put(apiUrl, postData, {
+      const response = await axiosInstance.put(apiUrl, postData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

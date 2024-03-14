@@ -9,6 +9,7 @@ import axios from "axios";
 import UpdateUser from "./views/updateUser";
 import SideBarMain from "@/components/sidebar";
 import { UserNavbarProvider } from "./navbarContent";
+import axiosInstance from "@/auth/axiosInstance";
 
 interface UserData {
   fullName: string;
@@ -68,7 +69,7 @@ const Users = () => {
   //async functions
   const deleteUser = async (userId: number): Promise<void> => {
     try {
-      const response = await axios.delete(
+      const response = await axiosInstance.delete(
         `${envConfig.backendUrl}/user/deleteUser?userId=${userId}`,
         {
           headers: {
@@ -95,7 +96,7 @@ const Users = () => {
     formData.append("dialCode", userData.dialCode);
 
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${envConfig.backendUrl}/user/createNewUser`,
         formData
       );
@@ -128,7 +129,7 @@ const Users = () => {
     formData.append("userId", values.userId);
 
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${envConfig.backendUrl}/user/updateUser`,
         formData
       );
@@ -188,11 +189,9 @@ const Users = () => {
     userIds: number[],
     status: number
   ): Promise<any> => {
-
-
     try {
       if (userIds.length == 0) return toast.error("Select users to delete!!!");
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${envConfig.backendUrl}/user/updateMultipleUserStatus`,
         { userIds, userStatus: status }
       );
@@ -211,7 +210,7 @@ const Users = () => {
   const deleteMultipleUsers = async (userIds: number[]): Promise<any> => {
     try {
       if (userIds.length == 0) return toast.error("Select users to delete!!!");
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${envConfig.backendUrl}/user/deleteMultipleUser`,
         userIds
       );

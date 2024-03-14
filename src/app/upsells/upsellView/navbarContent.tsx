@@ -7,6 +7,7 @@ import {
   MagnifyingGlassIcon,
   PlusIcon,
 } from "@heroicons/react/20/solid";
+import { IoFilterSharp } from "react-icons/io5";
 import React, { Fragment } from "react";
 
 interface NavbarProviderProps {
@@ -31,21 +32,21 @@ export const NavbarProvider = ({
   setTitle,
 }: NavbarProviderProps) => {
   return (
-    <div className="flex items-center justify-between text-white w-[100%] bg-[#141B37] h-[50px]">
+    <div className="flex items-center justify-between text-white w-[100%] bg-[#141B37] h-[60px]">
       <div className="relative flex items-center">
         <MagnifyingGlassIcon className="w-4 h-4 absolute left-3text-gray-400 ml-2" />
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Search upsells here"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="px-10 py-1 mr-2 text-white bg-[#1F284D]  rounded-md focus:outline-none focus:border-indigo-500"
+          className="h-10 px-10 py-1 mr-2 text-white bg-[#1F284D]  rounded-lg focus:outline-none focus:border-indigo-500"
         />
 
-        <div className="relative sm:mt-0 sm:ml-4">
+        <div className="relative sm:mt-0 sm:ml-4 h-10">
           <label className="flex justify-items-center relative select-all">
             <select
-              className="block appearance-none w-full sm:w-32border-2 bg-[#1F284D]  border-black text-white py-2 px-2 pr-8 rounded-md leading-tight focus:outline-none focus:border-blue-500"
+              className="block appearance-none w-full h-10 sm:w-32border-2 bg-[#1F284D]  border-black text-[#DBD4E5] py-2 px-2 pr-8 rounded-lg leading-tight focus:outline-none focus:border-blue-500"
               data-te-select-init
               data-te-select-clear-button="true"
               value={limit}
@@ -56,14 +57,14 @@ export const NavbarProvider = ({
               <option value="100">50</option>
               <option value="500">100</option>
             </select>
-            <BarsArrowDownIcon className="w-5 h-5 text-gray-500 absolute top-1/2 right-3 transform -translate-y-1/2" />
+            <IoFilterSharp className="w-5 h-5 text-[#DBD4E5] absolute top-1/2 right-3 transform -translate-y-1/2" />
           </label>
         </div>
       </div>
 
       <div className="flex justify-start gap-4">
         <button
-          className="flex items-center px-5 py-2 h-[40px] text-white rounded-md focus:outline-none transition duration-300 ease-in-out bg-gradient-to-r from-purple-600 to-purple-900 hover:to-purple-800 focus:to-purple-800"
+          className="flex items-center px-5 py-[10px] h-10 text-white rounded-lg focus:outline-none transition duration-300 ease-in-out bg-gradient-to-r from-[#9E49F2] to-[#7000FF]"
           onClick={handleOpenPopup}
         >
           <PlusIcon className="w-4 h-4 mr-2" />
@@ -76,7 +77,7 @@ export const NavbarProvider = ({
               <Popover.Button
                 className={`
 ${open ? "text-white" : "text-white/90"}
-group inline-flex items-center justify-center px-2 py-2 h-[40px] w-[40px] bg-[#1F284D]  text-base font-bold hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
+group inline-flex items-center justify-center px-2 py-2 h-[40px] w-[40px] rounded-lg bg-[#1F284D]  text-base font-bold hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
               >
                 <div>
                   <EllipsisVerticalIcon className="w-5 h-5" />
