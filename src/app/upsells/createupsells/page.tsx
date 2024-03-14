@@ -39,6 +39,7 @@ const CreateUpsellPage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const template_id = searchParams.get("template_id");
+  const [templateImageUrl, seTemplateImageUrl] = useState("");
 
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [dialogAction, setDialogAction] = useState<(() => void) | null>(null);
@@ -83,6 +84,7 @@ const CreateUpsellPage = () => {
       setTitle(responseData.title);
       setShortDescription(responseData.description);
       setPrice(responseData.price);
+      seTemplateImageUrl(responseData.image);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -133,7 +135,8 @@ const CreateUpsellPage = () => {
     }
 
     const formData = new FormData();
-
+    if (selectedImage) formData.append("photo", selectedImage!);
+    if (templateImageUrl) formData.append("image", templateImageUrl);
     formData.append("title", title);
     formData.append("description", shortDescription);
     formData.append("price", price);
@@ -270,6 +273,7 @@ const CreateUpsellPage = () => {
   const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
+    selectedImage && formData.append("photo", selectedImage!);
     formData.append("upSellId", upsell_id!);
     formData.append("title", title);
     formData.append("description", shortDescription);
@@ -334,7 +338,7 @@ const CreateUpsellPage = () => {
       }
       isHideSidebar={true}
     >
-      <div className="flex bg-gray-100">
+      <div className="flex">
         {searchParams.has("upsell_id") ? (
           <EditUpsell
             upsell_id={upsell_id!}
@@ -343,6 +347,7 @@ const CreateUpsellPage = () => {
             price={price}
             attachedProperties={attachedProperties}
             selectedImage={selectedImage}
+            templateImageUrl={templateImageUrl}
             isLoading={isLoading}
             setTitle={setTitle}
             setShortDescription={setShortDescription}
@@ -363,12 +368,14 @@ const CreateUpsellPage = () => {
             price={price}
             attachedProperties={attachedProperties}
             selectedImage={selectedImage}
+            templateImageUrl={templateImageUrl}
             isLoading={isLoading}
             setTitle={setTitle}
             setShortDescription={setShortDescription}
             setPrice={setPrice}
             setAttachedProperties={setAttachedProperties}
             setSelectedImage={setSelectedImage}
+            seTemplateImageUrl={seTemplateImageUrl}
             setIsLoading={setIsLoading}
             goBack={goBack}
             handleImageUpload={handleImageUpload}

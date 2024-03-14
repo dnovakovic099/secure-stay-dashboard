@@ -1,5 +1,16 @@
 import { useState } from "react";
-import { ChevronRightIcon, ChevronDownIcon, ChevronLeftIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
+import {
+  ChevronRightIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronUpIcon,
+} from "@heroicons/react/20/solid";
+import {
+  FaCaretRight,
+  FaCaretLeft,
+  FaCaretDown,
+  FaCaretUp,
+} from "react-icons/fa";
 import AdditionalContent from "./associateListing";
 import { Property } from "./page";
 
@@ -23,7 +34,6 @@ const MoreSettings: React.FC<ChildProps> = ({
   };
 
   const handleSettingClick = (settingIndex: any) => {
-    
     if (selectedSetting === settingIndex) {
       setSelectedSetting(null);
     } else {
@@ -39,28 +49,33 @@ const MoreSettings: React.FC<ChildProps> = ({
   ];
 
   return (
-<>
+    <>
       <div
-        className="flex items-center cursor-pointer border border-gray-100 p-1 "
+        className="flex items-center cursor-pointer w-fit"
         onClick={toggleSettings}
       >
         {showSettings ? (
-          <ChevronLeftIcon className="w-6 h-6 text-blue-700" />
+          <FaCaretLeft className="w-5 h-5 text-[#077AF1]" />
         ) : (
-          <ChevronRightIcon className="w-6 h-6 text-blue-700" />
+          <FaCaretRight className="w-5 h-5 text-[#077AF1]" />
         )}
-        <h6 className="text-blue-700 ml-2">More Settings</h6>
+        <h6 className="text-sm font-medium text-[#077AF1] uppercase ml-2">
+          More Settings
+        </h6>
       </div>
 
       <div className="relative">
         {showSettings && (
-          <div className="mt-4 space-y-8 border-2 shadow-lg p-3">
+          <div className="mt-4 space-y-8 border-2 shadow-lg p-3 w-[560px]">
             {settingsList?.map((setting, index) => (
               <div
                 key={index}
-                className="bg-white py-4 rounded-lg shadow-md border border-gray-300"
+                className="bg-white p-4 rounded-lg shadow-md border border-gray-300"
               >
-                <div className="px-5 flex justify-between relative select-none cursor-pointer" onClick={() => handleSettingClick(index)}>
+                <div
+                  className="px-5 flex justify-between relative select-none cursor-pointer"
+                  onClick={() => handleSettingClick(index)}
+                >
                   <div>
                     <h2 className="text-sm font-semibold">{setting.title}</h2>
                     <p className="text-gray-500 text-xs">
@@ -68,20 +83,20 @@ const MoreSettings: React.FC<ChildProps> = ({
                     </p>
                   </div>
                   {selectedSetting === index ? (
-                    <ChevronUpIcon
-                      className="w-6 h-6 text-blue-700"
+                    <FaCaretUp
+                      className="w-5 h-5 text-[#077AF1]"
                       onClick={() => handleSettingClick(index)}
                     />
                   ) : (
-                    <ChevronDownIcon
-                      className="w-6 h-6 text-blue-700"
+                    <FaCaretDown
+                      className="w-5 h-5 text-[#077AF1]"
                       onClick={() => handleSettingClick(index)}
                     />
                   )}
                 </div>
 
                 {selectedSetting === index && (
-                  <div className="pt-2 mt-3 rounded-lg border border-t-black">
+                  <div className="pt-2 mt-3 rounded-lg border border-black">
                     <AdditionalContent
                       attachedProperties={attachedProperties}
                       setAttachedProperties={setAttachedProperties}
@@ -94,7 +109,7 @@ const MoreSettings: React.FC<ChildProps> = ({
           </div>
         )}
       </div>
-</>
+    </>
   );
 };
 export default MoreSettings;

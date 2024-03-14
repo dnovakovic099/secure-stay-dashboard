@@ -32,13 +32,13 @@ export const CreateUpsellNavbarProvider = ({
       />
       <div className="relative flex items-center gap-5">
         <button
-          className="flexitems-center text-sm px-5 py-2 h-[40px] text-white rounded-md focus:outline-none transition duration-300 ease-in-out bg-[#1F284D]"
+          className="text-sm font-medium bg-[#1F284D] text-[#FFFFFF] px-5 py-[10px] rounded-lg"
           onClick={goBack}
         >
           Cancel
         </button>
         <button
-          className="flexitems-center text-sm px-5 py-2 h-[40px]  text-white rounded-md focus:outline-none transition duration-300 ease-in-out bg-gradient-to-r from-purple-600 to-purple-900 hover:to-purple-800 focus:to-purple-800"
+          className="text-sm font-medium bg-gradient-to-r from-[#9E49F2] to-[#7000FF] text-[#FFFFFF] px-5 py-[10px] rounded-lg"
           onClick={upsell_id ? handleUpdate : handleSubmit}
         >
           {upsell_id ? "Update Upsell" : "Save Upsell"}
