@@ -12,8 +12,8 @@ import { envConfig } from "@/utility/environment";
 import toast from "react-hot-toast";
 import handleApiCallFetch from "@/components/handleApiCallFetch";
 import CommonDialog from "@/components/commonDailogBox";
-import UpsellDashboard, { Upsell } from "./upsellView/upselldashboard";
-import { NavbarProvider } from "./upsellView/navbarContent";
+import UpsellDashboard, { Upsell } from "./upsellview/upselldashboard";
+import { NavbarProvider } from "./upsellview/navbarContent";
 
 const Upsells = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
