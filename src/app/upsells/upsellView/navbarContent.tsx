@@ -53,9 +53,9 @@ export const NavbarProvider = ({
               onChange={(e) => onLimitChange(parseInt(e.target.value, 10))}
             >
               <option value="10">10</option>
-              <option value="20">25</option>
-              <option value="100">50</option>
-              <option value="500">100</option>
+              <option value="20">20</option>
+              <option value="100">100</option>
+              <option value="500">500</option>
             </select>
             <IoFilterSharp className="w-5 h-5 text-[#DBD4E5] absolute top-1/2 right-3 transform -translate-y-1/2" />
           </label>

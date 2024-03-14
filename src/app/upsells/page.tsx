@@ -57,11 +57,11 @@ const Upsells = () => {
   useEffect(() => {
     setCurrentPage(1);
     // fetchData(currentPage, limit, title);
-  }, [limit]);
+  }, [limit, title]);
 
   useEffect(() => {
     const delaySearch = setTimeout(() => {
-      fetchData(currentPage, limit, title);
+      fetchData(1, limit, title);
     }, 300);
     return () => clearTimeout(delaySearch);
   }, [title]);
@@ -69,6 +69,8 @@ const Upsells = () => {
   useEffect(() => {
     if (totalData > 10) {
       setTotalPages(Math.ceil(totalData / limit));
+    } else {
+      setTotalPages(1);
     }
   }, [totalData, limit]);
 
