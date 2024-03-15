@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import {
   ChevronRightIcon,
@@ -14,7 +14,7 @@ import { CiShoppingTag } from "react-icons/ci";
 import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 import classNames from "classnames";
-import { logoutUser } from "@/auth/auth";
+import { checkUserSession, logoutUser } from "@/auth/auth";
 import { Router } from "next/router";
 
 interface SideBarMainProps {
@@ -138,6 +138,21 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
     toast.success("Logut successfully!!!");
     window.location.href = "/login";
   };
+
+
+  useEffect(() => {
+    const userInfo = async () => {
+
+      const isLoggedIn = await checkUserSession();
+      if (!isLoggedIn) {
+        localStorage.clear();
+        window.location.href = '/login';
+      }
+    };
+
+    userInfo();
+  }, []);
+
 
   return (
     <>
