@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import {
   ChevronRightIcon,
   ArrowRightStartOnRectangleIcon,
+  LinkIcon
 } from "@heroicons/react/20/solid";
 import { BiBuildingHouse } from "react-icons/bi";
 import { PiChatsBold, PiUsersThree } from "react-icons/pi";
@@ -69,6 +70,12 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
       href: "/locks",
       icon: MdLockOutline,
       title: "Locks",
+      current: false,
+    },
+    {
+      href: "/connectedAccounts",
+      icon: LinkIcon,
+      title: "Connected A/C",
       current: false,
     },
   ];
