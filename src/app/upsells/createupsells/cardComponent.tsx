@@ -1,20 +1,20 @@
+import { envConfig } from "@/utility/environment";
 import React from "react";
 
 interface CardProps {
-  imageUrl: string;
+  image: string | null;
   title: string;
-  description: string;
 }
 
-export const Card: React.FC<CardProps> = ({ imageUrl, title, description }) => {
+export const Card: React.FC<CardProps> = ({ image, title }) => {
   return (
-    <div className="w-28 items-center text-xs">
+    <div className="w-24 items-center text-xs mb-1">
       <img
-        className="w-28 h-36 object-cover rounded-2xl"
-        src={imageUrl}
+        className="w-24 h-[120px] object-cover rounded-lg cursor-pointer"
+        src={`${envConfig.backendUrl}/${image}` || ""}
         alt={title}
       />
-      <div className="p-4">
+      <div className="pl-1 pt-2">
         <h3 className="text-xs font-semibold text-gray-800 justify-start">
           {title}
         </h3>
@@ -22,4 +22,3 @@ export const Card: React.FC<CardProps> = ({ imageUrl, title, description }) => {
     </div>
   );
 };
-

@@ -26,6 +26,7 @@ const Upsells = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [upsells, setUpsells] = useState<Upsell[]>([]);
+  const [upsellTemplates, setUpsellTemplates] = useState<Upsell[]>([]);
   const [title, setTitle] = useState("");
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [dialogAction, setDialogAction] = useState<(() => void) | null>(null);
@@ -74,6 +75,10 @@ const Upsells = () => {
     }
   }, [totalData, limit]);
 
+  useEffect(() => {
+    fetchUpsellTemplatesData();
+  }, []);
+
   const fetchData = async (
     currentPage: number,
     limit: number,
@@ -98,8 +103,24 @@ const Upsells = () => {
     }
   };
 
+  const fetchUpsellTemplatesData = async () => {
+    try {
+      const apiUrl = `${envConfig.backendUrl}/upsell/upsellList?page=1&limit=11&title=`;
+      const params = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const result: any = await handleApiCallFetch(apiUrl, params);
+      setUpsellTemplates(result.data);
+    } catch (error) {
+      toast.error("Error occured");
+    }
+  };
+
   const handleCardClick = (item: any) => {
-    router.push("/upsells/createupsells?template_id=${item.title}", item);
+    router.push(`/upsells/createupsells?template_id=${item.upSellId}`);
   };
 
   const handleCreateUpsell = () => {
@@ -297,16 +318,68 @@ const Upsells = () => {
             disableCloseIcon={false}
             heightwidth="max-w-[100%] max-h-[100%]"
           >
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4">
               <div key={0} onClick={() => handleCreateUpsell()}>
-                <Card
-                  imageUrl={sampleImageUrl}
-                  title={sampleTitle}
-                  description={sampleDescription}
-                />
+                <div className="min-w-20 w-24 items-center cursor-pointer">
+                  <div className="flex flex-col justify-center items-center gap-2 min-w-20 w-24 h-[120px] px-1 border border-[#6E3FF3] rounded-lg bg-gradient-to-r from-[#FFFFFF99] to-[#7000FF20]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g opacity="0.6">
+                        <path
+                          d="M8 16L16.7201 15.2733C19.4486 15.046 20.0611 14.45 20.3635 11.7289L21 6"
+                          stroke="#4B4364"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M6 6H6.5M22 6H19.5"
+                          stroke="#4B4364"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M9.5 6H16.5M13 9.5V2.5"
+                          stroke="#4B4364"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M6 22C7.10457 22 8 21.1046 8 20C8 18.8954 7.10457 18 6 18C4.89543 18 4 18.8954 4 20C4 21.1046 4.89543 22 6 22Z"
+                          stroke="#4B4364"
+                          strokeWidth="1.5"
+                        />
+                        <path
+                          d="M17 22C18.1046 22 19 21.1046 19 20C19 18.8954 18.1046 18 17 18C15.8954 18 15 18.8954 15 20C15 21.1046 15.8954 22 17 22Z"
+                          stroke="#4B4364"
+                          strokeWidth="1.5"
+                        />
+                        <path
+                          d="M8 20H15"
+                          stroke="#4B4364"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M2 2H2.966C3.91068 2 4.73414 2.62459 4.96326 3.51493L7.93852 15.0765C8.08887 15.6608 7.9602 16.2797 7.58824 16.7616L6.63213 18"
+                          stroke="#4B4364"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                        />
+                      </g>
+                    </svg>
+                    <p className="text-center text-[10px] leading-[14px] font-medium text-[#4B4364]">
+                      Build your own upsell
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              {data.map((item, index) => (
+              {upsellTemplates.map((item, index) => (
                 <div key={index} onClick={() => handleCardClick(item)}>
                   <Card {...item} />
                 </div>

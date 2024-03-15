@@ -68,8 +68,7 @@ const CreateUpsellPage = () => {
 
   const fetchData = async (id: string) => {
     try {
-      const apiUrl =
-        upsell_id && `${envConfig.backendUrl}/upsell?upSellId=${id}`;
+      const apiUrl = `${envConfig.backendUrl}/upsell?upSellId=${id}`;
       const params = {
         method: "GET",
         headers: {
