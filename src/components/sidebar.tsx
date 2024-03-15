@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import {
   ChevronRightIcon,
   ArrowRightStartOnRectangleIcon,
-  LinkIcon
+  LinkIcon,
 } from "@heroicons/react/20/solid";
 import { BiBuildingHouse } from "react-icons/bi";
 import { PiChatsBold, PiUsersThree } from "react-icons/pi";
@@ -114,7 +114,9 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
           )}
         </div>
         <div>
-          <p className="text-sm font-medium text-[#222222]">{profileName}</p>
+          <p className="text-sm font-medium text-[#222222] whitespace-nowrap">
+            {profileName}
+          </p>
           <p className="text-[11px] font-normal text-[#000000] opacity-40">
             {requiredText}
           </p>

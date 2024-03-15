@@ -24,6 +24,8 @@ interface ManageUpsellProps {
   selectedRows: number[];
   currentPage: number;
   totalPages: number;
+  totalData: number;
+  activeProperties: number;
   onPageChange: (page: number) => void;
 }
 const ManageUpsell: React.FC<ManageUpsellProps> = ({
@@ -36,6 +38,8 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
   currentPage,
   totalPages,
   onPageChange,
+  totalData,
+  activeProperties,
 }) => {
   const router = useRouter();
 
@@ -59,7 +63,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
     <>
       <tr
         key={upsell.upSellId}
-        className={`transition-all h-[54px] duration-300 ease-in-out mb-1 hover:bg-[#FBF9FF] overflow-hidden md:table-row lg:table-row ${
+        className={`transition-all h-[54px] duration-300 ease-in-out mb-1 hover:bg-[#FBF9FF] overflow-hidden md:table-row lg:table-row hidden ${
           selectedRows.includes(upsell.upSellId) || !upsell.status
             ? "bg-[#FBF9FF]"
             : ""
@@ -195,8 +199,9 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
         <td className="col-span-2 text-start text-sm text-[#222222] font-medium">
           {upsell.availability}
         </td>
-        <td className="col-span-2 text-sm font-medium text-[#077AF1]">6/17</td>
-        {/* <td className=" py-3 text-sm">{upsell.isActive}</td> */}
+        <td className="col-span-2 text-sm font-medium text-[#077AF1]">
+          {activeProperties}/{totalData}
+        </td>
         <td className="whitespace-nowrap">
           <Switch
             checked={upsell.status === 1}
@@ -278,7 +283,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                   }}
                   className="bg-indigo-500 text-white rounded-bl-2xl p-2 hover:bg-indigo-700 focus:outline-none transition-all duration-300 text-lg pl-2"
                   onClick={() => {
-                    handleEditUpsell(index);
+                    handleEditUpsell(upsell.upSellId);
                   }}
                 >
                   <LuPencil
@@ -313,12 +318,10 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                       </p>
                     </div>
                     <div className="mt-1">
-                      {/* <p className="text-sm  text-black ">
-                          Active Properties
-                        </p>
-                        <p className="text-md font-bold text-black">
-                          {upsell.isActive}
-                        </p> */}
+                      <p className="text-sm  text-black ">Active Properties</p>
+                      <p className="text-md font-bold text-black">
+                        {activeProperties}/{totalData}
+                      </p>
                     </div>
                   </div>
                   <div>
@@ -340,33 +343,24 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
                         checked={upsell.status === 1}
                         onChange={() => handleToggle(upsell.upSellId)}
                         className={`${
-                          upsell.status === 1 ? "bg-green-500" : "bg-gray-400"
-                        } relative inline-flex h-6 w-12 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
+                          upsell.status === 1 ? "bg-[#28B323]" : "bg-[#b1b4b6]"
+                        }
+                    relative inline-flex h-5 w-10 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
                       >
                         <span className="sr-only">Use setting</span>
                         <span
                           aria-hidden="true"
                           className={`${
                             upsell.status === 1
-                              ? "translate-x-6"
+                              ? "translate-x-5"
                               : "translate-x-o"
-                          } pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                          }
+                      pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
                         />
-                        <span
-                          className={`absolute inset-0 flex items-center justify-between text-xs ${
-                            upsell.status === 0 ? "text-white" : "text-white"
-                          }`}
-                        >
-                          ON
-                          <span className="text-xs">
-                            {upsell.status === 1 ? "" : "OFF"}
-                          </span>
-                        </span>
                       </Switch>
                     </div>
                   </div>
                 </div>
-                {/* Include other details as needed */}
               </div>
             </div>
           </div>
@@ -391,7 +385,7 @@ const ManageUpsell: React.FC<ManageUpsellProps> = ({
           alignItems: "baseline",
         }}
       >
-        <thead className=" bg-white w-full sticky top-0 z-10 ">
+        <thead className=" bg-white w-full sticky top-0 z-10 md:table-header-group hidden">
           <tr className="text-black items-center rounded-md h-[39px] ">
             <th className="rounded-l w-[59px]">
               <div className="flex items-center justify-end pl-[5px] gap-[6px] pr-2">

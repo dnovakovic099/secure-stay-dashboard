@@ -22,7 +22,7 @@ const Upsells = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(totalData / limit);
-
+  const [activeProperties, setActiveProperties] = useState(0);
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [upsells, setUpsells] = useState<Upsell[]>([]);
@@ -92,6 +92,7 @@ const Upsells = () => {
 
       setUpsells(result.data);
       setTotalData(result.length);
+      setActiveProperties(result.totalActive);
     } catch (error) {
       toast.error("Error occured");
     }
@@ -276,6 +277,7 @@ const Upsells = () => {
             currentPage={currentPage}
             totalPages={totalPages}
             setCurrentPage={setCurrentPage}
+            activeProperties={activeProperties}
           />
 
           <CommonDialog
