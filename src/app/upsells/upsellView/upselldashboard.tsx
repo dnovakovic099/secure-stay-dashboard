@@ -39,6 +39,7 @@ interface ManageUpsellProps {
   totalPages: number;
   activeProperties: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  isLoading: boolean;
 }
 
 const UpsellDashboard: React.FC<ManageUpsellProps> = ({
@@ -53,9 +54,9 @@ const UpsellDashboard: React.FC<ManageUpsellProps> = ({
   setCurrentPage,
   currentPage,
   activeProperties,
+  isLoading,
 }) => {
   const [activeTab, setActiveTab] = useState("manageUpsells");
-  const [isLoading, setIsLoading] = useState(false);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);

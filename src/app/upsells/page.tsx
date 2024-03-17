@@ -31,6 +31,7 @@ const Upsells = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [dialogAction, setDialogAction] = useState<(() => void) | null>(null);
   const [dialogMessage, setDialogMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   const handleOpenPopup = () => {
@@ -53,11 +54,10 @@ const Upsells = () => {
 
   useEffect(() => {
     fetchData(currentPage, limit, title);
-  }, [currentPage]);
+  }, [currentPage, limit]);
 
   useEffect(() => {
     setCurrentPage(1);
-    // fetchData(currentPage, limit, title);
   }, [limit, title]);
 
   useEffect(() => {
@@ -92,9 +92,9 @@ const Upsells = () => {
           "Content-Type": "application/json",
         },
       };
-      // setIsLoading(true);
+      setIsLoading(true);
       const result: any = await handleApiCallFetch(apiUrl, params);
-
+      setIsLoading(false);
       setUpsells(result.data);
       setTotalData(result.length);
       setActiveProperties(result.totalActive);
@@ -299,6 +299,7 @@ const Upsells = () => {
             totalPages={totalPages}
             setCurrentPage={setCurrentPage}
             activeProperties={activeProperties}
+            isLoading={isLoading}
           />
 
           <CommonDialog

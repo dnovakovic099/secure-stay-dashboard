@@ -139,20 +139,17 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
     window.location.href = "/login";
   };
 
-
   useEffect(() => {
     const userInfo = async () => {
-
       const isLoggedIn = await checkUserSession();
       if (!isLoggedIn) {
         localStorage.clear();
-        window.location.href = '/login';
+        window.location.href = "/login";
       }
     };
 
     userInfo();
   }, []);
-
 
   return (
     <>

@@ -52,6 +52,7 @@ const CreateUpsellPage = () => {
   useEffect(() => {
     if (template_id) {
       fetchData(template_id);
+      fetchListingData();
     }
   }, [template_id]);
 
@@ -196,6 +197,7 @@ const CreateUpsellPage = () => {
       );
       {
         upsell_id && fetchAssociatedListing(upsell_id);
+        template_id && fetchAssociatedListing(template_id);
       }
     } catch (error) {
       toast.error("Error occured");
