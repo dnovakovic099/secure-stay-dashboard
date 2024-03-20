@@ -17,13 +17,9 @@ export const checkUserSession = async () => {
 
     const currentTime = new Date().getTime();
 
-    const userPmId = localStorage?.getItem('userPmId') || null;
-
-    if (!userPmId || expiryTime < currentTime) return false;
-
+    if (expiryTime < currentTime) return false;
 
     return true;
-
 };
 
 export const accessToken = async () => {

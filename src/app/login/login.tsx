@@ -56,25 +56,8 @@ const Login = () => {
     const user = data && data.user;
 
     if (user && user.id) {
-      const userResponse: any = await axiosInstance.get(
-        `${envConfig.backendUrl}/pmcompay/userpmlist?uid=${user.id}`,
-        {}
-      );
-
-      const userData: any = userResponse.data.data;
-
-      if (userData?.length !== 0) {
-        if (userData?.pmId) {
-          localStorage.setItem("userPmId", userData?.pmId);
-          window.location.href = "/dashboard";
-        }
-
-        toast.success("Signed in successfully");
-      } else if (userResponse.data.success == true || userData?.length == 0) {
-        window.location.href = "/connectPM";
-      } else {
-        toast.error("Something went wrong!!");
-      }
+      await getUserSubscriptionInfo();
+      toast.success("Signed in successfully");
     } else {
       toast.error("Invalid login credentials!!!");
     }
@@ -90,6 +73,48 @@ const Login = () => {
       window.location.href = "/dashboard";
     }
   });
+
+  const getPmInfo = async () => {
+    try {
+      const { error, data }: any = await supabase.auth.getSession();
+      if (error) return false;
+
+      const apiUrl = `${envConfig.backendUrl}/pmcompay/userpmlist?uid=${data?.session?.user?.id}`;
+
+      const response: any = await axiosInstance.get(apiUrl);
+
+      const sessionInfo: any = response.data.data;
+
+      if (sessionInfo?.length !== 0) {
+        if (sessionInfo?.pmId) {
+          localStorage.setItem("userPmId", sessionInfo?.pmId);
+          router.replace('/dashboard');
+        }
+      } else {
+        router.replace("/connectPM");
+      }
+    } catch (error) {
+      toast.error('Error fetching pm info');
+    }
+  };
+
+  const getUserSubscriptionInfo = async () => {
+    try {
+      const apiUrl = `${envConfig.backendUrl}/subscription/getusersubscriptioninfo`;
+      const response = await axiosInstance.get(apiUrl);
+      if (response.status == 200) {
+        if (response.data?.data?.isExpired) {
+          localStorage.setItem('isSubscriptionExpired', 'true');
+          router.replace('/subscription');
+        } else {
+          localStorage.setItem('isSubscriptionExpired', 'false');
+          await getPmInfo();
+        }
+      }
+    } catch (error) {
+      toast.error('Error fetching subscription info');
+    }
+  };
 
   return (
     <div className="relative grid grid-cols-2 h-screen w-full">
