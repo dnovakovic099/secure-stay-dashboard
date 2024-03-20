@@ -1,6 +1,6 @@
 "use client";
-import React, { ReactNode, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import React, { ReactNode, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import {
   ChevronRightIcon,
   ArrowRightStartOnRectangleIcon,
@@ -15,7 +15,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 import classNames from "classnames";
 import { checkUserSession, logoutUser } from "@/auth/auth";
-import { Router } from "next/router";
+import Router from "next/router";
 
 interface SideBarMainProps {
   children: ReactNode;
@@ -139,114 +139,139 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
     window.location.href = "/login";
   };
 
+
   useEffect(() => {
     const userInfo = async () => {
+
       const isLoggedIn = await checkUserSession();
       if (!isLoggedIn) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = '/login';
       }
     };
 
     userInfo();
   }, []);
 
+  const isSubscriptionExpired = localStorage.getItem('isSubscriptionExpired');
+  const pmInfo = localStorage.getItem('userPmId');
+
+
   return (
     <>
-      <div>
-        <Toaster />
-        {/* Static sidebar for desktop - */}
+      {isSubscriptionExpired && isSubscriptionExpired == 'false' ?
+        (
+          <>
+            {
+              pmInfo ?
+                <div>
+                  <Toaster />
+                  {/* Static sidebar for desktop - */}
 
-        <div className="flex flex-row overflow-hidden">
-          <div
-            className={`sticky lg:flex-col w-[220px] min-w-[220px] h-[60px] ${
-              isHideSidebar == true && "hidden"
-            }`}
-          >
-            <div className={`flex flex-col min-h-screen`}>
-              <div className=" flex justify-start items-center gap-5 bg-[#141B37] h-[60px] pl-5 ">
-                <img
-                  src={"/assets/securestay.png"}
-                  alt="Logo"
-                  style={{ height: "40px" }}
-                />
-              </div>
-              {isHideSidebar == false && (
-                <nav className="flex flex-1 flex-col">
-                  <ul
-                    role="list"
-                    className="flex flex-col gap-[10px] py-4 cursor-pointer text-[#72767A] font-normal text-base"
-                  >
-                    {updatedNavigation.map((item, index) => (
-                      <li className="flex items-center m-0" key={index}>
-                        <Link
-                          href={item.href}
-                          className={classNames({
-                            "w-full py-2 flex items-center group": true,
-                            "pl-5 hover:pl-0": currentPath !== item.href,
-                            "text-[#7000FF] font-medium":
-                              currentPath === item.href,
-                          })}
-                        >
-                          <div
-                            className={classNames({
-                              "w-5 hidden-div group-hover:block": true,
-                              hidden: currentPath !== item.href,
-                              block: currentPath === item.href,
-                            })}
-                          >
-                            <svg
-                              width="3"
-                              height="24"
-                              viewBox="0 0 3 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M0 0V0C1.65685 0 3 1.34315 3 3V21C3 22.6569 1.65685 24 0 24V24V0Z"
-                                fill="#7000FF"
-                              />
-                            </svg>
-                          </div>
-                          <div className="flex items-center gap-3 hover-trigger">
-                            <item.icon className={classNames("h-5 w-5")} />
-                            <p className={classNames("grow")}>{item.title}</p>
-                          </div>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              )}
-              <div className="mb-5 mx-5">
-                <Avatar {...avatarProps} />
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col  h-[100%] w-full">
-            {children && (
-              <main className="h-[100%] bg-gray-100 rounded-md">
-                <div className="h-[100%]">
-                  <div className=" flex justify-end items-center gap-5 bg-[#141B37] h-[60px] pl-5 ">
-                    {NavbarContent && (
-                      <div className="w-[100%] pr-1">{NavbarContent}</div>
-                    )}
-
-                    <button
-                      className="flex items-center px-2 py-2 mr-1 h-[40px] text-white rounded-md focus:outline-none  transition duration-300 ease-in-out bg-[#141B37]"
-                      onClick={() => handleLogOut()}
+                  <div className="flex flex-row overflow-hidden">
+                    <div
+                      className={`sticky lg:flex-col w-[220px] min-w-[220px] h-[60px] ${isHideSidebar == true && "hidden"
+                        }`}
                     >
-                      <ArrowRightStartOnRectangleIcon className="w-4 h-4 mr-2" />
-                    </button>
+                      <div className={`flex flex-col min-h-screen`}>
+                        <div className=" flex justify-start items-center gap-5 bg-[#141B37] h-[60px] pl-5 ">
+                          <img
+                            src={"/assets/securestay.png"}
+                            alt="Logo"
+                            style={{ height: "40px" }}
+                          />
+                        </div>
+                        {isHideSidebar == false && (
+                          <nav className="flex flex-1 flex-col">
+                            <ul
+                              role="list"
+                              className="flex flex-col gap-[10px] py-4 cursor-pointer text-[#72767A] font-normal text-base"
+                            >
+                              {updatedNavigation.map((item, index) => (
+                                <li className="flex items-center m-0" key={index}>
+                                  <Link
+                                    href={item.href}
+                                    className={classNames({
+                                      "w-full py-2 flex items-center group": true,
+                                      "pl-5 hover:pl-0": currentPath !== item.href,
+                                      "text-[#7000FF] font-medium":
+                                        currentPath === item.href,
+                                    })}
+                                  >
+                                    <div
+                                      className={classNames({
+                                        "w-5 hidden-div group-hover:block": true,
+                                        hidden: currentPath !== item.href,
+                                        block: currentPath === item.href,
+                                      })}
+                                    >
+                                      <svg
+                                        width="3"
+                                        height="24"
+                                        viewBox="0 0 3 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M0 0V0C1.65685 0 3 1.34315 3 3V21C3 22.6569 1.65685 24 0 24V24V0Z"
+                                          fill="#7000FF"
+                                        />
+                                      </svg>
+                                    </div>
+                                    <div className="flex items-center gap-3 hover-trigger">
+                                      <item.icon className={classNames("h-5 w-5")} />
+                                      <p className={classNames("grow")}>{item.title}</p>
+                                    </div>
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </nav>
+                        )}
+                        <div className="mb-5 mx-5">
+                          <Avatar {...avatarProps} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col  h-[100%] w-full">
+                      {children && (
+                        <main className="h-[100%] bg-gray-100 rounded-md">
+                          <div className="h-[100%]">
+                            <div className=" flex justify-end items-center gap-5 bg-[#141B37] h-[60px] pl-5 ">
+                              {NavbarContent && (
+                                <div className="w-[100%] pr-1">{NavbarContent}</div>
+                              )}
+
+                              <button
+                                className="flex items-center px-2 py-2 mr-1 h-[40px] text-white rounded-md focus:outline-none  transition duration-300 ease-in-out bg-[#141B37]"
+                                onClick={() => handleLogOut()}
+                              >
+                                <ArrowRightStartOnRectangleIcon className="w-4 h-4 mr-2" />
+                              </button>
+                            </div>
+                            <div className="h-[93vh]">{children}</div>
+                          </div>
+                        </main>
+                      )}
+                    </div>
                   </div>
-                  <div className="h-[93vh]">{children}</div>
                 </div>
-              </main>
-            )}
-          </div>
-        </div>
-      </div>
+                :
+                <>
+                  {
+                    window.location.href = '/connectPM'
+                  }
+                </>
+            }
+          </>
+        )
+        :
+        <>
+          {
+            window.location.href = '/subscription'
+          }
+        </>
+      }
     </>
   );
 };

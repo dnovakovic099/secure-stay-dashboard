@@ -22,8 +22,8 @@ const BusinessSettings = ({ children }: any) => {
         return router.push("/businessSettings/messaging");
       case "users":
         return router.push("/businessSettings/users");
-      case "Billing":
-        return null;
+      case "billing":
+        return router.push("/businessSettings/billing");
       case "Reports":
         return null;
       default:
@@ -40,21 +40,23 @@ const BusinessSettings = ({ children }: any) => {
         <ul className="flex flex-col gap-1 py-8 cursor-pointer">
           <li className="hover:bg-indigo-100 p-3 rounded-md">Branding </li>
           <li className="hover:bg-indigo-100 p-3 rounded-md">
-            Connected Accounts{" "}
+            Connected A/C{" "}
           </li>
           <li    className={`${
               selectedMenu == "messaging" ? "bg-slate-200" : ""
-            } hover:bg-slate-200 p-3 rounded-md`}
+            } hover:bg-indigo-100 p-3 rounded-md`}
             onClick={() => handleMenuClick("Messaging")}>Messaging </li>
           <li
             className={`${
               selectedMenu == "users" ? "bg-slate-200" : ""
-            } hover:bg-slate-200 p-3 rounded-md`}
+            } hover:bg-indigo-100 p-3 rounded-md`}
             onClick={() => handleMenuClick("users")}
           >
             Users{" "}
           </li>
-          <li className="hover:bg-indigo-100 p-3 rounded-md">Billing </li>
+          <li className={`${selectedMenu == "users" ? "bg-slate-200" : ""
+            } hover:bg-indigo-100 p-3 rounded-md`}
+          onClick={() => handleMenuClick("billing")}>Billing </li>
           <li className="hover:bg-indigo-100 p-3 rounded-md">Reports </li>
         </ul>
       </div>
