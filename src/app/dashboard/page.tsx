@@ -5,8 +5,6 @@ import SideBarMain from "@/components/sidebar";
 import { useEffect } from "react";
 
 const MainDashboard = () => {
-
-
   return (
     <SideBarMain>
       <div className="flex justify-center p-4">

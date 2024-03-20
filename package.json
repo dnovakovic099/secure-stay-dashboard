@@ -28,7 +28,8 @@
     "react-international-phone": "^4.2.5",
     "react-multi-carousel": "^2.8.4",
     "react-tooltip": "^5.26.3",
-    "seam": "^0.10.0"
+    "seam": "^0.10.0",
+    "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
     "@types/node": "^20.11.10",

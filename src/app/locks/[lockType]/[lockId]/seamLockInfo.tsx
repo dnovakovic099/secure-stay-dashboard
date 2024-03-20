@@ -3,7 +3,6 @@ import { envConfig } from "@/utility/environment";
 import { DeviceDetails, SeamProvider } from "@seamapi/react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
 import ConnectedListings from "./connectedListings";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/auth/axiosInstance";
