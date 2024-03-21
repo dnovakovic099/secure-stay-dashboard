@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import ConnectedListings from "./connectedListings";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/auth/axiosInstance";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const SeamLockInfo = ({
   lockId,
@@ -19,11 +20,14 @@ const SeamLockInfo = ({
   saveDeviceLockInfo,
 }: any) => {
   const [clientSessionToken, setClientSessionToken] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [activeButton, setActiveButton] = useState("Device Details");
+  const [activeTab, setActiveTab] = useState("Device Details");
   const router = useRouter();
 
   const fetchClientSessionToken = async () => {
     try {
+      setIsLoading(true);
       const apiUrl = `${envConfig.backendUrl}/device/seam/getclientsessiontoken`;
       const response = await axiosInstance.get(apiUrl);
 
@@ -33,6 +37,19 @@ const SeamLockInfo = ({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong fetching clientsessiontoken");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleButtonClick = (buttonName: string) => {
+    if (activeButton !== buttonName) {
+      setActiveButton(buttonName);
+      setActiveTab(
+        buttonName === "Device Details"
+          ? "Device Details"
+          : "Connected Listings"
+      );
     }
   };
 
@@ -42,8 +59,31 @@ const SeamLockInfo = ({
 
   return (
     <div className="bg-white">
-      <div className="flex justify-between items-center gap-4 pl-10 px-4 py-2">
-        <h2 className="text-xl font-semibold">Device Details</h2>
+      <div className="flex justify-between p-4 text-center">
+        <div className="flex justify-between text-xs tracking-normal leading-4 text-center border-b border-solid border-b-slate-200 mt-auto">
+          <div
+            className={`inline-flex items-center px-3 py-2 text-xs font-medium focus:outline-none transition duration-300 cursor-pointer ${
+              activeButton === "Device Details"
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-600 border-b-2 border-gray-300"
+            }`}
+            onClick={() => handleButtonClick("Device Details")}
+            style={{ fontSize: "20px" }}
+          >
+            Device Details
+          </div>
+          <div
+            className={`inline-flex items-center px-3 py-2 text-xs font-medium focus:outline-none transition duration-300 cursor-pointer ${
+              activeButton === "Connected Listings"
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-600 border-b-2 border-gray-300"
+            }`}
+            onClick={() => handleButtonClick("Connected Listings")}
+            style={{ fontSize: "20px" }}
+          >
+            Connected Listings
+          </div>
+        </div>
         <div className="flex gap-2">
           <button
             onClick={() => router.push("/locks")}
@@ -59,25 +99,32 @@ const SeamLockInfo = ({
           </button>
         </div>
       </div>
-      <div className="flex">
-        <div className="px-2 w-1/2">
-          <SeamProvider clientSessionToken={clientSessionToken}>
-            <DeviceDetails deviceId={lockId} />
-          </SeamProvider>
-        </div>
-        <div className="w-1/2">
-          <ConnectedListings
-            lockType="Seam"
-            lockId={lockId}
-            listings={listings}
-            connectedListings={connectedListings}
-            handleEditClick={handleEditClick}
-            filteredListings={filteredListings}
-            selection={selection}
-            handleChange={handleChange}
-            selectedListing={selectedListing}
-          />
-        </div>
+      <div className="flex h-[636px] overflow-y-auto scrollbar-hide text-black ml-10 mr-10">
+        {activeTab === "Device Details" && (
+          <div className="px-2 w-full">
+            {isLoading && <LoadingSpinner />}
+            <SeamProvider clientSessionToken={clientSessionToken}>
+              <DeviceDetails deviceId={lockId} />
+            </SeamProvider>
+          </div>
+        )}
+        {activeTab === "Connected Listings" && (
+          <div className="w-full">
+            {isLoading && <LoadingSpinner />}
+
+            <ConnectedListings
+              lockType="Seam"
+              lockId={lockId}
+              listings={listings}
+              connectedListings={connectedListings}
+              handleEditClick={handleEditClick}
+              filteredListings={filteredListings}
+              selection={selection}
+              handleChange={handleChange}
+              selectedListing={selectedListing}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

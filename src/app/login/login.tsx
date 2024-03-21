@@ -88,13 +88,13 @@ const Login = () => {
       if (sessionInfo?.length !== 0) {
         if (sessionInfo?.pmId) {
           localStorage.setItem("userPmId", sessionInfo?.pmId);
-          router.replace('/dashboard');
+          router.replace("/dashboard");
         }
       } else {
         router.replace("/connectPM");
       }
     } catch (error) {
-      toast.error('Error fetching pm info');
+      toast.error("Error fetching pm info");
     }
   };
 
@@ -104,15 +104,15 @@ const Login = () => {
       const response = await axiosInstance.get(apiUrl);
       if (response.status == 200) {
         if (response.data?.data?.isExpired) {
-          localStorage.setItem('isSubscriptionExpired', 'true');
-          router.replace('/subscription');
+          localStorage.setItem("isSubscriptionExpired", "true");
+          router.replace("/subscription");
         } else {
-          localStorage.setItem('isSubscriptionExpired', 'false');
+          localStorage.setItem("isSubscriptionExpired", "false");
           await getPmInfo();
         }
       }
     } catch (error) {
-      toast.error('Error fetching subscription info');
+      toast.error("Error fetching subscription info");
     }
   };
 
