@@ -56,7 +56,7 @@ const ConnectedListings = ({
           <></>
         </div>
       </div>
-      <div className="h-screen overflow-y-auto mr-4">
+      <div className="h-[505px] overflow-y-auto mr-4">
         {filteredListings.length > 0 &&
           filteredListings?.map((listing: listing) => (
             <div
