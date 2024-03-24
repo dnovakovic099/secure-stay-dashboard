@@ -135,7 +135,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
   const handleLogOut = () => {
     localStorage.clear();
     logoutUser();
-    toast.success("Logut successfully!!!");
+    toast.success("Logout successfully!!!");
     window.location.href = "/login";
   };
 
@@ -144,7 +144,7 @@ const SideBarMain: React.FC<SideBarMainProps> = ({
       const isLoggedIn = await checkUserSession();
       if (!isLoggedIn) {
         localStorage.clear();
-        window.location.href = "/login";
+        return window.location.href = "/login";
       }
     };
 

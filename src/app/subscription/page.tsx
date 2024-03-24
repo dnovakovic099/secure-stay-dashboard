@@ -123,6 +123,90 @@ const SubscriptionPage = () => {
 
   const isSubscriptionExpired = localStorage.getItem("isSubscriptionExpired");
 
+  if (isSubscriptionExpired && isSubscriptionExpired == "true") {
+    return (
+      <div className="pl-52 py-4 bg-slate-100 h-screen">
+        <Toaster />
+        <h1 className="font-semibold text-4xl">Select a plan</h1>
+        <div className="flex justify-between mt-6">
+          <button className="text-white bg-[#7000FF] rounded-xl px-4 py-2">
+            Contact Us
+          </button>
+          <div className="flex items-center gap-4 pr-48">
+            <span className={`${enabled ? "text-[#ADADAD]" : "text-black"}`}>
+              Monthly
+            </span>
+            <Switch
+              checked={enabled}
+              onChange={setEnabled}
+              className={`${enabled ? "bg-[#a5a4a4]" : "bg-[#C4C4C4]"}
+                                        relative inline-flex h-[24px] w-[47.5px] shrink-0 cursor-pointer 
+                                        rounded-full border-2 border-transparent transition-colors 
+                                        duration-200 ease-in-out focus:outline-none focus-visible:ring-2 
+                                         focus-visible:ring-white/75`}
+            >
+              <span className="sr-only">Use setting</span>
+              <span
+                aria-hidden="true"
+                className={`${enabled ? "translate-x-6" : "translate-x-0"}
+                                          pointer-events-none inline-block h-[21px] w-[20px] 
+                                           transform rounded-full bg-white shadow-lg ring-0 
+                                           transition duration-200 ease-in-out`}
+              />
+            </Switch>
+            <span className={`${!enabled ? "text-[#ADADAD]" : "text-black"}`}>
+              Yearly
+            </span>
+            <small className="px-[5px] py-[2px] text-[8pt] text-white border-2 border-transparent rounded-3xl bg-white bg-clip-padding bg-gradient-to-r from-purple-600 to-purple-300">
+              Best offer
+            </small>
+          </div>
+        </div>
+
+        <div className="mt-5 flex gap-6">
+          {
+            <>
+              {isLoading && popup()}
+
+              {!enabled &&
+                monthlyPlans.map((plan) => (
+                  <SubscriptionCard
+                    key={plan.name}
+                    name={plan.name}
+                    price={plan.price}
+                    planId={plan.planId}
+                    button={plan.button}
+                    plan={"month"}
+                    isEssential={plan.name === "ESSENTIAL"}
+                    isStarter={plan.name === "STARTER"}
+                    createCheckoutSession={createCheckoutSession}
+                    isLoading={isLoading}
+                  />
+                ))}
+              {enabled &&
+                yearlyPlans.map((plan) => (
+                  <SubscriptionCard
+                    key={plan.name}
+                    name={plan.name}
+                    price={plan.price}
+                    planId={plan.planId}
+                    button={plan.button}
+                    plan={"year"}
+                    isEssential={plan.name === "ESSENTIAL"}
+                    isStarter={plan.name === "STARTER"}
+                    createCheckoutSession={createCheckoutSession}
+                    isLoading={isLoading}
+                  />
+                ))}
+            </>
+          }
+        </div>
+      </div>
+    );
+  } else {
+    return (window.location.href = "/dashboard");
+  }
+
   return (
     <>
       {isSubscriptionExpired && isSubscriptionExpired == "true" ? (
