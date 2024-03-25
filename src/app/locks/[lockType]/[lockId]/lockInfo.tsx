@@ -142,17 +142,21 @@ const LockInfo = ({ lockType, lockId }: any) => {
 
   if (lockType == "Sifely")
     return (
-      <SifelyLockInfo
-        lockId={lockId}
-        listings={listings}
-        connectedListings={connectedListings}
-        handleEditClick={handleEditClick}
-        filteredListings={filteredListings}
-        selection={selection}
-        handleChange={handleChange}
-        selectedListing={selectedListing}
-        saveDeviceLockInfo={saveDeviceLockInfo}
-      />
+      <div className="flex justify-between gap-1 px-6 py-6 bg-[#f5f7f8] min-h-full max-h-full">
+        <div className="w-full bg-white flex flex-col p-5 rounded-lg shadow-2xl">
+          <SifelyLockInfo
+            lockId={lockId}
+            listings={listings}
+            connectedListings={connectedListings}
+            handleEditClick={handleEditClick}
+            filteredListings={filteredListings}
+            selection={selection}
+            handleChange={handleChange}
+            selectedListing={selectedListing}
+            saveDeviceLockInfo={saveDeviceLockInfo}
+          />
+        </div>
+      </div>
     );
 
   return <div>Not found</div>;
